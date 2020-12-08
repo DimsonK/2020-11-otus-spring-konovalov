@@ -99,10 +99,7 @@ public class CsvFileReaderImpl implements CsvFileReader {
      * @return новый экземпляр вопроса
      */
     private Question createQuestion(String[] data) {
-        String id = data[0];
-        String name = data[1];
-
-        return new Question(id, name);
+        return new Question(data[0], data[1]);
     }
 
     /**
@@ -111,11 +108,7 @@ public class CsvFileReaderImpl implements CsvFileReader {
      * @return новый экземпляр вопроса
      */
     private Answer createAnswer(String[] data) {
-        String id = data[0];
-        String name = data[2];
-        boolean isCorrect = data[3].equals("true");
-
-        return new Answer(id, name, isCorrect);
+        return new Answer(data[0], data[2], data[3].equals("true"));
     }
 
     /**

@@ -39,7 +39,8 @@ public class StudentTestServiceImpl implements StudentTestService {
      * Результат теста сохраняется в экземпляре класса Person и отображается на экране
      */
     @Override
-    public void runTest(Scanner scanner) {
+    public void runTest() {
+        Scanner scanner = new Scanner(System.in);
         List<Question> questions = reader.getQuestionList();
 
         System.out.println(messageSource.getMessage("welcome.to.test", null, localeService.getLocale()));
