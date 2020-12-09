@@ -7,3 +7,5 @@
 ## Задания
 
 * [1. Введение в Spring Framework](./spring-01)
+* [2. Конфигурирование Spring-приложений](./spring-02)
+* [3. "Чёрная магия" Spring Boot](./spring-03)
