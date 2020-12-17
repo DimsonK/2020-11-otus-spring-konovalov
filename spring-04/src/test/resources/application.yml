@@ -1,0 +1,24 @@
+spring:
+    shell:
+        interactive:
+            enabled: false
+        script:
+            spring:
+                shell:
+                    script: false
+logging:
+    level:
+        org:
+            springframework: INFO
+application:
+    lang:
+        defLang: ru_RU
+        useSystemLang: false
+    passPercent: 70
+    store:
+        en:
+            questions: tests/questions_en.csv
+            answers: tests/answers_en.csv
+        ru_RU:
+            questions: tests/questions_ru_RU.csv
+            answers: tests/answers_ru_RU.csv
