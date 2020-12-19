@@ -31,7 +31,7 @@ public class QuestionServiceImpl implements QuestionService {
     public List<Question> getQuestionList() {
         List<Question> questionList = getQuestions();
         questionList.forEach(question -> {
-            List<Answer> answerList = readAnswersFromCSV(question);
+            List<Answer> answerList = getAnswers(question);
             question.setAnswerList(answerList);
         });
         return questionList;
@@ -52,7 +52,7 @@ public class QuestionServiceImpl implements QuestionService {
      * @param question - вопрос
      * @return список ответов на вопрос
      */
-    private List<Answer> readAnswersFromCSV(Question question) {
+    private List<Answer> getAnswers(Question question) {
         return rr.getResource(getAnswersFileName()).stream()
                 .filter(line -> line[1].endsWith(question.getId()))
                 .map(this::createAnswer)
