@@ -11,8 +11,10 @@
 * **[./domain/Question](src/main/java/ru/otus/spring/homework/domain/Question.java)** - модель ответа
 * **[./domain/Person](src/main/java/ru/otus/spring/homework/domain/Person.java)** - студент
 * **[./domain/TestResult](src/main/java/ru/otus/spring/homework/domain/TestResult.java)** - результат одного ответа на вопрос  
-* **[./service/CsvFileReader](src/main/java/ru/otus/spring/homework/service/CsvFileReader.java)** - интерфейс ридера csv-файлов
-* **[./service/CsvFileReaderImpl](src/main/java/ru/otus/spring/homework/service/CsvFileReaderImpl.java)** - реализация ридера csv-файлов
+* **[./service/QuestionService](src/main/java/ru/otus/spring/homework/service/QuestionService.java)** - интерфейс сервиса получения вопросов для теста
+* **[./service/QuestionServiceImpl](src/main/java/ru/otus/spring/homework/service/QuestionServiceImpl.java)** - реализация сервиса получения вопросов для теста
+* **[./service/ResourceReader](src/main/java/ru/otus/spring/homework/service/ResourceReader.java)** - интерфейс ридера ресурсов
+* **[./service/ResourceReader](src/main/java/ru/otus/spring/homework/service/ResourceReaderCsv.java)** - ридер csv-файлов
 * **[./service/LocaleService](src/main/java/ru/otus/spring/homework/service/LocaleService.java)** - интерфейс сервиса локализации 
 * **[./service/LocaleServiceImpl](src/main/java/ru/otus/spring/homework/service/LocaleServiceImpl.java)** - реализация сервиса локализации
 * **[./service/StudentTestService](src/main/java/ru/otus/spring/homework/service/StudentTestService.java)** - интерфейс функционала тестов

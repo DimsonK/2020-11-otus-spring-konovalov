@@ -18,14 +18,14 @@ public class StudentTestServiceImpl implements StudentTestService {
 
     private final MessageSource messageSource;
     private final LocaleService localeService;
-    private final CsvFileReader reader;
+    private final QuestionService reader;
     private final AppProp prop;
     private final ShellReader shellReader;
 
     public StudentTestServiceImpl(
             MessageSource messageSource,
             LocaleService localeService,
-            CsvFileReader reader,
+            QuestionService reader,
             AppProp prop,
             ShellReader shellReader
     ) {
@@ -34,50 +34,6 @@ public class StudentTestServiceImpl implements StudentTestService {
         this.reader = reader;
         this.prop = prop;
         this.shellReader = shellReader;
-    }
-
-    /**
-     * Тестирование студента
-     * @param person    студент
-     * @param questions вопросы с вариантами ответов
-     */
-    private void studentTest(Person person, List<Question> questions) {
-        questions.forEach(question -> {
-            System.out.println(question.getId() + ". " + question.getName());
-            List<Answer> answers = question.getAnswerList();
-            for (int i = 0; i < answers.size(); i++) {
-                System.out.println("    " + (i + 1) + ". " + answers.get(i).getName());
-            }
-            System.out.print(messageSource.getMessage("enter.answer", null, localeService.getLocale()));
-            int answer = checkIntEnter(0, answers.size());
-            int answerId = answer - 1;
-            person.addTestResult(new TestResult(
-                    question.getId(),
-                    answers.get(answerId).getId(),
-                    answers.get(answerId).isCorrect()));
-        });
-    }
-
-    /**
-     * Проверка ввода
-     * @param min минимальное допустимое значение
-     * @param max максимальное допустимое значение
-     * @return введенное значение
-     */
-    private int checkIntEnter(int min, int max) {
-        int answer;
-        while (true) {
-            try {
-                answer = Integer.parseInt(shellReader.readShell());
-                if (answer <= 0 || answer < min || answer > max) {
-                    throw new NumberFormatException();
-                }
-                break;
-            } catch (NumberFormatException nfe) {
-                System.out.print(messageSource.getMessage("enter.error", null, localeService.getLocale()));
-            }
-        }
-        return answer;
     }
 
     /**
@@ -132,5 +88,49 @@ public class StudentTestServiceImpl implements StudentTestService {
                     new String[]{Integer.toString(percent), Integer.toString(prop.getPassPercent())},
                     localeService.getLocale()));
         }
+    }
+
+    /**
+     * Тестирование студента
+     * @param person    студент
+     * @param questions вопросы с вариантами ответов
+     */
+    private void studentTest(Person person, List<Question> questions) {
+        questions.forEach(question -> {
+            System.out.println(question.getId() + ". " + question.getName());
+            List<Answer> answers = question.getAnswerList();
+            for (int i = 0; i < answers.size(); i++) {
+                System.out.println("    " + (i + 1) + ". " + answers.get(i).getName());
+            }
+            System.out.print(messageSource.getMessage("enter.answer", null, localeService.getLocale()));
+            int answer = checkIntEnter(0, answers.size());
+            int answerId = answer - 1;
+            person.addTestResult(new TestResult(
+                    question.getId(),
+                    answers.get(answerId).getId(),
+                    answers.get(answerId).isCorrect()));
+        });
+    }
+
+    /**
+     * Проверка ввода
+     * @param min минимальное допустимое значение
+     * @param max максимальное допустимое значение
+     * @return введенное значение
+     */
+    private int checkIntEnter(int min, int max) {
+        int answer;
+        while (true) {
+            try {
+                answer = Integer.parseInt(shellReader.readShell());
+                if (answer <= 0 || answer < min || answer > max) {
+                    throw new NumberFormatException();
+                }
+                break;
+            } catch (NumberFormatException nfe) {
+                System.out.print(messageSource.getMessage("enter.error", null, localeService.getLocale()));
+            }
+        }
+        return answer;
     }
 }

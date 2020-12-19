@@ -15,7 +15,7 @@ import org.springframework.shell.CommandNotCurrentlyAvailable;
 import org.springframework.shell.Shell;
 import ru.otus.spring.homework.Main;
 import ru.otus.spring.homework.domain.Person;
-import ru.otus.spring.homework.service.CsvFileReader;
+import ru.otus.spring.homework.service.QuestionService;
 import ru.otus.spring.homework.service.LocaleService;
 import ru.otus.spring.homework.service.StudentTestService;
 
@@ -35,7 +35,7 @@ public class AppShellCommandsTests {
     @MockBean
     private LocaleService localeService;
 
-    @MockBean CsvFileReader fileReader;
+    @MockBean QuestionService fileReader;
 
     @Autowired
     private Shell shell;

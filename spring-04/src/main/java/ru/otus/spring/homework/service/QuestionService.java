@@ -4,7 +4,7 @@ import ru.otus.spring.homework.domain.Question;
 
 import java.util.List;
 
-public interface CsvFileReader {
+public interface QuestionService {
 
     List<Question> getQuestionList();
 
