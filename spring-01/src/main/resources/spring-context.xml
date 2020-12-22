@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="csvFileReader" class="ru.otus.spring.homework.service.CsvFileReaderImpl">
+    <bean id="csvFileReader" class="ru.otus.spring.homework.spring01.service.CsvFileReaderImpl">
         <constructor-arg name="questionsFileName" value="questions.csv"/>
         <constructor-arg name="answersFileName" value="answers.csv"/>
     </bean>
