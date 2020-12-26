@@ -86,15 +86,20 @@ class BookDaoJdbcTest {
     @Test
     void shouldReturnExpectedBooksList() {
         var expectedBookList = List.of(
-                new Book(1, "Murder on the Orient Express", null, null),
-                new Book(2, "The Three Musketeers", null, null),
-                new Book(3, "Twenty Thousand Leagues Under the Sea", null, null),
-                new Book(4, "The Gold Bug", null, null),
-                new Book(5, "It", null, null));
+                new Book(1, "Murder on the Orient Express",
+                        new Author(1, "Agatha Christie"), new Genre(1, "Detective")),
+                new Book(2, "The Three Musketeers",
+                        new Author(2, "Alexandre Dumas"), new Genre(2, "History")),
+                new Book(3, "Twenty Thousand Leagues Under the Sea",
+                        new Author(3, "Jules Gabriel Verne"), new Genre(3, "Fantasy")),
+                new Book(4, "The Gold Bug",
+                        new Author(4, "Edgar Allan Poe"), new Genre(3, "Fantasy")),
+                new Book(5, "It",
+                        new Author(5, "Stephen Edwin King"), new Genre(4, "Horror")));
 
         var actualBookList = bookDao.getAll();
         assertThat(actualBookList)
-                .usingFieldByFieldElementComparator()
+                .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyInAnyOrderElementsOf(expectedBookList);
     }
 
