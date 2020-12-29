@@ -1,0 +1,23 @@
+spring:
+    shell:
+        interactive:
+            enabled: false
+        script:
+            spring:
+                shell:
+                    script: false
+    datasource:
+        url: jdbc:h2:mem:testdb
+        schema: test-schema.sql
+        data: test-data.sql
+    h2:
+        console:
+            path: /h2-console
+            settings:
+                web-allow-others: true
+            enabled: true
+
+logging:
+    level:
+        org:
+            springframework: INFO
