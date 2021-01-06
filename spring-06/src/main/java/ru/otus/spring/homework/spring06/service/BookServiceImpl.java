@@ -7,6 +7,7 @@ import ru.otus.spring.homework.spring06.models.Author;
 import ru.otus.spring.homework.spring06.models.Book;
 import ru.otus.spring.homework.spring06.models.Genre;
 import ru.otus.spring.homework.spring06.repositories.BookRepository;
+import ru.otus.spring.homework.spring06.repositories.CommentRepository;
 import ru.otus.spring.homework.spring06.shell.ShellReader;
 
 import java.util.List;
@@ -16,18 +17,21 @@ import java.util.stream.Collectors;
 public class BookServiceImpl implements BookService {
     private static final Logger log = LoggerFactory.getLogger(BookServiceImpl.class);
 
+    private final BookRepository bookRepository;
     private final AuthorService authorService;
     private final GenreService genreService;
-    private final BookRepository bookRepository;
+    private final CommentRepository commentRepository;
     private final ShellReader shellReader;
 
     public BookServiceImpl(BookRepository bookRepository,
             AuthorService authorService,
             GenreService genreService,
+            CommentRepository commentRepository,
             ShellReader shellReader) {
         this.bookRepository = bookRepository;
         this.authorService = authorService;
         this.genreService = genreService;
+        this.commentRepository = commentRepository;
         this.shellReader = shellReader;
     }
 
@@ -45,7 +49,7 @@ public class BookServiceImpl implements BookService {
         String bookName = shellReader.readShell();
         Author author = authorService.getAuthor();
         List<Genre> genres = genreService.getGenres();
-        bookRepository.save(new Book(-1, bookName, author, genres, null));
+        bookRepository.save(new Book(0, bookName, author, genres, null));
     }
 
     @Override
@@ -91,9 +95,9 @@ public class BookServiceImpl implements BookService {
                     "%s: name: %s | author: %s | ",
                     book.getId(), book.getName(), book.getAuthor().getName()
             );
-            System.out.printf("genres: %s | ", book.getGenres().stream().map(genre -> String.format("%s (%s)", genre.getName(), genre.getId()))
+            System.out.printf("genres: %s%n", book.getGenres().stream()
+                    .map(genre -> String.format("%s (%s)", genre.getName(), genre.getId()))
                     .collect(Collectors.joining(", ")));
-            System.out.printf("total comments: %s%n", book.getComments().size());
         });
         System.out.printf("Total books: %s%n", bookRepository.count());
     }
@@ -105,7 +109,8 @@ public class BookServiceImpl implements BookService {
         long bookId = Long.parseLong(shellReader.readShell());
         var book = bookRepository.findById(bookId).orElse(null);
         if (book != null) {
-            book.getComments().forEach(comment ->
+            var comments = commentRepository.findByBook(book);
+            comments.forEach(comment ->
                     System.out.printf("id: %s, date: %s, author: %s,%n content: %s%n",
                             comment.getId(), comment.getPostDate(), comment.getAuthorName(), comment.getContent()));
         } else {

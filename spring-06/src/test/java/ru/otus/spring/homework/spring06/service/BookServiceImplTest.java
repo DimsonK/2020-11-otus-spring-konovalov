@@ -10,6 +10,7 @@ import ru.otus.spring.homework.spring06.models.Author;
 import ru.otus.spring.homework.spring06.models.Book;
 import ru.otus.spring.homework.spring06.models.Genre;
 import ru.otus.spring.homework.spring06.repositories.BookRepository;
+import ru.otus.spring.homework.spring06.repositories.CommentRepository;
 import ru.otus.spring.homework.spring06.shell.ShellReader;
 
 import java.util.List;
@@ -25,6 +26,7 @@ class BookServiceImplTest {
     @MockBean AuthorService authorService;
     @MockBean GenreService genreService;
     @MockBean ShellReader shellReader;
+    @MockBean CommentRepository commentRepository;
     @Autowired BookServiceImpl bookService;
 
     @DisplayName("возвращать книгу при вводе ее ID в консоль")

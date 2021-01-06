@@ -1,5 +1,6 @@
 package ru.otus.spring.homework.spring06.repositories;
 
+import ru.otus.spring.homework.spring06.models.Book;
 import ru.otus.spring.homework.spring06.models.Comment;
 
 import java.util.List;
@@ -13,15 +14,13 @@ public interface CommentRepository {
 
     List<Comment> findAll();
 
+    List<Comment> findByBook(Book book);
+
     List<Comment> findByContent(String name);
 
     List<Comment> findByAuthor(String authorName);
 
-    void updateNameById(long id, String name);
-
     void deleteById(long id);
-
-    long getNextId();
 
     long count();
 }

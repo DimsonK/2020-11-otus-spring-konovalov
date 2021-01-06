@@ -44,7 +44,7 @@ public class CommentServiceImpl implements CommentService {
             var bookComment = shellReader.readShell();
             DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
             String currentDate = df.format(new Date());
-            var comment = new Comment(-1, currentDate, userName, bookComment, book);
+            var comment = new Comment(0, currentDate, userName, bookComment, book);
             commentRepository.save(comment);
         } else {
             System.out.println("Книга не найдена");

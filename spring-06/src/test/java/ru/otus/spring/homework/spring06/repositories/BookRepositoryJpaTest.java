@@ -41,7 +41,7 @@ class BookRepositoryJpaTest {
     @DisplayName("добавлять книгу в БД")
     @Test
     void shouldInsertBook() {
-        var expectedBook = new Book(-1, "Детектив",
+        var expectedBook = new Book(0, "Детектив",
                 new Author(1, "Agatha Christie"), List.of(new Genre(1, "Detective")), null);
         expectedBook = bookRepository.save(expectedBook);
         var actualBook = bookRepository.findById(expectedBook.getId()).orElse(null);

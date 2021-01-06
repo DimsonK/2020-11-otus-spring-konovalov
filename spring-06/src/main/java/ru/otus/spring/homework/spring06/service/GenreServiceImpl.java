@@ -49,7 +49,7 @@ public class GenreServiceImpl implements GenreService {
     public void addGenre() {
         System.out.println("Введите наименование нового жанра: ");
         String genreName = shellReader.readShell();
-        genreRepository.save(new Genre(-1, genreName));
+        genreRepository.save(new Genre(0, genreName));
     }
 
     @Override
@@ -62,7 +62,8 @@ public class GenreServiceImpl implements GenreService {
             System.out.printf("Выбран жанр: id: %s, name: %s%n", genre.getId(), genre.getName());
             System.out.println("Введите новое наименование жанра: ");
             String genreName = shellReader.readShell();
-            genreRepository.updateNameById(genre.getId(), genreName);
+            genre.setName(genreName);
+            genreRepository.save(genre);
         } else {
             System.out.println("Жанр не найден");
         }

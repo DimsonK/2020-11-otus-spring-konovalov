@@ -15,11 +15,7 @@ public interface GenreRepository {
 
     Optional<Genre> findByName(String name);
 
-    void updateNameById(long id, String name);
-
     void deleteById(long id);
-
-    long getNextId();
 
     long count();
 }

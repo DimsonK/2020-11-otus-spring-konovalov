@@ -53,7 +53,7 @@ class GenreRepositoryJpaTest {
         var oldGenre = genreRepository.findById(expectedGenre.getId()).orElse(null);
         assertNotNull(oldGenre);
         em.detach(oldGenre);
-        genreRepository.updateNameById(oldGenre.getId(), expectedGenre.getName());
+        genreRepository.save(expectedGenre);
         var actualGenre = genreRepository.findById(oldGenre.getId()).orElse(null);
         assertThat(actualGenre).usingRecursiveComparison().isNotEqualTo(oldGenre);
         assertThat(actualGenre).usingRecursiveComparison().isEqualTo(expectedGenre);
@@ -84,7 +84,7 @@ class GenreRepositoryJpaTest {
     @DisplayName("удалять заданный жанр по его id")
     @Test
     void shouldCorrectDeleteGenreById() {
-        var expectedGenre = new Genre(-1, "Фантастика");
+        var expectedGenre = new Genre(0, "Фантастика");
         expectedGenre = genreRepository.save(expectedGenre);
         var actualGenre = genreRepository.findById(expectedGenre.getId()).orElse(null);
         assertThat(actualGenre).isNotNull().usingRecursiveComparison().isEqualTo(expectedGenre);

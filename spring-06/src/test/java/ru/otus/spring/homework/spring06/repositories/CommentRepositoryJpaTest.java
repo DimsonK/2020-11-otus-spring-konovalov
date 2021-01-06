@@ -41,7 +41,7 @@ class CommentRepositoryJpaTest {
         var firstComment = commentRepository.findById(1).orElse(null);
         assertNotNull(firstComment);
         var book = firstComment.getBook();
-        var expectedComment = new Comment(-1, "01.01.2020", "TestAuthor", "Test Comment", book);
+        var expectedComment = new Comment(0, "01.01.2020", "TestAuthor", "Test Comment", book);
         expectedComment = commentRepository.save(expectedComment);
         var actualComment = commentRepository.findById(expectedComment.getId()).orElse(null);
         assertThat(actualComment).isNotNull().usingRecursiveComparison().isEqualTo(expectedComment);

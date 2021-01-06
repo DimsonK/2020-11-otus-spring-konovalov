@@ -53,7 +53,7 @@ class AuthorRepositoryJpaTest {
         var oldAuthor = authorRepository.findById(expectedAuthor.getId()).orElse(null);
         assertNotNull(oldAuthor);
         em.detach(oldAuthor);
-        authorRepository.updateNameById(oldAuthor.getId(), expectedAuthor.getName());
+        authorRepository.save(expectedAuthor);
         var actualAuthor = authorRepository.findById(oldAuthor.getId()).orElse(null);
         assertThat(actualAuthor).usingRecursiveComparison().isNotEqualTo(oldAuthor);
         assertThat(actualAuthor).usingRecursiveComparison().isEqualTo(expectedAuthor);

@@ -20,8 +20,7 @@ public class GenreRepositoryJpa implements GenreRepository {
     @Override
     @Transactional
     public Genre save(Genre genre) {
-        if (genre.getId() <= 0) {
-            genre.setId(getNextId());
+        if (genre.getId() == 0) {
             em.persist(genre);
             return genre;
         } else {
@@ -30,20 +29,17 @@ public class GenreRepositoryJpa implements GenreRepository {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Genre> findById(long id) {
         return Optional.ofNullable(em.find(Genre.class, id));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Genre> findAll() {
         TypedQuery<Genre> query = em.createQuery("select g from Genre g", Genre.class);
         return query.getResultList();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Genre> findByName(String name) {
         TypedQuery<Genre> query = em.createQuery(
                 "select g from Genre g where g.name = :name",
@@ -54,34 +50,11 @@ public class GenreRepositoryJpa implements GenreRepository {
 
     @Override
     @Transactional
-    public void updateNameById(long id, String name) {
-        Query query = em.createQuery(
-                "update Genre g set g.name = :name where g.id = :id"
-        );
-        query.setParameter("name", name);
-        query.setParameter("id", id);
-        query.executeUpdate();
-    }
-
-    @Override
-    @Transactional
     public void deleteById(long id) {
-        Query query = em.createQuery(
-                "delete from Genre g where g.id = :id"
-        );
-        query.setParameter("id", id);
-        query.executeUpdate();
+        findById(id).ifPresent(genre -> em.remove(genre));
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public long getNextId() {
-        Query query = em.createNativeQuery("select next value for GENRE_SEQUENCE", Long.class);
-        return query.getFirstResult();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public long count() {
         Query query = em.createQuery("select count(g) from Genre g", Long.class);
         return (long) query.getSingleResult();

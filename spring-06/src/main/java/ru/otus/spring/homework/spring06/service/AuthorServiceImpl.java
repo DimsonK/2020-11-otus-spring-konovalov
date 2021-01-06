@@ -33,7 +33,7 @@ public class AuthorServiceImpl implements AuthorService {
     public void addAuthor() {
         System.out.println("Введите имя автора: ");
         String authorName = shellReader.readShell();
-        authorRepository.save(new Author(-1, authorName));
+        authorRepository.save(new Author(0, authorName));
     }
 
     @Override
@@ -46,7 +46,8 @@ public class AuthorServiceImpl implements AuthorService {
             System.out.printf("Выбран автор: id: %s, name: %s%n", author.getId(), author.getName());
             System.out.println("Введите новое имя автора: ");
             String authorName = shellReader.readShell();
-            authorRepository.updateNameById(author.getId(), authorName);
+            author.setName(authorName);
+            authorRepository.save(author);
         } else {
             System.out.println("Автор не найден");
         }
