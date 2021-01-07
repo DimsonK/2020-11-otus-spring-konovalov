@@ -1,90 +1,64 @@
 package ru.otus.spring.homework.spring06.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.otus.spring.homework.spring06.models.Book;
 import ru.otus.spring.homework.spring06.models.Comment;
 import ru.otus.spring.homework.spring06.repositories.CommentRepository;
-import ru.otus.spring.homework.spring06.shell.ShellReader;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
+    private static final Logger log = LoggerFactory.getLogger(CommentServiceImpl.class);
 
-    private final ShellReader shellReader;
     private final CommentRepository commentRepository;
-    private final BookService bookService;
 
     public CommentServiceImpl(
-            ShellReader shellReader,
-            CommentRepository commentRepository,
-            BookService bookService
+            CommentRepository commentRepository
     ) {
-        this.shellReader = shellReader;
         this.commentRepository = commentRepository;
-        this.bookService = bookService;
     }
 
     @Override
-    public Comment getComment() {
-        printComments();
-        System.out.println("Выберите ID комментария книги: ");
-        long genreId = Long.parseLong(shellReader.readShell());
-        return commentRepository.findById(genreId).orElse(null);
+    public Comment getComment(long commentId) {
+        log.debug("getComment()");
+        return commentRepository.findById(commentId).orElse(null);
     }
 
     @Override
-    public void addComment() {
-        var book = bookService.getBook();
-        if (book != null) {
-            System.out.println("Пожалуйста представьтесь: ");
-            var userName = shellReader.readShell();
-            System.out.println("Введите комментарий для книги: ");
-            var bookComment = shellReader.readShell();
-            DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-            String currentDate = df.format(new Date());
-            var comment = new Comment(0, currentDate, userName, bookComment, book);
-            commentRepository.save(comment);
-        } else {
-            System.out.println("Книга не найдена");
-        }
+    public List<Comment> getCommentsByBook(Book book) {
+        log.debug("getCommentsByBook()");
+        return commentRepository.findByBook(book);
     }
 
     @Override
-    public void updateComment() {
-        printComments();
-        System.out.println("Пожалуйста выберите комментарий");
-        var commentId = Long.parseLong(shellReader.readShell());
-        var comment = commentRepository.findById(commentId).orElse(null);
-        if (comment != null) {
-            System.out.println("Введите новый комментарий для книги: ");
-            var bookComment = shellReader.readShell();
-            DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-            String currentDate = df.format(new Date());
-            comment.setContent(bookComment);
-            comment.setPostDate(currentDate);
-            commentRepository.save(comment);
-        } else {
-            System.out.println("Комментарий не найден");
-        }
+    @Transactional
+    public Comment addComment(Comment comment) {
+        log.debug("addComment()");
+        return commentRepository.save(comment);
     }
 
     @Override
-    public void deleteComment() {
-        printComments();
-        System.out.println("Пожалуйста выберите комментарий");
-        var commentId = Long.parseLong(shellReader.readShell());
-        var comment = commentRepository.findById(commentId).orElse(null);
-        if (comment != null) {
-            commentRepository.deleteById(commentId);
-        } else {
-            System.out.println("Комментарий не найден");
-        }
+    @Transactional
+    public Comment updateComment(Comment comment) {
+        log.debug("updateComment()");
+        return commentRepository.save(comment);
     }
 
     @Override
-    public void printComments() {
-        bookService.printBookComments();
+    @Transactional
+    public void deleteComment(long commentId) {
+        log.debug("deleteComment()");
+        commentRepository.deleteById(commentId);
     }
+
+    @Override
+    public long getCount() {
+        log.debug("getCount()");
+        return commentRepository.count();
+    }
+
 }

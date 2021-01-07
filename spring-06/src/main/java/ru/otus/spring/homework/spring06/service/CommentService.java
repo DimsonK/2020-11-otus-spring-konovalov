@@ -1,16 +1,22 @@
 package ru.otus.spring.homework.spring06.service;
 
+import ru.otus.spring.homework.spring06.models.Book;
 import ru.otus.spring.homework.spring06.models.Comment;
+
+import java.util.List;
 
 public interface CommentService {
 
-    Comment getComment();
+    Comment getComment(long commentId);
 
-    void addComment();
+    List<Comment> getCommentsByBook(Book book);
 
-    void updateComment();
+    Comment addComment(Comment comment);
 
-    void deleteComment();
+    Comment updateComment(Comment comment);
 
-    void printComments();
+    void deleteComment(long commentId);
+
+    long getCount();
+
 }

@@ -19,3 +19,5 @@ spring:
 logging:
   level:
     ROOT: OFF
+#    org.springframework: INFO
+#    org.springframework.transaction: TRACE

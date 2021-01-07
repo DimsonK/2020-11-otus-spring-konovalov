@@ -3,9 +3,9 @@ package ru.otus.spring.homework.spring06.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework.spring06.models.Author;
 import ru.otus.spring.homework.spring06.repositories.AuthorRepository;
-import ru.otus.spring.homework.spring06.shell.ShellReader;
 
 import java.util.List;
 
@@ -13,64 +13,50 @@ import java.util.List;
 public class AuthorServiceImpl implements AuthorService {
     private static final Logger log = LoggerFactory.getLogger(AuthorServiceImpl.class);
 
-    private final ShellReader shellReader;
     private final AuthorRepository authorRepository;
 
-    public AuthorServiceImpl(ShellReader shellReader, AuthorRepository authorRepository) {
-        this.shellReader = shellReader;
+    public AuthorServiceImpl(
+            AuthorRepository authorRepository
+    ) {
         this.authorRepository = authorRepository;
     }
 
     @Override
-    public Author getAuthor() {
-        printAuthors();
-        System.out.println("Выберите ID автора книги: ");
-        long authorId = Long.parseLong(shellReader.readShell());
+    public List<Author> getAll() {
+        log.debug("getAll()");
+        return authorRepository.findAll();
+    }
+
+    public long getCount() {
+        log.debug("getCount()");
+        return authorRepository.count();
+    }
+
+    @Override
+    public Author getAuthor(long authorId) {
+        log.debug("getAuthor()");
         return authorRepository.findById(authorId).orElse(null);
     }
 
     @Override
-    public void addAuthor() {
-        System.out.println("Введите имя автора: ");
-        String authorName = shellReader.readShell();
-        authorRepository.save(new Author(0, authorName));
+    @Transactional
+    public Author addAuthor(String authorName) {
+        log.debug("addAuthor()");
+        return authorRepository.save(new Author(0, authorName));
     }
 
     @Override
-    public void updateAuthor() {
-        printAuthors();
-        System.out.println("Введите ID автора для редактирования: ");
-        long authorId = Long.parseLong(shellReader.readShell());
-        Author author = authorRepository.findById(authorId).orElse(null);
-        if (author != null) {
-            System.out.printf("Выбран автор: id: %s, name: %s%n", author.getId(), author.getName());
-            System.out.println("Введите новое имя автора: ");
-            String authorName = shellReader.readShell();
-            author.setName(authorName);
-            authorRepository.save(author);
-        } else {
-            System.out.println("Автор не найден");
-        }
+    @Transactional
+    public Author updateAuthor(Author author) {
+        log.debug("updateAuthor()");
+        return authorRepository.save(author);
     }
 
     @Override
-    public void deleteAuthor() {
-        printAuthors();
-        System.out.println("Введите ID автора для удаления: ");
-        long authorId = Long.parseLong(shellReader.readShell());
-        Author author = authorRepository.findById(authorId).orElse(null);
-        if (author != null) {
-            authorRepository.deleteById(authorId);
-        } else {
-            System.out.println("Автор не найден");
-        }
+    @Transactional
+    public void deleteAuthor(long authorId) {
+        log.debug("deleteAuthor()");
+        authorRepository.deleteById(authorId);
     }
 
-    @Override
-    public void printAuthors() {
-        System.out.println("Существующие записи авторов в системе:");
-        List<Author> authorList = authorRepository.findAll();
-        authorList.forEach(author -> System.out.printf("%s: name: %s%n", author.getId(), author.getName()));
-        System.out.printf("Всего записей: %s%n", authorRepository.count());
-    }
 }

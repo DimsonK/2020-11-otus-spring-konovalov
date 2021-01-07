@@ -1,7 +1,6 @@
 package ru.otus.spring.homework.spring06.repositories;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework.spring06.models.Book;
 import ru.otus.spring.homework.spring06.models.Comment;
 
@@ -19,7 +18,6 @@ public class CommentRepositoryJpa implements CommentRepository {
     private EntityManager em;
 
     @Override
-    @Transactional
     public Comment save(Comment comment) {
         if (comment.getId() == 0) {
             em.persist(comment);
@@ -68,7 +66,6 @@ public class CommentRepositoryJpa implements CommentRepository {
     }
 
     @Override
-    @Transactional
     public void deleteById(long id) {
         findById(id).ifPresent(comment -> em.remove(comment));
     }

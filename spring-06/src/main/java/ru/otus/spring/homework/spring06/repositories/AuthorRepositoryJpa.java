@@ -1,7 +1,6 @@
 package ru.otus.spring.homework.spring06.repositories;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework.spring06.models.Author;
 
 import javax.persistence.EntityManager;
@@ -18,7 +17,6 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     private EntityManager em;
 
     @Override
-    @Transactional
     public Author save(Author author) {
         if (author.getId() == 0) {
             em.persist(author);
@@ -49,7 +47,6 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     }
 
     @Override
-    @Transactional
     public void deleteById(long id) {
         findById(id).ifPresent(author -> em.remove(author));
     }

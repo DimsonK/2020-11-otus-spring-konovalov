@@ -9,11 +9,11 @@ public interface BookRepository {
 
     Book save(Book book);
 
-    Optional<Book> findById(long id);
+    Optional<Book> findById(long bookId);
+
+    Optional<Book> findByIdFull(long bookId);
 
     List<Book> findAll();
-
-    Optional<Book> findByName(String name);
 
     void deleteById(long id);
 

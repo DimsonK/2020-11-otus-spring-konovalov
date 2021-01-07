@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("Репозиторий для работы с книгами должен")
 @DataJpaTest
 @Import(BookRepositoryJpa.class)
-@Transactional(propagation = Propagation.REQUIRES_NEW)
 class BookRepositoryJpaTest {
 
     private static final int EXPECTED_GENRES_COUNT = 5;
@@ -40,6 +39,7 @@ class BookRepositoryJpaTest {
 
     @DisplayName("добавлять книгу в БД")
     @Test
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     void shouldInsertBook() {
         var expectedBook = new Book(0, "Детектив",
                 new Author(1, "Agatha Christie"), List.of(new Genre(1, "Detective")), null);
@@ -50,10 +50,11 @@ class BookRepositoryJpaTest {
 
     @DisplayName("обновлять книгу в БД")
     @Test
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     void shouldUpdateBook() {
         var expectedBook = new Book(1, "Детектив",
                 new Author(1, "Agatha Christie"), List.of(new Genre(1, "Detective")), null);
-        var oldBook = bookRepository.findById(expectedBook.getId()).orElse(null);
+        var oldBook = bookRepository.findByIdFull(expectedBook.getId()).orElse(null);
         assertThat(oldBook).isNotNull();
         em.detach(oldBook);
         bookRepository.save(expectedBook);
@@ -105,6 +106,7 @@ class BookRepositoryJpaTest {
 
     @DisplayName("удалять заданную книгу по ее id")
     @Test
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     void shouldCorrectDeleteBookById() {
         final var bookForDeleteId = 1;
         bookRepository.deleteById(bookForDeleteId);

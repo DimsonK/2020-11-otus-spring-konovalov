@@ -2,16 +2,20 @@ package ru.otus.spring.homework.spring06.service;
 
 import ru.otus.spring.homework.spring06.models.Author;
 
+import java.util.List;
+
 public interface AuthorService {
 
-    Author getAuthor();
+    List<Author> getAll();
 
-    void addAuthor();
+    Author getAuthor(long authorId);
 
-    void updateAuthor();
+    Author addAuthor(String authorName);
 
-    void deleteAuthor();
+    Author updateAuthor(Author author);
 
-    void printAuthors();
+    void deleteAuthor(long authorId);
+
+    long getCount();
 
 }

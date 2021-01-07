@@ -1,7 +1,7 @@
 package ru.otus.spring.homework.spring06.repositories;
 
+import org.hibernate.annotations.QueryHints;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework.spring06.models.Book;
 
 import javax.persistence.EntityGraph;
@@ -21,7 +21,6 @@ public class BookRepositoryJpa implements BookRepository {
     private EntityManager em;
 
     @Override
-    @Transactional
     public Book save(Book book) {
         if (book.getId() == 0) {
             em.persist(book);
@@ -32,12 +31,18 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public Optional<Book> findById(long id) {
+    public Optional<Book> findById(long bookId) {
+        return Optional.ofNullable(em.find(Book.class, bookId));
+    }
+
+    @Override
+    public Optional<Book> findByIdFull(long bookId) {
         EntityGraph<?> authorGraph = em.getEntityGraph(AUTHOR_ENTITY_GRAPH);
         return em.createQuery(
                 "select b from Book b left join fetch b.genres where b.id = :id",
                 Book.class)
-                .setParameter("id", id)
+                .setParameter("id", bookId)
+                .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
                 .setHint(JAVAX_PERSISTENCE_FETCHGRAPH, authorGraph)
                 .getResultList().stream().findFirst();
     }
@@ -53,18 +58,6 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public Optional<Book> findByName(String name) {
-        EntityGraph<?> authorGraph = em.getEntityGraph(AUTHOR_ENTITY_GRAPH);
-        return em.createQuery(
-                "select b from Book b left join fetch b.genres where b.name like :name",
-                Book.class)
-                .setParameter("name", "%" + name + "%")
-                .setHint(JAVAX_PERSISTENCE_FETCHGRAPH, authorGraph)
-                .getResultList().stream().findFirst();
-    }
-
-    @Override
-    @Transactional
     public void deleteById(long id) {
         findById(id).ifPresent(book -> em.remove(book));
     }

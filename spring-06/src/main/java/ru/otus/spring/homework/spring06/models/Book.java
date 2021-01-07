@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NamedEntityGraphs(value = {
-        @NamedEntityGraph(name = "author-entity-graph", attributeNodes = @NamedAttributeNode("author"))
+        @NamedEntityGraph(name = "author-entity-graph", attributeNodes = @NamedAttributeNode("author")),
+        @NamedEntityGraph(name = "genres-entity-graph", attributeNodes = @NamedAttributeNode("genres"))
 })
 @Data
 @NoArgsConstructor

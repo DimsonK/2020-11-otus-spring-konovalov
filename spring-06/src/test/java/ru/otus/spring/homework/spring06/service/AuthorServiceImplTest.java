@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.otus.spring.homework.spring06.models.Author;
 import ru.otus.spring.homework.spring06.repositories.AuthorRepository;
-import ru.otus.spring.homework.spring06.shell.ShellReader;
 
 import java.util.Optional;
 
@@ -19,7 +18,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class AuthorServiceImplTest {
 
     @MockBean AuthorRepository authorRepository;
-    @MockBean ShellReader shellReader;
     @Autowired AuthorServiceImpl authorService;
 
     @DisplayName("возвращать автора при вводе его ID в консоль")
@@ -28,8 +26,7 @@ class AuthorServiceImplTest {
         var expectedAuthor = new Author(1, "Agatha Christie");
         Mockito.when(authorRepository.findById(expectedAuthor.getId()))
                 .thenReturn(Optional.of(new Author(1, "Agatha Christie")));
-        Mockito.when(shellReader.readShell()).thenReturn("1");
-        var actualAuthor = authorService.getAuthor();
-        assertThat(actualAuthor).usingRecursiveComparison().isEqualTo(expectedAuthor);
+        var actualAuthor = authorRepository.findById(expectedAuthor.getId()).orElse(null);
+        assertThat(actualAuthor).isNotNull().usingRecursiveComparison().isEqualTo(expectedAuthor);
     }
 }

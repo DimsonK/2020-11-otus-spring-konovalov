@@ -2,17 +2,22 @@ package ru.otus.spring.homework.spring06.service;
 
 import ru.otus.spring.homework.spring06.models.Book;
 
+import java.util.List;
+
 public interface BookService {
 
-    Book getBook();
+    List<Book> getAll();
 
-    void addBook();
+    Book getBook(long bookId);
 
-    void updateBook();
+    Book getBookFull(long bookId);
 
-    void deleteBook();
+    Book addBook(Book book);
 
-    void printBooks();
+    Book updateBook(Book book);
 
-    void printBookComments();
+    void deleteBook(long bookId);
+
+    long getCount();
+
 }
