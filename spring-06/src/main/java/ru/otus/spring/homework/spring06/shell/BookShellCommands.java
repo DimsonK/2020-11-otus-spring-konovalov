@@ -9,7 +9,6 @@ import ru.otus.spring.homework.spring06.models.Author;
 import ru.otus.spring.homework.spring06.models.Book;
 import ru.otus.spring.homework.spring06.models.Genre;
 import ru.otus.spring.homework.spring06.service.BookService;
-import ru.otus.spring.homework.spring06.service.CommentService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,20 +19,17 @@ public class BookShellCommands {
     private static final Logger log = LoggerFactory.getLogger(BookShellCommands.class);
 
     private final BookService bookService;
-    private final CommentService commentService;
     private final AuthorShellCommands authorShellCommands;
     private final GenreShellCommands genreShellCommands;
     private final ShellReader shellReader;
 
     public BookShellCommands(
             BookService bookService,
-            CommentService commentService,
             AuthorShellCommands authorShellCommands,
             GenreShellCommands genreShellCommands,
             ShellReader shellReader
     ) {
         this.bookService = bookService;
-        this.commentService = commentService;
         this.authorShellCommands = authorShellCommands;
         this.genreShellCommands = genreShellCommands;
         this.shellReader = shellReader;
@@ -62,9 +58,9 @@ public class BookShellCommands {
         printBooks();
         System.out.println("Выберите книгу для просмотре комментариев:");
         long bookId = Long.parseLong(shellReader.readShell());
-        var book = bookService.getBook(bookId);
+        var book = bookService.getBookFull(bookId);
         if (book != null) {
-            var comments = commentService.getCommentsByBook(book);
+            var comments = book.getComments();
             comments.forEach(comment ->
                     System.out.printf("id: %s, date: %s, author: %s,%n content: %s%n",
                             comment.getId(), comment.getPostDate(), comment.getAuthorName(), comment.getContent()));

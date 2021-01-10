@@ -8,12 +8,26 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @NamedEntityGraphs(value = {
-        @NamedEntityGraph(name = "author-entity-graph", attributeNodes = @NamedAttributeNode("author")),
-        @NamedEntityGraph(name = "genres-entity-graph", attributeNodes = @NamedAttributeNode("genres"))
+        @NamedEntityGraph(name = Book.WITH_AUTHOR_GRAPH, attributeNodes = {
+                @NamedAttributeNode("author")
+        }),
+        @NamedEntityGraph(name = Book.WITH_GENRES_GRAPH, attributeNodes = {
+                @NamedAttributeNode("genres")
+        }),
+        @NamedEntityGraph(name = Book.WITH_AUTHOR_AND_GENRES_GRAPH, attributeNodes = {
+                @NamedAttributeNode("author"),
+                @NamedAttributeNode("genres")
+        }),
+        @NamedEntityGraph(name = Book.WITH_COMMENTS_GRAPH, attributeNodes = {
+                @NamedAttributeNode(value = "comments", subgraph = "comments-subgraph")
+        },
+                subgraphs = {@NamedSubgraph(
+                        name = "comments-subgraph",
+                        attributeNodes = {@NamedAttributeNode("book")})
+                })
 })
 @Data
 @NoArgsConstructor
@@ -24,6 +38,11 @@ import java.util.List;
 @Table(name = "BOOKS")
 public class Book {
 
+    public static final String WITH_AUTHOR_GRAPH = "book-with-author-graph";
+    public static final String WITH_GENRES_GRAPH = "book-with-genres-graph";
+    public static final String WITH_AUTHOR_AND_GENRES_GRAPH = "book-with-author-and-genres-graph";
+    public static final String WITH_COMMENTS_GRAPH = "book-with-comments-graph";
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOOK_SEQUENCE")
     private long id;
@@ -31,7 +50,8 @@ public class Book {
     @Column(name = "BOOK_NAME", nullable = false, unique = true)
     private String name;
 
-    @ManyToOne(targetEntity = Author.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @Fetch(FetchMode.JOIN)
+    @ManyToOne(targetEntity = Author.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "AUTHOR_ID")
     private Author author;
 
@@ -42,7 +62,7 @@ public class Book {
 
     @Fetch(FetchMode.SUBSELECT)
     @OneToMany(targetEntity = Comment.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "BOOK_ID", nullable = false, insertable = false, updatable = false)
-    private List<Comment> comments = new ArrayList<>();
+    @JoinColumn(name = "BOOK_ID")
+    private List<Comment> comments;
 
 }

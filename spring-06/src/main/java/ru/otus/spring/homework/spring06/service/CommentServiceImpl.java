@@ -4,11 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.homework.spring06.models.Book;
 import ru.otus.spring.homework.spring06.models.Comment;
 import ru.otus.spring.homework.spring06.repositories.CommentRepository;
-
-import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -26,12 +23,6 @@ public class CommentServiceImpl implements CommentService {
     public Comment getComment(long commentId) {
         log.debug("getComment()");
         return commentRepository.findById(commentId).orElse(null);
-    }
-
-    @Override
-    public List<Comment> getCommentsByBook(Book book) {
-        log.debug("getCommentsByBook()");
-        return commentRepository.findByBook(book);
     }
 
     @Override

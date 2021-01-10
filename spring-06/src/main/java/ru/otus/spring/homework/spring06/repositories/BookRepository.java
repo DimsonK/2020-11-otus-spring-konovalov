@@ -11,7 +11,7 @@ public interface BookRepository {
 
     Optional<Book> findById(long bookId);
 
-    Optional<Book> findByIdFull(long bookId);
+    Optional<Book> findWithGraph(long bookId, String graphName);
 
     List<Book> findAll();
 

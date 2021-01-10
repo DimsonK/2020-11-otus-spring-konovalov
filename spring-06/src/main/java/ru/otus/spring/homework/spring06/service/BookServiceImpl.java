@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework.spring06.models.Book;
 import ru.otus.spring.homework.spring06.repositories.BookRepository;
-import ru.otus.spring.homework.spring06.repositories.CommentRepository;
 
 import java.util.List;
 
@@ -15,14 +14,11 @@ public class BookServiceImpl implements BookService {
     private static final Logger log = LoggerFactory.getLogger(BookServiceImpl.class);
 
     private final BookRepository bookRepository;
-    private final CommentRepository commentRepository;
 
     public BookServiceImpl(
-            BookRepository bookRepository,
-            CommentRepository commentRepository
+            BookRepository bookRepository
     ) {
         this.bookRepository = bookRepository;
-        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -37,15 +33,29 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findById(bookId).orElse(null);
     }
 
+    /**
+     * Получение полного объекта книги
+     * @param bookId id книги
+     * @return book
+     */
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) // связанные сущности должны вычитываться в одной транзакции
     public Book getBookFull(long bookId) {
-        var book = bookRepository.findByIdFull(bookId).orElse(null);
-        var comments = commentRepository.findByBook(book);
-        if (book != null) {
-            book.setComments(comments);
-        }
-        return book;
+        // Variant 1
+        // Попытка получить одним запросом все атрибуты, приводят к исключению: MultipleBagFetchException
+        // Получаем отдельно отдельными графами
+        // В данном случае Hibernate формирует два запроса
+        bookRepository.findWithGraph(bookId, Book.WITH_AUTHOR_AND_GENRES_GRAPH);
+        return bookRepository.findWithGraph(bookId, Book.WITH_COMMENTS_GRAPH).orElse(null);
+
+        // Variant 2
+        // Можно и так, но запросов в этом случае формируется больше
+//        var book = bookRepository.findById(bookId).orElse(null);
+//        if (book != null) {
+//            book.toString(); // дёргает все публичные методы, что заставляет jpa выгрузить весь граф
+//        }
+//        return book;
+
     }
 
     @Override

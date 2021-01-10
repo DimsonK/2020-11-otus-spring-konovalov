@@ -1,7 +1,6 @@
 package ru.otus.spring.homework.spring06.repositories;
 
 import org.springframework.stereotype.Repository;
-import ru.otus.spring.homework.spring06.models.Book;
 import ru.otus.spring.homework.spring06.models.Comment;
 
 import javax.persistence.EntityManager;
@@ -35,33 +34,6 @@ public class CommentRepositoryJpa implements CommentRepository {
     @Override
     public List<Comment> findAll() {
         TypedQuery<Comment> query = em.createQuery("select c from Comment c", Comment.class);
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Comment> findByBook(Book book) {
-        TypedQuery<Comment> query = em.createQuery(
-                "select c from Comment c where c.book = :book",
-                Comment.class);
-        query.setParameter("book", book);
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Comment> findByContent(String content) {
-        TypedQuery<Comment> query = em.createQuery(
-                "select c from Comment c where c.content = :content",
-                Comment.class);
-        query.setParameter("content", content);
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Comment> findByAuthor(String authorName) {
-        TypedQuery<Comment> query = em.createQuery(
-                "select c from Comment c where c.authorName = :authorName",
-                Comment.class);
-        query.setParameter("authorName", authorName);
         return query.getResultList();
     }
 

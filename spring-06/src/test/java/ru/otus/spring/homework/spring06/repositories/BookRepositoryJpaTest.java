@@ -2,6 +2,8 @@ package ru.otus.spring.homework.spring06.repositories;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -21,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @Import(BookRepositoryJpa.class)
 class BookRepositoryJpaTest {
+    private static final Logger log = LoggerFactory.getLogger(BookRepositoryJpaTest.class);
 
     private static final int EXPECTED_GENRES_COUNT = 5;
 
@@ -54,7 +57,8 @@ class BookRepositoryJpaTest {
     void shouldUpdateBook() {
         var expectedBook = new Book(1, "Детектив",
                 new Author(1, "Agatha Christie"), List.of(new Genre(1, "Detective")), null);
-        var oldBook = bookRepository.findByIdFull(expectedBook.getId()).orElse(null);
+        var oldBook = bookRepository.findById(expectedBook.getId()).orElse(null);
+        var genres = oldBook.getGenres().toString();
         assertThat(oldBook).isNotNull();
         em.detach(oldBook);
         bookRepository.save(expectedBook);
@@ -73,13 +77,16 @@ class BookRepositoryJpaTest {
 
     @DisplayName("возвращать ожидаемую книгу по его id")
     @Test
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     void shouldReturnExpectedBookById() {
         var expectedBook = new Book(1, "Murder on the Orient Express",
                 new Author(1, "Agatha Christie"), List.of(new Genre(1, "Detective")), null);
         var actualBook = bookRepository.findById(expectedBook.getId()).orElse(null);
         assertThat(actualBook).isNotNull();
-        actualBook.setComments(null); // ленимся заполнять комментарии
-        assertThat(actualBook).isNotNull().usingRecursiveComparison().isEqualTo(expectedBook);
+        expectedBook.setComments(actualBook.getComments()); // ленимся заполнять комментарии
+        assertThat(actualBook)
+                .usingRecursiveComparison()
+                .isEqualTo(expectedBook);
     }
 
     @DisplayName("возвращать ожидаемый список книг")
