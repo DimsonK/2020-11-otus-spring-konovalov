@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.shell.standard.ShellCommandGroup;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework.spring06.models.Author;
 import ru.otus.spring.homework.spring06.models.Book;
 import ru.otus.spring.homework.spring06.models.Genre;
@@ -53,12 +54,13 @@ public class BookShellCommands {
     }
 
     @ShellMethod(value = "Print book comments", key = {"bpc", "book-print-comment"})
+    @Transactional(readOnly = true)
     public void printBookComments() {
         log.debug("printBookComments()");
         printBooks();
         System.out.println("Выберите книгу для просмотре комментариев:");
         long bookId = Long.parseLong(shellReader.readShell());
-        var book = bookService.getBookFull(bookId);
+        var book = bookService.getBook(bookId);
         if (book != null) {
             var comments = book.getComments();
             comments.forEach(comment ->
