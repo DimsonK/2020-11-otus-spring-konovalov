@@ -12,3 +12,4 @@
 * [5. Продвинутая конфигурация Spring-приложений](./spring-04)
 * [7. DAO на Spring JDBC](./spring-05)
 * [9. JPQL, Spring ORM, DAO на основе Spring ORM + JPA](./spring-06)
+* [11. "Белая магия" Spring Data: Spring Data JPA](./spring-07)
