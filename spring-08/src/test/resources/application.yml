@@ -1,0 +1,22 @@
+spring:
+    data:
+        mongodb:
+            port: 0
+            database: test
+    shell:
+        interactive:
+            enabled: false
+        script:
+            spring:
+                shell:
+                    script: false
+
+
+mongock:
+    runner-type: "InitializingBean"
+    change-logs-scan-package:
+        - ru.otus.spring.homework.spring08.changelogs
+
+logging:
+    level:
+        ROOT: INFO
