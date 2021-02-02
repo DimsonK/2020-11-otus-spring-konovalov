@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Автор</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<form id="main-form" th:action="@{/authors/__${author.id}__}" th:method="post" th:object="${author}">
+    <div class="d-flex flex-column">
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Автор</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group" th:if="${author.id} != 0">
+                        <label for="field-id" class="input-group-sm" th:text="ID" style="margin-bottom: 0"></label>
+                        <input id="field-id" type="number" class="form-control form-control-sm" th:field="${author.id}"
+                               readonly>
+                    </div>
+                    <div class="input-group">
+                        <label for="field-name" class="input-group-sm" th:text="Name" style="margin-bottom: 0"></label>
+                        <input id="field-name" type="text" class="form-control form-control-sm"
+                               th:field="${author.name}">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" form="main-form">Сохранить</button>
+            <button type="submit" form="remove-form" th:if="${author.id} != 0">Удалить</button>
+            <button type="submit" form="cancel-form" th:if="${author.id} == 0">Отменить</button>
+        </div>
+    </div>
+</form>
+<form id="remove-form" th:action="@{/authors/__${author.id}__/remove}" th:method="post" th:object="${author}"></form>
+<form id="cancel-form" th:action="@{/authors}" th:method="get"></form>
+</body>
+</html>
