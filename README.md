@@ -14,3 +14,4 @@
 * [9. JPQL, Spring ORM, DAO на основе Spring ORM + JPA](./spring-06)
 * [11. "Белая магия" Spring Data: Spring Data JPA](./spring-07)
 * [13. Spring Data для подключения к нереляционным БД](./spring-08)
+* [16. Spring MVC View](./spring-09)
