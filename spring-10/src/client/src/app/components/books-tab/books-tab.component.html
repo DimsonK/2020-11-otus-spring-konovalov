@@ -1,0 +1,58 @@
+<div class="book-table">
+  <p-table [value]="books" dataKey="id">
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" style="width: 5%">ID</th>
+        <th scope="col" style="width: 35%">Book Name</th>
+        <th scope="col" style="width: 20%">Author Name</th>
+        <th scope="col" style="width: 20%">Genre</th>
+        <th scope="col" style="width: 20%">Manage</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-book>
+      <tr>
+        <td>{{book.id}}</td>
+        <td>{{book.name}}</td>
+        <td>{{book.author.name}}</td>
+        <td>{{book.genres[0].name}}</td>
+        <td style="text-align: center; display: flex">
+          <p-button class="table-button" icon="pi pi-ellipsis-h" (onClick)="editBook(book)"></p-button>
+          <p-button class="table-button" icon="pi pi-times" (onClick)="deleteBook(book)"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="caption">
+      <div style="text-align: right">
+        <p-button icon="pi pi-plus" (onClick)="addBook()"></p-button>
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+<app-book-edit
+  [(display)]="displayEditBookDialog"
+  [(book)]="tmpBook"
+  [authors]="authors"
+  [genres]="genres"
+  (bookChange)="saveBookChanges($event)">
+</app-book-edit>
+
+<p-toast position="center" key="delConfirmDialog" (onClose)="onReject()" [baseZIndex]="5000">
+  <ng-template let-message pTemplate="message">
+    <div style="text-align: center">
+      <em class="pi pi-exclamation-triangle" style="font-size: 3em"></em>
+      <h3>{{message.summary}}</h3>
+      <p>{{message.detail}}</p>
+    </div>
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-6">
+        <button type="button" pButton (click)="onConfirm(delAction)" label="Да" class="ui-button-success"></button>
+      </div>
+      <div class="ui-g-6">
+        <button type="button" pButton (click)="onReject()" label="Нет" class="ui-button-secondary"></button>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>
+
+<p-toast position="center" key="serviceError" [baseZIndex]="5000"></p-toast>

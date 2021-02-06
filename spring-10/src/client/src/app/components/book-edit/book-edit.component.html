@@ -1,0 +1,68 @@
+<p-dialog [(visible)]="display" header="{{dialogHeader}}" modal="true" (onShow)="onDisplayChange(true)"
+          (onHide)="onDisplayChange(false)">
+  <div class="dialog">
+    <form [formGroup]="bookForm" (submit)="onBookChange()" class="form-inline">
+      <label class="label" for="name">Название книги *</label>
+      <div class="ui-inputgroup">
+        <input
+          class="input-text"
+          pInputText type="text"
+          id="name"
+          formControlName="name"
+          placeholder="Название книги"
+          pTooltip="Введите название книги">
+      </div>
+      <div *ngIf="submitted && bookForm.controls['name'].invalid &&
+        (bookForm.controls['name'].dirty || bookForm.controls['name'].touched)" class="alert alert-danger">
+        <div *ngIf="bookForm.controls['name'].errors.required"></div>
+      </div>
+      <label class="label" for="authors">Автор</label>
+      <div class="ui-inputgroup">
+        <div class="dropdown">
+          <p-dropdown
+            id="authors"
+            [options]="authors"
+            [(ngModel)]="selectedAuthor"
+            (ngModelChange)="onAuthorChange($event)"
+            placeholder="Выберите автора"
+            optionLabel="name"
+            [style]="{'width': '100%'}">
+          </p-dropdown>
+        </div>
+      </div>
+      <label class="label" for="genre">Жанр</label>
+      <div class="ui-inputgroup">
+        <div class="dropdown">
+          <p-dropdown
+            id="genre"
+            [options]="genres"
+            [(ngModel)]="selectedGenre"
+            (ngModelChange)="onGenreChange($event)"
+            placeholder="Выберите жанр"
+            optionLabel="name"
+            [style]="{'width': '100%'}">
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="btn-blk">
+        <p-button
+          class="button"
+          type="submit"
+          label="Сохранить"
+          icon="pi pi-check"
+          iconPos="right"
+          [disabled]="!bookForm.valid">
+        </p-button>
+        <p-button
+          class="button"
+          type="button"
+          (onClick)="onDisplayChange(false)"
+          label="Отмена"
+          icon="pi pi-times"
+          iconPos="right">
+        </p-button>
+      </div>
+    </form>
+  </div>
+</p-dialog>
