@@ -47,10 +47,11 @@
 * **[banner.txt](src/main/resources/banner.txt)** - баннер
 * **[data.sql](src/main/resources/data.sql)** - дынные
 * **[data.sql](src/main/resources/schema.sql)** - схема
-* **[templates](src/main/resources/templates)** - шаблоны
 * **[public](src/main/resources/public)** - web ресурсы
 
 ## Сборка
+
+`mvn clean package`
 
 В результате сборки формируется два jar файла:
 
@@ -59,3 +60,14 @@
 
 `-Dfile.encoding=utf-8` - необходимо для корректного отображения русских букв в консоли, в Windows запускать рекомендуется в консоли `GitBash`. 
   
+После запуска клиент Angular доступен по адресу `http://localhost:8080/`
+
+## Запуск в режиме разработки
+
+* в системе должен быть установлен NodeJs и Angular Cli `npm install -g @angular/cli`
+
+1. `mvn clean package`
+2. `java -Dfile.encoding=utf-8 -jar ./target/spring-10-0.0.1.jar`
+3. `ng serve --open`
+
+В результате откроется окно браузера по умолчанию по адресу: `http://localhost:4200/`, серверная часть будет доступна по адресу: `http://localhost:8080/`

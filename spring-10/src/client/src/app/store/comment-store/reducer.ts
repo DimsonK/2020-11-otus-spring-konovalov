@@ -6,14 +6,14 @@ export function commentReducer(
   action: commentActions.Actions
 ): CommentState {
   switch (action.type) {
-    case commentActions.CommentActionTypes.LOAD_COMMENTS_SUCCESS: {
+    case commentActions.CommentActionTypes.LOAD_COMMENTS_BY_BOOK_ID_SUCCESS: {
       return commentAdapter.setAll(action.payload, {
         ...state,
         loading: false,
         loaded: true,
       });
     }
-    case commentActions.CommentActionTypes.LOAD_COMMENTS_FAIL: {
+    case commentActions.CommentActionTypes.LOAD_COMMENTS_BY_BOOK_ID_FAIL: {
       return {
         ...state,
         entities: {},

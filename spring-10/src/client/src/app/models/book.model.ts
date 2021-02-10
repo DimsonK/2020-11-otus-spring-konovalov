@@ -6,6 +6,6 @@ export class BookModel {
   public id!: string;
   public name!: string;
   public author?: AuthorModel;
-  public genres?: [GenreModel];
-  public comments?: [CommentModel];
+  public genres?: GenreModel[];
+  public comments?: CommentModel[];
 }

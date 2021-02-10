@@ -28,8 +28,13 @@ export const getCurrentAuthorId = createSelector(
   getAuthorFeatureState,
   (state: AuthorState) => state.selectedAuthorId
 );
-// export const getCurrentAuthor = createSelector(
-//   getAuthorFeatureState,
-//   getCurrentAuthorId,
-//   (state) => state.entities[state.selectedAuthorId]
-// );
+export const getCurrentAuthor = createSelector(
+  getAuthorFeatureState,
+  getCurrentAuthorId,
+  (state) => {
+    if (state !== null && state.selectedAuthorId !== null) {
+      return state.entities[state.selectedAuthorId]
+    }
+    return null;
+  }
+);

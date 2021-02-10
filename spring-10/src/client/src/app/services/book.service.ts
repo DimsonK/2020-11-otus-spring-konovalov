@@ -17,6 +17,14 @@ export class BookService {
       .pipe(map((data: BookModel[]) => data));
   }
 
+  public loadBooksBySearch(search: string): Observable<BookModel[]> {
+    return this.http
+      .get<BookModel[]>('/api/book', {
+        params: {'search': search}
+      })
+      .pipe(map((data: BookModel[]) => data));
+  }
+
   public loadBookById(payload: string): Observable<BookModel> {
     return this.http
       .get<BookModel>(`/api/book/${payload}`)

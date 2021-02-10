@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.spring.homework.spring10.exceptions.BadRequestException;
 import ru.otus.spring.homework.spring10.mappers.AuthorMapper;
 import ru.otus.spring.homework.spring10.models.dto.AuthorDto;
 import ru.otus.spring.homework.spring10.models.entity.Author;
@@ -55,11 +56,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional
     public AuthorDto updateAuthor(AuthorDto authorDto) {
         log.debug("updateAuthor()");
-        var author = authorMapper.toEntity(authorDto);
-        author = authorRepository.save(author);
-        var authorDto1 = authorMapper.toDto(author);
-//        return authorMapper.toDto(authorRepository.save(authorMapper.toEntity(authorDto)));
-        return authorDto1;
+        return authorMapper.toDto(authorRepository.save(authorMapper.toEntity(authorDto)));
     }
 
     @Override

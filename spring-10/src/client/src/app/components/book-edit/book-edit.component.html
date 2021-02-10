@@ -1,20 +1,20 @@
 <p-dialog [(visible)]="display" header="{{dialogHeader}}" modal="true" (onShow)="onDisplayChange(true)"
           (onHide)="onDisplayChange(false)">
   <div class="dialog">
-    <form [formGroup]="bookForm" (submit)="onBookChange()" class="form-inline">
-      <label class="label" for="name">Название книги *</label>
+    <form [formGroup]="bookEditForm" (submit)="onBookChange()" class="form-inline">
+      <label class="label" for="fldBookName">Название книги *</label>
       <div class="ui-inputgroup">
         <input
           class="input-text"
           pInputText type="text"
-          id="name"
-          formControlName="name"
+          id="fldBookName"
+          formControlName="bookName"
           placeholder="Название книги"
           pTooltip="Введите название книги">
       </div>
-      <div *ngIf="submitted && bookForm.controls['name'].invalid &&
-        (bookForm.controls['name'].dirty || bookForm.controls['name'].touched)" class="alert alert-danger">
-        <div *ngIf="bookForm.controls['name'].errors.required"></div>
+      <div *ngIf="submitted && bookEditForm.controls['bookName'].invalid &&
+        (bookEditForm.controls['bookName'].dirty || bookEditForm.controls['bookName'].touched)" class="alert alert-danger">
+        <div *ngIf="bookEditForm.controls['bookName'].errors.required"></div>
       </div>
       <label class="label" for="authors">Автор</label>
       <div class="ui-inputgroup">
@@ -24,6 +24,7 @@
             [options]="authors"
             [(ngModel)]="selectedAuthor"
             (ngModelChange)="onAuthorChange($event)"
+            [ngModelOptions]="{standalone: true}"
             placeholder="Выберите автора"
             optionLabel="name"
             [style]="{'width': '100%'}">
@@ -32,17 +33,23 @@
       </div>
       <label class="label" for="genre">Жанр</label>
       <div class="ui-inputgroup">
-        <div class="dropdown">
-          <p-dropdown
-            id="genre"
-            [options]="genres"
-            [(ngModel)]="selectedGenre"
-            (ngModelChange)="onGenreChange($event)"
-            placeholder="Выберите жанр"
-            optionLabel="name"
-            [style]="{'width': '100%'}">
-          </p-dropdown>
-        </div>
+        <p-table id="genre" [value]="genres" [(selection)]="selectedGenres" dataKey="id">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col" style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th scope="col">Genre Name</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-genre>
+            <tr>
+              <td>
+                <p-tableCheckbox [value]="genre"></p-tableCheckbox>
+              </td>
+              <td>{{genre.name}}</td>
+          </ng-template>
+        </p-table>
       </div>
 
       <div class="btn-blk">
@@ -52,7 +59,7 @@
           label="Сохранить"
           icon="pi pi-check"
           iconPos="right"
-          [disabled]="!bookForm.valid">
+          [disabled]="!bookEditForm.valid">
         </p-button>
         <p-button
           class="button"

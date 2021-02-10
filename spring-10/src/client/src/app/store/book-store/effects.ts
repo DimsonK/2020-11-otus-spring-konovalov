@@ -41,6 +41,28 @@ export class BookEffect {
   );
 
   @Effect()
+  loadBooksLikeName$: Observable<Action> = this.actions$.pipe(
+    ofType<bookActions.LoadBooksLikeName>(
+      bookActions.BookActionTypes.LOAD_BOOKS_LIKE_NAME
+    ),
+    mergeMap((action: bookActions.LoadBooksLikeName) =>
+      this.bookService.loadBooksBySearch(action.payload).pipe(
+        map(
+          (books: BookModel[]) =>
+            new bookActions.LoadBooksSuccess(books)
+        ),
+        catchError((err) =>
+          of(
+            new bookActions.LoadBooksFail(
+              `${new Date()}\n${JSON.stringify(err)}`
+            )
+          )
+        )
+      )
+    )
+  );
+
+  @Effect()
   loadBook$: Observable<Action> = this.actions$.pipe(
     ofType<bookActions.LoadBook>(
       bookActions.BookActionTypes.LOAD_BOOK

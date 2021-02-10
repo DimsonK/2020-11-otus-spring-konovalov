@@ -21,3 +21,6 @@ logging:
         ROOT: INFO
         org.springframework: INFO
         org.springframework.transaction: TRACE
+server:
+    error:
+        include-stacktrace: never

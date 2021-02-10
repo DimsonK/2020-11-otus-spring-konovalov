@@ -68,7 +68,7 @@ public class CommentController {
 
 
     @DeleteMapping("/api/comment/{id}")
-    public ResponseEntity<String> deleteBook(@PathVariable("id") Long commentId) {
+    public ResponseEntity<String> deleteComment(@PathVariable("id") Long commentId) {
         if (commentId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

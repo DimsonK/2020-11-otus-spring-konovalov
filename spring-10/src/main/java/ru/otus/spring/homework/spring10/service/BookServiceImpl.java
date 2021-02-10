@@ -44,7 +44,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> getBooksLikeName(String substring) {
-        return bookMapper.toDtoList(bookRepository.findBookByNameLike("%" + substring + "%"));
+        return bookMapper.toDtoList(bookRepository.findBookByNameContainingIgnoreCase(substring));
     }
 
     @Override

@@ -28,8 +28,13 @@ export const getCurrentGenreId = createSelector(
   getGenreFeatureState,
   (state: GenreState) => state.selectedGenreId
 );
-// export const getCurrentGenre = createSelector(
-//   getGenreFeatureState,
-//   getCurrentGenreId,
-//   (state) => state.entities[state.selectedGenreId]
-// );
+export const getCurrentGenre = createSelector(
+  getGenreFeatureState,
+  getCurrentGenreId,
+  (state) => {
+    if (state !== null && state.selectedGenreId !== null) {
+      return state.entities[state.selectedGenreId]
+    }
+    return null;
+  }
+);

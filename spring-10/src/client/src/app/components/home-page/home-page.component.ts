@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -12,8 +12,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription = new Subscription();
 
-  searchForm: FormGroup = this.formBuilder.group({
-    searchText: ['', [Validators.required]],
+  searchForm: FormGroup = new FormGroup({
+    searchText: new FormControl('', [Validators.required]),
   });
 
   clickSearch = false;
@@ -22,7 +22,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder
   ) {
   }
 
@@ -36,7 +35,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   submitSearch(): void {
     if (this.clickSearch && this.searchForm.valid) {
       this.searchText = this.searchForm.get('searchText')?.value;
-      this.router.navigate(['/books-view']).then();
+      this.router.navigate(['/books-view'], {queryParams: {searchText: this.searchText}}).then();
     } else if (this.clickGetAll) {
       this.router.navigate(['/books-view']).then();
     }

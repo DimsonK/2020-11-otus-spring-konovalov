@@ -28,8 +28,13 @@ export const getCurrentBookId = createSelector(
   getBookFeatureState,
   (state: BookState) => state.selectedBookId
 );
-// export const getCurrentBook = createSelector(
-//   getBookFeatureState,
-//   getCurrentBookId,
-//   (state) => state.entities[state.selectedBookId]
-// );
+export const getCurrentBook = createSelector(
+  getBookFeatureState,
+  getCurrentBookId,
+  (state) => {
+    if (state !== null && state.selectedBookId !== null) {
+      return state.entities[state.selectedBookId]
+    }
+    return null;
+  }
+);

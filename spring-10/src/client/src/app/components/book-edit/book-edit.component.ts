@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { AuthorModel } from '../../models/author.model';
 import { BookModel } from '../../models/book.model';
@@ -12,27 +13,26 @@ import { GenreModel } from '../../models/genre.model';
 })
 export class BookEditComponent implements OnInit, OnDestroy {
   @Input() public display = false;
-  @Input() public book: BookModel = new BookModel();
+  @Input() public book: BookModel | null = null;
   @Input() public authors: AuthorModel[] = [];
-  @Input() public author: AuthorModel | null = null;
   @Input() public genres: GenreModel[] = [];
-  @Input() public genre: GenreModel | null = null;
   @Output() public displayChange = new EventEmitter<boolean>();
   @Output() public bookChange = new EventEmitter<BookModel>();
 
-  public selectedAuthor: AuthorModel | null = null;
-  public selectedGenre: GenreModel | null = null;
+  public selectedAuthor: AuthorModel | undefined = undefined;
+  public selectedGenres: GenreModel[] | undefined = undefined;
 
-  public bookForm: FormGroup = this.formBuilder.group({
-    id: null,
-    name: ['', Validators.required],
-  });
   public dialogHeader = '';
   public submitted = false;
   private subscriptions: Subscription = new Subscription();
 
+  public bookEditForm: FormGroup = new FormGroup({
+    id: new FormControl(''),
+    bookName: new FormControl('', Validators.required),
+  });
+
   constructor(
-    private formBuilder: FormBuilder,
+    private logger: NGXLogger
   ) {
   }
 
@@ -46,16 +46,20 @@ export class BookEditComponent implements OnInit, OnDestroy {
   onDisplayChange(val: boolean) {
     if (this.display) {
       if (this.book) {
+        this.logger.info(`onDisplayChange: ${JSON.stringify(this.book)}`);
+
         this.dialogHeader = 'Редактировать книгу';
-        this.bookForm.patchValue({
+        this.bookEditForm.patchValue({
           id: this.book && this.book.id ? this.book.id : null,
-          name: this.book.name,
+          bookName: this.book.name,
         });
+        this.selectedAuthor = this.book.author;
+        this.selectedGenres = this.book.genres;
       } else {
         this.dialogHeader = 'Добавить книгу';
-        this.bookForm.patchValue({
+        this.bookEditForm.patchValue({
           id: null,
-          name: '',
+          bookName: ''
         });
       }
     }
@@ -66,13 +70,14 @@ export class BookEditComponent implements OnInit, OnDestroy {
 
   onBookChange() {
     this.submitted = true;
+    const nameField = this.bookEditForm.get('bookName');
     const updateBook: BookModel = {
-      id: this.book.id,
-      name: '', //this.bookForm.get('name').value,
-      author: new AuthorModel,
-      genres: [new GenreModel()],
+      id: this.book ? this.book.id : '0',
+      name: nameField?.value,
+      author: this.selectedAuthor,
+      genres: this.selectedGenres
     };
-    if (this.bookForm.valid) {
+    if (this.bookEditForm.valid) {
       this.book = updateBook;
       this.bookChange.emit(updateBook);
       this.display = false;

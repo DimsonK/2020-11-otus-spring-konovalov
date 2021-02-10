@@ -8,6 +8,9 @@ export enum BookActionTypes {
   LOAD_BOOKS = '[Book/API Load Books Request',
   LOAD_BOOKS_SUCCESS = '[Book/API Load Books Success',
   LOAD_BOOKS_FAIL = '[Book/API Load Books Failure',
+  LOAD_BOOKS_LIKE_NAME = '[Book/API Load Books like name Request',
+  LOAD_BOOKS_LIKE_NAME_SUCCESS = '[Book/API Load Books like name Success',
+  LOAD_BOOKS_LIKE_NAME_FAIL = '[Book/API Load Books like name Failure',
   LOAD_BOOK = '[Book/API Load Book Request',
   LOAD_BOOK_SUCCESS = '[Book/API Load Book Success',
   LOAD_BOOK_FAIL = '[Book/API Load Book Failure',
@@ -39,6 +42,29 @@ export class LoadBooksFail implements Action {
   constructor(public payload: string) {
   }
 }
+
+//
+export class LoadBooksLikeName implements Action {
+  readonly type = BookActionTypes.LOAD_BOOKS_LIKE_NAME;
+
+  constructor(public payload: string) {
+  }
+}
+
+export class LoadBooksLikeNameSuccess implements Action {
+  readonly type = BookActionTypes.LOAD_BOOKS_LIKE_NAME_SUCCESS;
+
+  constructor(public payload: BookModel[]) {
+  }
+}
+
+export class LoadBooksLikeNameFail implements Action {
+  readonly type = BookActionTypes.LOAD_BOOKS_LIKE_NAME_FAIL;
+
+  constructor(public payload: string) {
+  }
+}
+
 
 //
 export class LoadBook implements Action {
@@ -132,6 +158,9 @@ export type Actions =
   | LoadBooks
   | LoadBooksSuccess
   | LoadBooksFail
+  | LoadBooksLikeName
+  | LoadBooksLikeNameSuccess
+  | LoadBooksLikeNameFail
   | LoadBook
   | LoadBookSuccess
   | LoadBookFail

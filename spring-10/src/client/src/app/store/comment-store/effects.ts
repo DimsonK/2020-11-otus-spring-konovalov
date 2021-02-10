@@ -21,10 +21,10 @@ export class CommentEffect {
   @Effect()
   loadComments$: Observable<Action> = this.actions$.pipe(
     ofType<commentActions.LoadComments>(
-      commentActions.CommentActionTypes.LOAD_COMMENTS
+      commentActions.CommentActionTypes.LOAD_COMMENTS_BY_BOOK_ID
     ),
     mergeMap((action: commentActions.LoadComments) =>
-      this.commentService.loadComments().pipe(
+      this.commentService.loadComments(action.payload).pipe(
         map(
           (comments: CommentModel[]) =>
             new commentActions.LoadCommentsSuccess(comments)

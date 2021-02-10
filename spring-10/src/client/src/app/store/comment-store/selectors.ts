@@ -28,8 +28,13 @@ export const getCurrentCommentId = createSelector(
   getCommentFeatureState,
   (state: CommentState) => state.selectedCommentId
 );
-// export const getCurrentComment = createSelector(
-//   getCommentFeatureState,
-//   getCurrentCommentId,
-//   (state) => state.entities[state.selectedCommentId]
-// );
+export const getCurrentComment = createSelector(
+  getCommentFeatureState,
+  getCurrentCommentId,
+  (state) => {
+    if (state !== null && state.selectedCommentId !== null) {
+      return state.entities[state.selectedCommentId];
+    }
+    return null;
+  }
+);

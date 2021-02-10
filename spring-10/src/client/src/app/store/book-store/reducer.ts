@@ -22,6 +22,22 @@ export function bookReducer(
         error: action.payload,
       };
     }
+    case bookActions.BookActionTypes.LOAD_BOOKS_LIKE_NAME_SUCCESS: {
+      return bookAdapter.setAll(action.payload, {
+        ...state,
+        loading: false,
+        loaded: true,
+      });
+    }
+    case bookActions.BookActionTypes.LOAD_BOOKS_LIKE_NAME_FAIL: {
+      return {
+        ...state,
+        entities: {},
+        loading: false,
+        loaded: false,
+        error: action.payload,
+      };
+    }
     case bookActions.BookActionTypes.LOAD_BOOK_SUCCESS: {
       return bookAdapter.addOne(action.payload, {
         ...state,

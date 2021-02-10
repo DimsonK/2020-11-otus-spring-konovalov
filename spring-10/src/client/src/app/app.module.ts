@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { AccordionModule } from 'primeng/accordion';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
+import { DataViewModule } from 'primeng/dataview';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
@@ -35,12 +37,12 @@ import { BookEditComponent } from './components/book-edit/book-edit.component';
 import { BooksTabComponent } from './components/books-tab/books-tab.component';
 import { BooksViewComponent } from './components/books-view/books-view.component';
 import { CommentEditComponent } from './components/comment-edit/comment-edit.component';
-import { CommentsTabComponent } from './components/comments-tab/comments-tab.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { GenreEditComponent } from './components/genre-edit/genre-edit.component';
 import { GenresTabComponent } from './components/genres-tab/genres-tab.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { ManagePageComponent } from './components/manage-page/manage-page.component';
+import { ExtractGenreNamePropertyPipe } from './pipes/extract-genre-name-property.pipe';
 import { AuthorService } from './services/author.service';
 import { BookService } from './services/book.service';
 import { CommentService } from './services/comment.service';
@@ -63,6 +65,7 @@ import { RootStoreModule } from './store/root-store.module';
     ButtonModule,
     CardModule,
     CheckboxModule,
+    DataViewModule,
     DialogModule,
     DropdownModule,
     DynamicDialogModule,
@@ -79,7 +82,13 @@ import { RootStoreModule } from './store/root-store.module';
     TooltipModule,
     RippleModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    // Logger
+    LoggerModule.forRoot({
+      serverLoggingUrl: '/api/logs',
+      level: NgxLoggerLevel.DEBUG,
+      serverLogLevel: NgxLoggerLevel.ERROR
+    })
   ],
   declarations: [
     AppComponent,
@@ -93,8 +102,8 @@ import { RootStoreModule } from './store/root-store.module';
     BooksViewComponent,
     AuthorsTabComponent,
     BooksTabComponent,
-    CommentsTabComponent,
     GenresTabComponent,
+    ExtractGenreNamePropertyPipe,
   ],
   providers: [
     AuthorService,

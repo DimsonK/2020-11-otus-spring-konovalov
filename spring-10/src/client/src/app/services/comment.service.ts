@@ -11,9 +11,9 @@ export class CommentService {
   ) {
   }
 
-  public loadComments(): Observable<CommentModel[]> {
+  public loadComments(payload: string): Observable<CommentModel[]> {
     return this.http
-      .get<CommentModel[]>('/api/comment')
+      .get<CommentModel[]>(`/api/comment/book/${payload}`)
       .pipe(map((data: CommentModel[]) => data));
   }
 

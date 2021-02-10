@@ -5,9 +5,9 @@ import { CommentModel } from '../../models/comment.model';
 
 
 export enum CommentActionTypes {
-  LOAD_COMMENTS = '[Comment/API Load Comments Request',
-  LOAD_COMMENTS_SUCCESS = '[Comment/API Load Comments Success',
-  LOAD_COMMENTS_FAIL = '[Comment/API Load Comments Failure',
+  LOAD_COMMENTS_BY_BOOK_ID = '[Comment/API Load Comments by book id Request',
+  LOAD_COMMENTS_BY_BOOK_ID_SUCCESS = '[Comment/API Load Comments by book id Success',
+  LOAD_COMMENTS_BY_BOOK_ID_FAIL = '[Comment/API Load Comments by book id Failure',
   LOAD_COMMENT = '[Comment/API Load Comment Request',
   LOAD_COMMENT_SUCCESS = '[Comment/API Load Comment Success',
   LOAD_COMMENT_FAIL = '[Comment/API Load Comment Failure',
@@ -23,18 +23,21 @@ export enum CommentActionTypes {
 }
 
 export class LoadComments implements Action {
-  readonly type = CommentActionTypes.LOAD_COMMENTS;
+  readonly type = CommentActionTypes.LOAD_COMMENTS_BY_BOOK_ID;
+
+  constructor(public payload: string) {
+  }
 }
 
 export class LoadCommentsSuccess implements Action {
-  readonly type = CommentActionTypes.LOAD_COMMENTS_SUCCESS;
+  readonly type = CommentActionTypes.LOAD_COMMENTS_BY_BOOK_ID_SUCCESS;
 
   constructor(public payload: CommentModel[]) {
   }
 }
 
 export class LoadCommentsFail implements Action {
-  readonly type = CommentActionTypes.LOAD_COMMENTS_FAIL;
+  readonly type = CommentActionTypes.LOAD_COMMENTS_BY_BOOK_ID_FAIL;
 
   constructor(public payload: string) {
   }

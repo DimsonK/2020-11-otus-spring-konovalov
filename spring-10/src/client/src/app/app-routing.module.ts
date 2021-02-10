@@ -6,7 +6,7 @@ import { ManagePageComponent } from './components/manage-page/manage-page.compon
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
-  {path: 'books-view', component: BooksViewComponent},
+  {path: 'books-view', component: BooksViewComponent, data: {searchText: ''}},
   {path: 'manage', component: ManagePageComponent},
 ];
 

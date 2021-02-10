@@ -1,13 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { NGXLogger } from 'ngx-logger';
 import { MessageService } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
 import { AuthorModel } from '../../models/author.model';
 import { BookModel } from '../../models/book.model';
+import { CommentModel } from '../../models/comment.model';
 import { GenreModel } from '../../models/genre.model';
 import * as authorStore from '../../store/author-store';
-
 import * as bookStore from '../../store/book-store';
+import * as commentStore from '../../store/comment-store';
 import * as genreStore from '../../store/genre-store';
 
 @Component({
@@ -17,23 +19,29 @@ import * as genreStore from '../../store/genre-store';
 })
 export class BooksTabComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  private selBook: BookModel | null = null;
 
   public displayEditBookDialog = false;
-  public tmpBook: BookModel = new BookModel();
+  public selectedBook: BookModel | null = null;
+  public tmpBook: BookModel | null = null;
+  public displayEditCommentDialog = false;
+  public selectedComment: CommentModel | null = null;
+  public tmpComment: CommentModel | null = null;
 
   public books: BookModel[] = [];
   public authors: AuthorModel[] = [];
   public genres: GenreModel[] = [];
+  public comments: CommentModel[] = [];
 
   public action: 'ADD' | 'EDIT' | null = null;
-  public delAction: 'delBook' | null = null;
+  public delAction: 'delBook' | 'delComment' | null = null;
 
   constructor(
     private bookStore$: Store<bookStore.BookStoreState.BookState>,
     private authorStore$: Store<authorStore.AuthorStoreState.AuthorState>,
     private genreStore$: Store<genreStore.GenreStoreState.GenreState>,
-    private messageService: MessageService
+    private commentStore$: Store<commentStore.CommentStoreState.CommentState>,
+    private messageService: MessageService,
+    private logger: NGXLogger
   ) {
   }
 
@@ -51,6 +59,11 @@ export class BooksTabComponent implements OnInit, OnDestroy {
     this.onError(
       this.genreStore$.pipe(
         select(genreStore.GenreStoreSelectors.getError)
+      )
+    );
+    this.onError(
+      this.commentStore$.pipe(
+        select(commentStore.CommentStoreSelectors.getError)
       )
     );
     this.subscriptions.add(
@@ -74,6 +87,13 @@ export class BooksTabComponent implements OnInit, OnDestroy {
           this.genres = data;
         })
     );
+    this.subscriptions.add(
+      this.commentStore$
+        .select(commentStore.CommentStoreSelectors.getComments)
+        .subscribe((data) => {
+          this.comments = data;
+        })
+    );
     this.bookStore$.dispatch(
       new bookStore.BookStoreActions.LoadBooks()
     );
@@ -92,7 +112,7 @@ export class BooksTabComponent implements OnInit, OnDestroy {
   // ------------------------------------------------------------------------------
   addBook() {
     this.action = 'ADD';
-    this.tmpBook = new BookModel();
+    this.tmpBook = null;
     this.displayEditBookDialog = true;
   }
 
@@ -102,12 +122,13 @@ export class BooksTabComponent implements OnInit, OnDestroy {
     } else {
       this.action = 'EDIT';
     }
-    this.selBook = book;
+    this.selectedBook = book;
     this.tmpBook = book;
     this.displayEditBookDialog = true;
   }
 
   saveBookChanges(book: BookModel) {
+    this.logger.info(`saveBookChanges: ${book}`);
     if (this.action === 'ADD') {
       this.bookStore$.dispatch(
         new bookStore.BookStoreActions.CreateBook(book)
@@ -128,23 +149,97 @@ export class BooksTabComponent implements OnInit, OnDestroy {
       sticky: true,
       severity: 'warn',
       summary: 'Вы уверены?',
-      detail: 'Подтвердите удаление прошивки',
+      detail: 'Подтвердите удаление книги',
     });
   }
 
   // ------------------------------------------------------------------------------
-  // Confirmation
-  onConfirm(action: string | null) {
-    if (this.tmpBook) {
-      this.bookStore$.dispatch(
-        new bookStore.BookStoreActions.DeleteBook(this.tmpBook.id)
+  addComment() {
+    this.action = 'ADD';
+    this.tmpComment = null;
+    this.displayEditCommentDialog = true;
+  }
+
+  editComment(comment: CommentModel) {
+    if (!comment) {
+      this.action = 'ADD';
+    } else {
+      this.action = 'EDIT';
+    }
+    this.selectedComment = comment;
+    this.tmpComment = comment;
+    this.displayEditCommentDialog = true;
+  }
+
+  saveCommentChanges(comment: CommentModel) {
+    this.logger.info(`saveCommentChanges: ${comment}`);
+    if (this.action === 'ADD') {
+      this.commentStore$.dispatch(
+        new commentStore.CommentStoreActions.CreateComment(comment)
+      );
+    } else {
+      this.commentStore$.dispatch(
+        new commentStore.CommentStoreActions.UpdateComment(comment)
       );
     }
-    this.messageService.clear('delConfirmDialog');
+  }
+
+  deleteComment(comment: CommentModel) {
+    this.tmpComment = comment;
+    this.delAction = 'delComment';
+    this.messageService.clear();
+    this.messageService.add({
+      key: 'delConfirmDialog',
+      sticky: true,
+      severity: 'warn',
+      summary: 'Вы уверены?',
+      detail: 'Подтвердите удаление комментария',
+    });
+  }
+
+
+  // ------------------------------------------------------------------------------
+  // Confirmation
+  onConfirm(action: string | null) {
+    switch (action) {
+      case 'delBook': {
+        if (this.tmpBook) {
+          this.bookStore$.dispatch(
+            new bookStore.BookStoreActions.DeleteBook(this.tmpBook.id)
+          );
+        }
+        this.selectedBook = null;
+        this.selectedComment = null;
+        this.tmpBook = null;
+        this.comments = [];
+        this.messageService.clear('delConfirmDialog');
+        break;
+      }
+      case 'delComment': {
+        if (this.tmpComment) {
+          this.commentStore$.dispatch(
+            new commentStore.CommentStoreActions.DeleteComment(this.tmpComment.id)
+          );
+        }
+        this.messageService.clear('delConfirmDialog');
+        break;
+      }
+      default: {
+        this.messageService.clear('delConfirmDialog');
+        break;
+      }
+    }
   }
 
   onReject() {
     this.messageService.clear('delConfirmDialog');
+  }
+
+  onBookRowSelect(event: any) {
+    this.commentStore$.dispatch(
+      new commentStore.CommentStoreActions.LoadComments(event.data.id)
+    );
+
   }
 
   onError(errorFlow$: Observable<any>) {
@@ -156,6 +251,7 @@ export class BooksTabComponent implements OnInit, OnDestroy {
             severity: 'error',
             summary: 'Ошибка сервиса',
             detail: err.toString(),
+            closable: true,
           });
         }
       })
