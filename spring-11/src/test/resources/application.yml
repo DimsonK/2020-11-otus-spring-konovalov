@@ -1,0 +1,25 @@
+spring:
+    data:
+        mongodb:
+            port: 0
+            database: test
+    shell:
+        interactive:
+            enabled: false
+        script:
+            spring:
+                shell:
+                    script: false
+
+
+mongock:
+    runner-type: "InitializingBean"
+    change-logs-scan-package:
+        - ru.otus.spring.homework.spring11.changelogs
+
+logging:
+    level:
+        ROOT: INFO
+        org.springframework: INFO
+        org.springframework.transaction: INFO
+        org.springframework.data.mongodb.core.ReactiveMongoTemplate: DEBUG
