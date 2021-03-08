@@ -1,0 +1,20 @@
+<div class="p-grid p-align-center p-nogutter welcome-panel">
+  <div class="p-col-3"></div>
+  <div class="p-col-6 p-col-align-center">
+    <p-panel>
+      <form [formGroup]="searchForm" (ngSubmit)="submitSearch()">
+        <div class="welcome-text">
+          <h3>Добро пожаловать библиотеку</h3>
+          <h1>OTUS</h1>
+        </div>
+        <div class="p-inputgroup">
+          <input id="search-input" type="text" pInputText placeholder="Введите часть названия книги для поиска"
+                 formControlName="searchText">
+          <button type="submit" pButton pRipple label="Search" (click)="onClickSearchButton()"></button>
+          <button type="submit" pButton pRipple label="GetAll" (click)="onClickGetAllButton()"></button>
+        </div>
+      </form>
+    </p-panel>
+  </div>
+  <div class="p-col-3"></div>
+</div>
