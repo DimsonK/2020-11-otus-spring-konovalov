@@ -1,0 +1,80 @@
+<p-dialog [(visible)]="display" header="{{dialogHeader}}" modal="true" (onShow)="onDisplayChange(true)"
+          (onHide)="onDisplayChange(false)">
+  <div class="dialog">
+    <form [formGroup]="commentEditForm" (submit)="onCommentChange()" class="form-inline">
+      <label class="label" for="fldCommentDate">Дата комментария *</label>
+      <div class="ui-inputgroup">
+        <input
+          class="input-text"
+          pInputText type="text"
+          id="fldCommentDate"
+          formControlName="commentDate"
+          placeholder="Дата комментария"
+          pTooltip="Введите дату комментария">
+      </div>
+      <div *ngIf="submitted && commentEditForm.controls['commentDate'].invalid &&
+        (commentEditForm.controls['commentDate'].dirty || commentEditForm.controls['authorName'].touched)" class="alert alert-danger">
+        <div *ngIf="commentEditForm.controls['commentDate'].errors.required"></div>
+      </div>
+      <label class="label" for="fldCommentAuthor">Имя автора *</label>
+      <div class="ui-inputgroup">
+        <input
+          class="input-text"
+          pInputText type="text"
+          id="fldCommentAuthor"
+          formControlName="commentAuthor"
+          placeholder="Имя автора"
+          pTooltip="Введите имя автора">
+      </div>
+      <div *ngIf="submitted && commentEditForm.controls['commentAuthor'].invalid &&
+        (commentEditForm.controls['commentAuthor'].dirty || commentEditForm.controls['commentAuthor'].touched)" class="alert alert-danger">
+        <div *ngIf="commentEditForm.controls['commentAuthor'].errors.required"></div>
+      </div>
+      <label class="label" for="fldCommentContent">Комментарий *</label>
+      <div class="ui-inputgroup">
+        <input
+          class="input-text"
+          pInputText type="text"
+          id="fldCommentContent"
+          formControlName="commentContent"
+          placeholder="Комментарий"
+          pTooltip="Введите комментарий">
+      </div>
+      <div *ngIf="submitted && commentEditForm.controls['commentContent'].invalid &&
+        (commentEditForm.controls['commentContent'].dirty || commentEditForm.controls['commentContent'].touched)" class="alert alert-danger">
+        <div *ngIf="commentEditForm.controls['commentContent'].errors.required"></div>
+      </div>
+      <label class="label" for="fldCommentFavorite">Показывать *</label>
+      <div class="ui-inputgroup">
+        <p-checkbox
+          id="fldCommentFavorite"
+          [formControl]="commentEditForm.controls['commentFavorite']"
+          binary="true">
+        </p-checkbox>
+      </div>
+      <div *ngIf="submitted && commentEditForm.controls['commentFavorite'].invalid &&
+        (commentEditForm.controls['commentFavorite'].dirty || commentEditForm.controls['commentFavorite'].touched)" class="alert alert-danger">
+        <div *ngIf="commentEditForm.controls['commentFavorite'].errors.required"></div>
+      </div>
+
+      <div class="btn-blk">
+        <p-button
+          class="button"
+          type="submit"
+          label="Сохранить"
+          icon="pi pi-check"
+          iconPos="right"
+          [disabled]="!commentEditForm.valid">
+        </p-button>
+        <p-button
+          class="button"
+          type="button"
+          (onClick)="onDisplayChange(false)"
+          label="Отмена"
+          icon="pi pi-times"
+          iconPos="right">
+        </p-button>
+      </div>
+    </form>
+  </div>
+</p-dialog>
