@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Книга</title>
+    <!-- JQuery UI -->
+    <link rel="stylesheet" th:href="@{/extLibs/jquery-ui.min.css}"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/extLibs/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/extLibs/bootstrap-table.min.css}"/>
+    <!-- Ext Library JS -->
+    <script th:src="@{/extLibs/jquery-3.5.1.min.js}"></script>
+    <script th:src="@{/extLibs/jquery-ui.min.js}"></script>
+    <!-- Custom functions -->
+    <script th:src="@{/ui-assist.js}"></script>
+</head>
+<body>
+<form id="main-form" th:action="@{/books/__${book.id}__}" th:method="post" th:object="${book}">
+    <div class="d-flex flex-column">
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Книга</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group" th:if="${book.id} != 0">
+                        <label for="field-id" class="input-group-sm" th:text="ID" style="margin-bottom: 0"></label>
+                        <input id="field-id" type="number" class="form-control form-control-sm"
+                               th:field="${book.id}"
+                               readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label for="field-name" class="input-group-sm" th:text="Name"
+                               style="margin-bottom: 0"></label>
+                        <input id="field-name" type="text" class="form-control form-control-sm"
+                               th:field="${book.name}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="select-author" class="input-group-sm" th:text="Author"
+                               style="margin-bottom: 0"></label>
+                        <select id="select-author" class="custom-select" th:field="${book.author.id}">
+                            <option value="0">please select...</option>
+                            <option th:each="authorItem : ${authorList}"
+                                    th:value="${authorItem.id}"
+                                    th:text="${authorItem.name}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="bootstrap-table bootstrap4">
+                            <div class="fixed-table-body">
+                                <table class="table table-bordered table-hover" id="genresTable">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <button aria-label="Add"
+                                                    class="btn btn-outline-success genreTableAddButton"
+                                                    id="genreTableAddButton"
+                                                    type="button">
+                                                <span aria-hidden="true">+</span>
+                                            </button>
+                                        </th>
+                                        <th class="text-sm-center col-sm-12" scope="col">Genre Name</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="genre, genreStat : ${book.genres}">
+                                        <td></td>
+                                        <td>
+                                            <select class="custom-select"
+                                                    th:field="${book.genres[__${genreStat.index}__].id}"
+                                                    th:attr="name='editBook-genres-select[' + __${genreStat.index}__ + '].genreName', id='editBook_genres'+ __${genreStat.index}__ + '_genreName'">
+                                                <option value="0">please select...</option>
+                                                <option th:each="genreItem : ${genreList}"
+                                                        th:value="${genreItem.id}"
+                                                        th:text="${genreItem.name}">
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button aria-label="Delete"
+                                                    class="btn btn-outline-danger genresTableDelButton"
+                                                    type="button">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="bootstrap-table bootstrap4">
+                            <div class="fixed-table-body">
+                                <table class="table table-bordered table-hover" id="commentsTable">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-sm-center col-sm-2" scope="col">Date</th>
+                                        <th class="text-sm-center col-sm-2" scope="col">Author</th>
+                                        <th class="text-sm-center col-sm-8" scope="col">Content</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="comment, commentsStat : ${book.comments}">
+                                        <td>
+                                            <p th:text="${comment.postDate}">01.01.2020</p>
+                                        </td>
+                                        <td>
+                                            <p th:text="${comment.authorName}">Petrov Vodkin</p>
+                                        </td>
+                                        <td>
+                                            <p th:text="${comment.content}"></p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" form="main-form">Сохранить</button>
+            <button type="submit" form="remove-form" th:if="${book.id} != 0">Удалить</button>
+            <button type="submit" form="cancel-form" th:if="${book.id} == 0">Отменить</button>
+        </div>
+    </div>
+</form>
+<form id="remove-form" th:action="@{/books/__${book.id}__/remove}" th:method="post" th:object="${book}"></form>
+<form id="cancel-form" th:action="@{/books}" th:method="get"></form>
+
+<script th:src="@{/extLibs/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/extLibs/bootstrap-table.min.js}"></script>
+</body>
+</html>
