@@ -1,0 +1,21 @@
+.book-table{
+  width: 1600px;
+}
+.container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.button{
+  margin-left: 1px;
+}
+.table-button{
+  padding-right: 3px;
+}
+.label {
+  padding-top: 20px;
+}
+:host ::ng-deep .error-toast .ui-toast-message {
+  display: flex;
+  width: 1000px;
+}
