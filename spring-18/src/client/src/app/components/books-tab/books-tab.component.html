@@ -1,0 +1,107 @@
+<p-panel header="Книги">
+  <p-table [value]="books" selectionMode="single" [(selection)]="selectedBook" dataKey="id"
+           (onRowSelect)="onBookRowSelect($event)" [responsive]="true">
+    <ng-template pTemplate="caption">
+      <div class="table-header">
+        <div style="text-align: right">
+          <p-button icon="pi pi-plus" (onClick)="addBook()"></p-button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" style="width: 5%">ID</th>
+        <th scope="col" style="width: 35%">Book Name</th>
+        <th scope="col" style="width: 30%">Author Name</th>
+        <th scope="col" style="width: 15%">Genre</th>
+        <th scope="col" style="width: 15%">Manage</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-book>
+      <tr [pSelectableRow]="book">
+        <td>{{book.id}}</td>
+        <td>{{book.name}}</td>
+        <td>{{book.author.name}}</td>
+        <td>{{book.genres | extractGenreNameProperty}}</td>
+        <td style="text-align: center; display: flex">
+          <p-button class="table-button" icon="pi pi-ellipsis-h" (onClick)="editBook(book)"></p-button>
+          <p-button class="table-button" icon="pi pi-times" (onClick)="deleteBook(book)"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
+<p-panel header="Комментарии">
+  <p-table [value]="comments" dataKey="id">
+    <ng-template pTemplate="caption">
+      <div class="table-header">
+        <div style="text-align: right">
+          <p-button icon="pi pi-plus" (onClick)="addComment()"></p-button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" style="width: 5%">ID</th>
+        <th scope="col" style="width: 10%">Date</th>
+        <th scope="col" style="width: 15%">Author</th>
+        <th scope="col" style="width: 50%">Content</th>
+        <th scope="col" style="width: 10%">Favorite</th>
+        <th scope="col" style="width: 10%">Manage</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-comment>
+      <tr>
+        <td>{{comment.id}}</td>
+        <td>{{comment.postDate}}</td>
+        <td>{{comment.authorName}}</td>
+        <td>{{comment.content}}</td>
+        <td style="text-align: center">
+          <p-checkbox [(ngModel)]="comment.favorite" binary="true" readonly="true"></p-checkbox>
+        </td>
+        <td style="text-align: center; display: flex">
+          <p-button class="table-button" icon="pi pi-ellipsis-h" (onClick)="editComment(comment)"></p-button>
+          <p-button class="table-button" icon="pi pi-times" (onClick)="deleteComment(comment)"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
+
+<app-book-edit
+  [(display)]="displayEditBookDialog"
+  [(book)]="tmpBook"
+  [authors]="authors"
+  [genres]="genres"
+  (bookChange)="saveBookChanges($event)">
+</app-book-edit>
+
+<app-comment-edit
+  [(display)]="displayEditCommentDialog"
+  [(comment)]="tmpComment"
+  [selectedBook]="selectedBook"
+  (commentChange)="saveCommentChanges($event)">
+</app-comment-edit>
+
+<p-toast position="center" key="delConfirmDialog" (onClose)="onReject()" [baseZIndex]="5000">
+  <ng-template let-message pTemplate="message">
+    <div class="p-flex p-flex-column" style="flex: 1">
+      <div style="text-align: center">
+        <em class="pi pi-exclamation-triangle" style="font-size: 3em"></em>
+        <h3>{{message.summary}}</h3>
+        <p>{{message.detail}}</p>
+      </div>
+      <div class="p-grid p-fluid">
+        <div class="p-col-6">
+          <button type="button" pButton (click)="onConfirm(delAction)" label="Да" class="p-button-success"></button>
+        </div>
+        <div class="p-col-6">
+          <button type="button" pButton (click)="onReject()" label="Нет" class="p-button-secondary"></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>
+
+<p-toast styleClass="error-toast" position="center" key="serviceError" [baseZIndex]="5000"
+         preventOpenDuplicates="true"></p-toast>
