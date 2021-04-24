@@ -1,0 +1,25 @@
+spring:
+    datasource:
+        url: jdbc:h2:mem:testdb
+        initialization-mode: always
+        data: data.sql
+    jpa:
+        hibernate:
+            ddl-auto: none
+        generate-ddl: false
+        show-sql: false
+        properties:
+            hibernate:
+                format_sql: true
+    h2:
+        console:
+            path: /h2-console
+            settings:
+                web-allow-others: true
+            enabled: true
+
+logging:
+    level:
+        ROOT: INFO
+#        org.springframework: INFO
+#        org.springframework.transaction: TRACE

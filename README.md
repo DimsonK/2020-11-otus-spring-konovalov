@@ -21,3 +21,6 @@
 13. [Ввести авторизацию на основе URL и/или доменных сущностей](./spring-13) (Занятие 25. Spring Security: ACL)
 14. [На основе Spring Batch разработать процедуру миграции данных из реляционного хранилища в NoSQL или наоборот](./spring-14) (Занятие 26. Spring Batch)
 15. [Реализовать обработку доменной сущности через каналы Spring Integration](./spring-15) (Занятие 29. Spring Integration: Endpoints и Flow Components)
+16. [Использовать метрики, healthchecks и logfile](./spring-16) (Занятие 30. Монолиты vs. Microservices (Round 2), Spring Boot Actuator - must have в микросервисах)  
+17. [Обернуть приложение в docker-контейнер](./spring-17) (Занятие 32. Docker, оркестрация, облака, облачные хостинги)
+18. [Обернуть внешние вызовы в Hystrix](./spring-18) (Занятие 35. Zuul, Hystrix Circuit Breaker, Sleuth, Zipkin, Hystrix Dashboard, Secure Configuration Properties)

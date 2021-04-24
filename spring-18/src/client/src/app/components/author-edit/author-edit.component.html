@@ -1,0 +1,40 @@
+<p-dialog [(visible)]="display" header="{{dialogHeader}}" modal="true" (onShow)="onDisplayChange(true)"
+          (onHide)="onDisplayChange(false)">
+  <div class="dialog">
+    <form [formGroup]="authorEditForm" (submit)="onAuthorChange()" class="form-inline">
+      <label class="label" for="fldAuthorName">Имя автора *</label>
+      <div class="ui-inputgroup">
+        <input
+          class="input-text"
+          pInputText type="text"
+          id="fldAuthorName"
+          formControlName="authorName"
+          placeholder="Имя автора"
+          pTooltip="Введите имя автора">
+      </div>
+      <div *ngIf="submitted && authorEditForm.controls['authorName'].invalid &&
+        (authorEditForm.controls['authorName'].dirty || authorEditForm.controls['authorName'].touched)" class="alert alert-danger">
+        <div *ngIf="authorEditForm.controls['authorName'].errors.required"></div>
+      </div>
+
+      <div class="btn-blk">
+        <p-button
+          class="button"
+          type="submit"
+          label="Сохранить"
+          icon="pi pi-check"
+          iconPos="right"
+          [disabled]="!authorEditForm.valid">
+        </p-button>
+        <p-button
+          class="button"
+          type="button"
+          (onClick)="onDisplayChange(false)"
+          label="Отмена"
+          icon="pi pi-times"
+          iconPos="right">
+        </p-button>
+      </div>
+    </form>
+  </div>
+</p-dialog>
