@@ -1,0 +1,9 @@
+.welcome-panel {
+  padding-top: 250px;
+  margin: 0 auto;
+  min-width: 600px
+}
+
+.welcome-text {
+  text-align: center;
+}

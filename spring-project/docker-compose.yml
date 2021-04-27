@@ -1,0 +1,67 @@
+version: "3.9"
+services:
+    db:
+        build:
+            context: ./docker
+            dockerfile: db.Dockerfile
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=db
+        volumes:
+            - db-data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        networks:
+            - backend_lan
+        hostname: "spring-project-db"
+    backend:
+        build: .
+        image: spring-project-backend-image:latest
+        environment:
+            - DB_DRIVER=org.postgresql.Driver
+            - DB_URL=jdbc:postgresql://spring-project-db:5432/db
+            - DB_USERNAME=postgres
+            - DB_PASSWORD=postgres
+            - WAIT_FOR=postgres:5432
+        ports:
+            -   "8080:8080"
+        networks:
+            - backend_lan
+        hostname: "spring-project-backend"
+        depends_on:
+            - db
+        deploy:
+            replicas: 1
+            update_config:
+                parallelism: 2
+                delay: 10s
+            restart_policy:
+                condition: on-failure
+    frontend:
+        build: src/client/
+        image: spring-project-frontend-image:latest
+        environment:
+            - BACKEND_HOSTNAME=spring-project-backend
+        ports:
+            - "5000:80"
+        networks:
+            - frontend_lan
+            - backend_lan
+        hostname: "spring-project-frontend"
+        depends_on:
+            - db
+            - backend
+        deploy:
+            replicas: 1
+            update_config:
+                parallelism: 2
+            restart_policy:
+                condition: on-failure
+
+networks:
+    frontend_lan:
+    backend_lan:
+volumes:
+    db-data:
+
