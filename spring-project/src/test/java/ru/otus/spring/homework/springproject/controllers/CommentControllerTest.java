@@ -5,15 +5,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.homework.springproject.models.dto.CommentDto;
-import ru.otus.spring.homework.springproject.repositories.UserRepository;
-import ru.otus.spring.homework.springproject.security.AuthProvider;
+import ru.otus.spring.homework.springproject.security.JwtFilter;
 import ru.otus.spring.homework.springproject.service.CommentService;
 
 import java.util.List;
@@ -25,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DisplayName("Контроллер комментариев должен")
 @WebMvcTest(CommentController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class CommentControllerTest {
 
     private static final String REQUEST_JSON_ALL = "[{\"id\":\"1\",\"postDate\":\"01.01.2020\",\"authorName\":\"Author1\",\"content\":\"Comment content 1\",\"favorite\":true,\"bookId\":\"1\"},{\"id\":\"2\",\"postDate\":\"02.02.2020\",\"authorName\":\"Author2\",\"content\":\"Comment content 2\",\"favorite\":false,\"bookId\":\"1\"}]";
@@ -36,14 +36,8 @@ class CommentControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private UserRepository userRepository;
-    @MockBean
-    private PasswordEncoder passwordEncoder;
-    @MockBean
-    private AuthProvider authProvider;
-    @MockBean
-    private CommentService service;
+    @MockBean private JwtFilter jwtFilter;
+    @MockBean private CommentService service;
 
     public static String asJsonString(final Object obj) {
         try {
@@ -58,14 +52,14 @@ class CommentControllerTest {
     @Test
     void getComments() throws Exception {
         var comments = List.of(
-                new CommentDto("1", "01.01.2020", "Author1", "Comment content 1", true, "1"),
-                new CommentDto("2", "02.02.2020", "Author2", "Comment content 2", false, "1")
+            new CommentDto("1", "01.01.2020", "Author1", "Comment content 1", true, "1"),
+            new CommentDto("2", "02.02.2020", "Author2", "Comment content 2", false, "1")
         );
         Mockito.when(service.getCommentsByBookId(1L)).thenReturn(comments);
         this.mockMvc
-                .perform(get("/api/comment/book/1"))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().json(REQUEST_JSON_ALL));
+            .perform(get("/api/comment/book/1"))
+            .andDo(print()).andExpect(status().isOk())
+            .andExpect(content().json(REQUEST_JSON_ALL));
     }
 
     @DisplayName("возвращать комментарий")
@@ -75,9 +69,9 @@ class CommentControllerTest {
         var comment = new CommentDto("2", "02.02.2020", "Author2", "Comment content 2", false, "1");
         Mockito.when(service.getComment(2L)).thenReturn(comment);
         this.mockMvc
-                .perform(get("/api/comment/2"))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().json(REQUEST_JSON_ONE));
+            .perform(get("/api/comment/2"))
+            .andDo(print()).andExpect(status().isOk())
+            .andExpect(content().json(REQUEST_JSON_ONE));
     }
 
     @DisplayName("добавлять комментарий для книги")
@@ -88,11 +82,11 @@ class CommentControllerTest {
         var actualComment = new CommentDto("1", "05.05.2021", "Author1", "Comment content 3", true, "1");
         Mockito.when(service.addComment(newComment)).thenReturn(actualComment);
         this.mockMvc
-                .perform(post("/api/comment")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(newComment)))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().json(REQUEST_JSON_ADD));
+            .perform(post("/api/comment")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(newComment)))
+            .andDo(print()).andExpect(status().isOk())
+            .andExpect(content().json(REQUEST_JSON_ADD));
     }
 
     @DisplayName("изменять комментарий")
@@ -104,11 +98,11 @@ class CommentControllerTest {
         Mockito.when(service.getComment(Long.parseLong(actualComment.getId()))).thenReturn(actualComment);
         Mockito.when(service.updateComment(updatedComment)).thenReturn(updatedComment);
         this.mockMvc
-                .perform(put("/api/comment/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(updatedComment)))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().json(REQUEST_JSON_UPDATE));
+            .perform(put("/api/comment/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(updatedComment)))
+            .andDo(print()).andExpect(status().isOk())
+            .andExpect(content().json(REQUEST_JSON_UPDATE));
     }
 
     @DisplayName("удалять комментарий")
@@ -118,8 +112,8 @@ class CommentControllerTest {
         var actualComment = new CommentDto("1", "05.05.2021", "Author1", "Comment content 3", true, "1");
         Mockito.when(service.getComment(Long.parseLong(actualComment.getId()))).thenReturn(actualComment);
         this.mockMvc
-                .perform(delete("/api/comment/1"))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(status().isOk());
+            .perform(delete("/api/comment/1"))
+            .andDo(print()).andExpect(status().isOk())
+            .andExpect(status().isOk());
     }
 }

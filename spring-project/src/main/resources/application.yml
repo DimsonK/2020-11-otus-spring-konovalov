@@ -1,112 +1,148 @@
 spring:
-    profiles:
-        active: @spring.profiles.active@
+  servlet:
+    multipart:
+      max-file-size: 50MB
+  application:
+    name: spring-project
+  profiles:
+    active: @spring.profiles.active@
 server:
-    error:
-        include-stacktrace: never
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+  error:
+    include-stacktrace: never
 management:
-    endpoints:
-        enabled-by-default: true
-        web:
-            exposure:
-                include: "*"
-    endpoint:
-        logfile:
-            enabled: true
-        health:
-            show-details: always
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    logfile:
+      enabled: true
+    health:
+      show-details: always
 
 resilience4j.bulkhead:
-    instances:
-        authService:
-            maxWaitDuration: 100ms
-            maxConcurrentCalls: 5
-        authorService:
-            maxWaitDuration: 100ms
-            maxConcurrentCalls: 5
-        bookService:
-            maxWaitDuration: 100ms
-            maxConcurrentCalls: 5
-        commentService:
-            maxWaitDuration: 100ms
-            maxConcurrentCalls: 5
-        genreService:
-            maxWaitDuration: 100ms
-            maxConcurrentCalls: 5
+  instances:
+    authService:
+      maxWaitDuration: 100ms
+      maxConcurrentCalls: 5
+    authorService:
+      maxWaitDuration: 100ms
+      maxConcurrentCalls: 5
+    bookService:
+      maxWaitDuration: 100ms
+      maxConcurrentCalls: 5
+    commentService:
+      maxWaitDuration: 100ms
+      maxConcurrentCalls: 5
+    genreService:
+      maxWaitDuration: 100ms
+      maxConcurrentCalls: 5
 resilience4j.circuitbreaker:
-    instances:
-        authService:
-            registerHealthIndicator: true
-            slidingWindowSize: 10
-            permittedNumberOfCallsInHalfOpenState: 3
-            slidingWindowType: TIME_BASED
-            minimumNumberOfCalls: 20
-            waitDurationInOpenState: 50s
-            failureRateThreshold: 50
-            eventConsumerBufferSize: 10
+  instances:
+    authService:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 20
+      waitDurationInOpenState: 50s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
 
 ---
 spring:
-    config:
-        activate:
-            on-profile: dev
-    datasource:
-        url: jdbc:h2:mem:testdb
-        initialization-mode: always
-#        driver-class-name: org.postgresql.Driver
-#        url: jdbc:postgresql://localhost:5432/db
-#        username: postgres
-#        password: postgres
-#        initialization-mode: always
-    jpa:
-        generate-ddl: false
-        hibernate:
-            ddl-auto: none
-        show-sql: false
-        properties:
-            hibernate:
-                format_sql: true
-    h2:
-        console:
-            enabled: true
-            path: /h2-console
-            settings:
-                web-allow-others: true
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:h2:mem:testdb
+    initialization-mode: always
+  #        driver-class-name: org.postgresql.Driver
+  #        url: jdbc:postgresql://localhost:5432/db
+  #        username: postgres
+  #        password: postgres
+  #        initialization-mode: always
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+#        generate_statistics: true
+  flyway:
+    enabled: true
+    locations: classpath:db/dev
+    baseline-version: 0
+    baseline-on-migrate: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
 logging:
-    file:
-        name: spring-project/logs/spring-project.log
-    level:
-        ROOT: INFO
-        org.springframework: INFO
-        org.springframework.transaction: INFO
-        org.springframework.security: INFO
-        io.github.resilience4j: DEBUG
+  file:
+    name: spring-project/logs/spring-project.log
+  level:
+    ROOT: INFO
+    org.springframework: INFO
+    org.springframework.transaction: INFO
+    org.springframework.security: INFO
+    io.github.resilience4j: INFO
+
+application:
+  appVersion: @project.version@
+  appDescription: @project.description@
+  jwtSecret: TxYXGh85UCTAmdQGsRJP
+  jwtExpirationMin: 30
 
 ---
 spring:
-    config:
-        activate:
-            on-profile: docker
-    datasource:
-        driver-class-name: ${DB_DRIVER}
-        url: ${DB_URL}
-        username: ${DB_USERNAME}
-        password: ${DB_PASSWORD}
-        initialization-mode: always
-    jpa:
-        generate-ddl: false
-        hibernate:
-            ddl-auto: none
-        show-sql: false
-        properties:
-            hibernate:
-                format_sql: true
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    driver-class-name: ${DB_DRIVER}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    initialization-mode: always
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/docker
+    baseline-version: 0
+    baseline-on-migrate: true
 logging:
-    file:
-        name: /opt/project/logs/spring-project.log
-    level:
-        ROOT: INFO
-        org.springframework: INFO
-        org.springframework.transaction: INFO
-        org.springframework.security: INFO
-        io.github.resilience4j: DEBUG
+  file:
+    name: /opt/project/logs/spring-project.log
+  level:
+    ROOT: INFO
+    org.springframework: INFO
+    org.springframework.transaction: INFO
+    org.springframework.security: INFO
+    io.github.resilience4j: INFO
+
+application:
+  appVersion: @project.version@
+  appDescription: @project.description@
+  jwtSecret: TxYXGh85UCTAmdQGsRJP
+  jwtExpirationMin: 30
