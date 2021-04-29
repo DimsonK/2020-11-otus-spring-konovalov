@@ -18,12 +18,12 @@ class BookTest {
     @Test
     void correctClassCreate() {
 
-        var author = new Author(10, "author");
-        var genre = new Genre(10, "genre");
-        var book = new Book(10, "BookName", 12, 2, author, List.of(genre));
+        var author = new Author(10L, "author");
+        var genre = new Genre(10L, "genre");
+        var book = new Book(10L, "BookName", 12, 2, author, List.of(genre));
 
         assertThat(book).isNotNull().isInstanceOf(Book.class);
-        assertEquals(10, book.getId());
+        assertEquals(10L, book.getId());
         assertEquals("BookName", book.getName());
         assertThat(book.getAuthor()).isNotNull().isInstanceOf(Author.class);
         assertThat(book.getGenres()).isNotNull();

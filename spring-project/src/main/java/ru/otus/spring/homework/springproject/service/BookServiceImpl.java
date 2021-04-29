@@ -44,7 +44,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public BookDto getBook(long bookId) {
+    public BookDto getBook(Long bookId) {
         log.debug("getBook()");
         return bookMapper.toDto(bookRepository.findById(bookId).orElse(null));
     }
@@ -86,7 +86,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     @Secured("ROLE_ADMIN")
-    public void deleteBook(long bookId) {
+    public void deleteBook(Long bookId) {
         log.debug("deleteBook()");
         bookRepository.deleteById(bookId);
     }

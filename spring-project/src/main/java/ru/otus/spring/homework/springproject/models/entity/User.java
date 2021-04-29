@@ -18,11 +18,11 @@ import java.util.List;
 @Entity
 @SequenceGenerator(name = "USER_SEQUENCE", initialValue = 10, allocationSize = 1)
 @Table(name = "USERS")
-public class User implements Serializable {
+public class User extends AuditModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQUENCE")
-    private long id;
+    private Long id;
 
     @Column(name = "USER_NAME", nullable = false, unique = true)
     private String username;

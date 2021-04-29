@@ -12,8 +12,8 @@ class AuthorTest {
     @DisplayName("class create is correct")
     @Test
     void correctClassCreate() {
-        Author author = new Author(10, "Ivan");
-        assertEquals(10, author.getId());
+        Author author = new Author(10L, "Ivan");
+        assertEquals(10L, author.getId());
         assertEquals("Ivan", author.getName());
     }
 }

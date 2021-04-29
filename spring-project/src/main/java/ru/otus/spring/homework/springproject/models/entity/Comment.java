@@ -18,7 +18,7 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COMMENT_SEQUENCE")
-    private long id;
+    private Long id;
 
     @Column(name = "POST_DATE", nullable = false)
     private String postDate;

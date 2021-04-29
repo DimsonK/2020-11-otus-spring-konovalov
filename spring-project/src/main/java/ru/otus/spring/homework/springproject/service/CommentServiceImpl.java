@@ -22,15 +22,15 @@ public class CommentServiceImpl implements CommentService {
     private final CommentMapper commentMapper;
 
     public CommentServiceImpl(
-            CommentRepository commentRepository,
-            BookRepository bookRepository, CommentMapper commentMapper) {
+        CommentRepository commentRepository,
+        BookRepository bookRepository, CommentMapper commentMapper) {
         this.commentRepository = commentRepository;
         this.bookRepository = bookRepository;
         this.commentMapper = commentMapper;
     }
 
     @Override
-    public List<CommentDto> getCommentsByBookId(long bookId) {
+    public List<CommentDto> getCommentsByBookId(Long bookId) {
         var book = bookRepository.findById(bookId).orElse(null);
         if (book == null) {
             return Collections.emptyList();
@@ -39,7 +39,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDto> getFavoriteCommentsByBookId(long bookId) {
+    public List<CommentDto> getFavoriteCommentsByBookId(Long bookId) {
         var book = bookRepository.findById(bookId).orElse(null);
         if (book == null) {
             return Collections.emptyList();
@@ -49,7 +49,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public CommentDto getComment(long commentId) {
+    public CommentDto getComment(Long commentId) {
         log.debug("getComment()");
         return commentMapper.toDto(commentRepository.findById(commentId).orElse(null));
     }
@@ -72,7 +72,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     @Secured("ROLE_ADMIN")
-    public void deleteComment(long commentId) {
+    public void deleteComment(Long commentId) {
         log.debug("deleteComment()");
         commentRepository.deleteById(commentId);
     }

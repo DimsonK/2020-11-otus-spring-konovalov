@@ -12,8 +12,8 @@ class GenreTest {
     @DisplayName("class create is correct")
     @Test
     void correctClassCreate() {
-        Genre genre = new Genre(10, "Detective");
-        assertEquals(10, genre.getId());
+        Genre genre = new Genre(10L, "Detective");
+        assertEquals(10L, genre.getId());
         assertEquals("Detective", genre.getName());
     }
 }

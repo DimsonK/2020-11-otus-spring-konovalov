@@ -21,8 +21,8 @@ public class GenreServiceImpl implements GenreService {
     private final GenreMapper genreMapper;
 
     public GenreServiceImpl(
-            GenreRepository genreRepository,
-            GenreMapper genreMapper) {
+        GenreRepository genreRepository,
+        GenreMapper genreMapper) {
         this.genreRepository = genreRepository;
         this.genreMapper = genreMapper;
     }
@@ -38,7 +38,7 @@ public class GenreServiceImpl implements GenreService {
     @Override
     @Transactional(readOnly = true)
     @Secured("ROLE_ADMIN")
-    public GenreDto getGenre(long genreId) {
+    public GenreDto getGenre(Long genreId) {
         log.debug("getGenre()");
         return genreMapper.toDto(genreRepository.findById(genreId).orElse(null));
     }
@@ -49,8 +49,8 @@ public class GenreServiceImpl implements GenreService {
     public List<GenreDto> getGenres(List<String> genreIds) {
         log.debug("getGenres()");
         var ids = genreIds.stream()
-                .map(Long::parseLong)
-                .collect(Collectors.toList());
+            .map(Long::parseLong)
+            .collect(Collectors.toList());
         return genreMapper.toDtoList(genreRepository.findAllById(ids));
     }
 
@@ -59,7 +59,7 @@ public class GenreServiceImpl implements GenreService {
     @Secured("ROLE_ADMIN")
     public GenreDto addGenre(String genreName) {
         log.debug("addGenre()");
-        return genreMapper.toDto(genreRepository.save(new Genre(0, genreName)));
+        return genreMapper.toDto(genreRepository.save(new Genre(0L, genreName)));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class GenreServiceImpl implements GenreService {
     @Override
     @Transactional
     @Secured("ROLE_ADMIN")
-    public void deleteGenre(long genreId) {
+    public void deleteGenre(Long genreId) {
         log.debug("deleteGenre()");
         genreRepository.deleteById(genreId);
     }

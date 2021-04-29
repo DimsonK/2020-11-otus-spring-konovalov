@@ -14,11 +14,11 @@ import javax.persistence.*;
 @Entity
 @SequenceGenerator(name = "GENRE_SEQUENCE", initialValue = 10, allocationSize = 1)
 @Table(name = "GENRES")
-public class Genre {
+public class Genre extends AuditModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GENRE_SEQUENCE")
-    private long id;
+    private Long id;
 
     @Column(name = "GENRE_NAME", nullable = false, unique = true)
     private String name;

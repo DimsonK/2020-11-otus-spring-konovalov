@@ -22,8 +22,8 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorMapper authorMapper;
 
     public AuthorServiceImpl(
-            AuthorRepository authorRepository,
-            AuthorMapper authorMapper) {
+        AuthorRepository authorRepository,
+        AuthorMapper authorMapper) {
         this.authorRepository = authorRepository;
         this.authorMapper = authorMapper;
     }
@@ -44,7 +44,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional(readOnly = true)
     @Secured("ROLE_ADMIN")
-    public AuthorDto getAuthor(long authorId) {
+    public AuthorDto getAuthor(Long authorId) {
         log.debug("getAuthor()");
         return authorMapper.toDto(authorRepository.findById(authorId).orElse(null));
     }
@@ -54,7 +54,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Secured("ROLE_ADMIN")
     public AuthorDto addAuthor(String authorName) {
         log.debug("addAuthor()");
-        return authorMapper.toDto(authorRepository.save(new Author(0, authorName)));
+        return authorMapper.toDto(authorRepository.save(new Author(0L, authorName)));
     }
 
     @Override
@@ -68,7 +68,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional
     @Secured("ROLE_ADMIN")
-    public void deleteAuthor(long authorId) {
+    public void deleteAuthor(Long authorId) {
         log.debug("deleteAuthor()");
         authorRepository.deleteById(authorId);
     }

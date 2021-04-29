@@ -11,12 +11,12 @@ import javax.persistence.*;
 import java.util.List;
 
 @NamedEntityGraphs(value = {
-        @NamedEntityGraph(name = Book.WITH_AUTHOR_GRAPH, attributeNodes = {
-                @NamedAttributeNode("author")
-        }),
-        @NamedEntityGraph(name = Book.WITH_GENRES_GRAPH, attributeNodes = {
-                @NamedAttributeNode("genres")
-        })
+    @NamedEntityGraph(name = Book.WITH_AUTHOR_GRAPH, attributeNodes = {
+        @NamedAttributeNode("author")
+    }),
+    @NamedEntityGraph(name = Book.WITH_GENRES_GRAPH, attributeNodes = {
+        @NamedAttributeNode("genres")
+    })
 })
 @Data
 @NoArgsConstructor
@@ -25,14 +25,14 @@ import java.util.List;
 @Entity
 @SequenceGenerator(name = "BOOK_SEQUENCE", initialValue = 10, allocationSize = 1)
 @Table(name = "BOOKS")
-public class Book {
+public class Book extends AuditModel {
 
     public static final String WITH_AUTHOR_GRAPH = "book-with-author-graph";
     public static final String WITH_GENRES_GRAPH = "book-with-genres-graph";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOOK_SEQUENCE")
-    private long id;
+    private Long id;
 
     @Column(name = "BOOK_NAME", nullable = false, unique = true)
     private String name;

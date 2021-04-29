@@ -8,13 +8,13 @@ public interface AuthorService {
 
     List<AuthorDto> getAll();
 
-    AuthorDto getAuthor(long authorId);
+    AuthorDto getAuthor(Long authorId);
 
     AuthorDto addAuthor(String authorName);
 
     AuthorDto updateAuthor(AuthorDto authorDto);
 
-    void deleteAuthor(long authorId);
+    void deleteAuthor(Long authorId);
 
     long getCount();
 

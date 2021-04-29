@@ -6,17 +6,17 @@ import java.util.List;
 
 public interface CommentService {
 
-    List<CommentDto> getCommentsByBookId(long bookId);
+    List<CommentDto> getCommentsByBookId(Long bookId);
 
-    List<CommentDto> getFavoriteCommentsByBookId(long bookId);
+    List<CommentDto> getFavoriteCommentsByBookId(Long bookId);
 
-    CommentDto getComment(long commentId);
+    CommentDto getComment(Long commentId);
 
     CommentDto addComment(CommentDto commentDto);
 
     CommentDto updateComment(CommentDto commentDto);
 
-    void deleteComment(long commentId);
+    void deleteComment(Long commentId);
 
     long getCount();
 

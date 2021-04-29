@@ -18,6 +18,7 @@ import static io.jsonwebtoken.lang.Strings.hasText;
 @Slf4j
 @Component
 public class JwtFilter extends GenericFilterBean {
+
     public static final String AUTHORIZATION = "Authorization";
 
     private final JwtProvider jwtProvider;
@@ -30,7 +31,7 @@ public class JwtFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        logger.info("do filter...");
+        log.debug("do filter...");
         String token = getTokenFromRequest((HttpServletRequest) servletRequest);
         if (token != null && jwtProvider.validateToken(token)) {
             String userLogin = jwtProvider.getLoginFromToken(token);

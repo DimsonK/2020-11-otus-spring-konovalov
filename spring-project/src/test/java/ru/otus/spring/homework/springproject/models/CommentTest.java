@@ -13,8 +13,8 @@ class CommentTest {
     @DisplayName("class create is correct")
     @Test
     void correctClassCreate() {
-        Comment comment = new Comment(10, "10.10.2020", "SomeMan", "SomeComment", true, new Book());
-        assertEquals(10, comment.getId());
+        Comment comment = new Comment(10L, "10.10.2020", "SomeMan", "SomeComment", true, new Book());
+        assertEquals(10L, comment.getId());
         assertEquals("SomeMan", comment.getAuthorName());
     }
 }

@@ -1,5 +1,8 @@
 package ru.otus.spring.homework.springproject.service;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +13,7 @@ import ru.otus.spring.homework.springproject.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl {
@@ -41,7 +45,7 @@ public class UserServiceImpl {
     @Transactional(readOnly = true)
     public User findByUsernameAndPassword(String username, String password) {
         User user = findByUsername(username);
-        if(Objects.nonNull(user)) {
+        if (Objects.nonNull(user)) {
             if (passwordEncoder.matches(password, user.getPassword())) {
                 return user;
             }
@@ -49,5 +53,17 @@ public class UserServiceImpl {
         return null;
     }
 
+    @Transactional(readOnly = true)
+    public Optional<String> getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+            var user = userRepository.findByUsername(currentUserName).orElse(null);
+            if (Objects.nonNull(user)) {
+                return Optional.of(user.getUsername());
+            }
+        }
+        return null;
+    }
 
 }

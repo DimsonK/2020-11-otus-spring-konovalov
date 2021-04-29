@@ -8,7 +8,7 @@ public interface GenreService {
 
     List<GenreDto> getAll();
 
-    GenreDto getGenre(long genreId);
+    GenreDto getGenre(Long genreId);
 
     List<GenreDto> getGenres(List<String> genreIds);
 
@@ -16,7 +16,7 @@ public interface GenreService {
 
     GenreDto updateGenre(GenreDto genreDto);
 
-    void deleteGenre(long genreId);
+    void deleteGenre(Long genreId);
 
     long getCount();
 

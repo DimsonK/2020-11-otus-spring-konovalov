@@ -8,7 +8,7 @@ public interface BookService {
 
     List<BookDto> getAll();
 
-    BookDto getBook(long bookId);
+    BookDto getBook(Long bookId);
 
     List<BookDto> getBooksLikeName(String substring);
 
@@ -18,7 +18,7 @@ public interface BookService {
 
     BookDto updateBook(BookDto bookDto);
 
-    void deleteBook(long bookId);
+    void deleteBook(Long bookId);
 
     long getCount();
 
