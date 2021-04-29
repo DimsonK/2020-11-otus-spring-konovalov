@@ -47,7 +47,10 @@ public class BookMapper {
         return new Book(
                 Long.parseLong(bookDto.getId()), bookDto.getName(), bookDto.getRars(), bookDto.getAccessLevel(),
                 authorMapper.toEntity(bookDto.getAuthor()),
-                genreMapper.toEntityList(bookDto.getGenres()));
+                genreMapper.toEntityList(bookDto.getGenres()),
+                null,
+            null
+            );
     }
 
     public List<BookDto> toDtoList(List<Book> bookList) {

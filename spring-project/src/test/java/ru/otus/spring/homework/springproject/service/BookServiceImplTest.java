@@ -43,10 +43,10 @@ class BookServiceImplTest {
     @Test
     void getBook() {
         var expectedBook = bookMapper.toDto(new Book(1L, "Murder on the Orient Express", 12, 2,
-                new Author(1L, "Agatha Christie"), List.of(new Genre(1L, "Detective"))));
+                new Author(1L, "Agatha Christie"), List.of(new Genre(1L, "Detective")), null, null));
         Mockito.when(bookRepository.findById(Long.parseLong(expectedBook.getId())))
                 .thenReturn(Optional.of(new Book(1L, "Murder on the Orient Express", 12, 2,
-                        new Author(1L, "Agatha Christie"), List.of(new Genre(1L, "Detective")))));
+                        new Author(1L, "Agatha Christie"), List.of(new Genre(1L, "Detective")), null, null)));
         var actualBook = bookService.getBook(1L);
         assertThat(actualBook).usingRecursiveComparison().isEqualTo(expectedBook);
     }

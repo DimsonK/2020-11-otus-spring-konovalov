@@ -12,6 +12,7 @@ import ru.otus.spring.homework.springproject.models.entity.Author;
 import ru.otus.spring.homework.springproject.models.entity.Book;
 import ru.otus.spring.homework.springproject.models.entity.Genre;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,7 +41,7 @@ class BookRepositoryTest {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     void shouldInsertBook() {
         var expectedBook = new Book(0L, "Детектив", 12, 2,
-                new Author(1L, "Agatha Christie"), List.of(new Genre(1L, "Detective")));
+            new Author(1L, "Agatha Christie"), List.of(new Genre(1L, "Detective")), null, null);
         expectedBook = bookRepository.save(expectedBook);
         var actualBook = bookRepository.findById(expectedBook.getId()).orElse(null);
         assertThat(actualBook).isNotNull().usingRecursiveComparison().isEqualTo(expectedBook);
@@ -51,7 +52,7 @@ class BookRepositoryTest {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     void shouldUpdateBook() {
         var expectedBook = new Book(1L, "Детектив", 12, 2,
-                new Author(1L, "Agatha Christie"), List.of(new Genre(1L, "Detective")));
+            new Author(1L, "Agatha Christie"), List.of(new Genre(1L, "Detective")), null, null);
         var oldBook = bookRepository.findById(expectedBook.getId()).orElse(null);
         assertThat(oldBook).isNotNull();
         var genres = oldBook.getGenres().toString();
@@ -59,15 +60,15 @@ class BookRepositoryTest {
         bookRepository.save(expectedBook);
         var actualBook = bookRepository.findById(oldBook.getId()).orElse(null);
         assertThat(actualBook)
-                .isNotNull()
-                .usingRecursiveComparison()
-                .ignoringAllOverriddenEquals()
-                .isNotEqualTo(oldBook);
+            .isNotNull()
+            .usingRecursiveComparison()
+            .ignoringAllOverriddenEquals()
+            .isNotEqualTo(oldBook);
         assertThat(actualBook)
-                .isNotNull()
-                .usingRecursiveComparison()
-                .ignoringAllOverriddenEquals()
-                .isEqualTo(expectedBook);
+            .isNotNull()
+            .usingRecursiveComparison()
+            .ignoringAllOverriddenEquals()
+            .isEqualTo(expectedBook);
     }
 
     @DisplayName("возвращать ожидаемую книгу по его id")
@@ -75,33 +76,33 @@ class BookRepositoryTest {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     void shouldReturnExpectedBookById() {
         var expectedBook = new Book(1L, "Murder on the Orient Express", 12, 2,
-                new Author(1L, "Agatha Christie"), List.of(new Genre(1L, "Detective")));
+            new Author(1L, "Agatha Christie"), List.of(new Genre(1L, "Detective")), new ArrayList<>(), new ArrayList<>());
         var actualBook = bookRepository.findById(expectedBook.getId()).orElse(null);
         assertThat(actualBook)
-                .isNotNull()
-                .usingRecursiveComparison()
-                .isEqualTo(expectedBook);
+            .isNotNull()
+            .usingRecursiveComparison()
+            .isEqualTo(expectedBook);
     }
 
     @DisplayName("возвращать ожидаемый список книг")
     @Test
     void shouldReturnExpectedBooksList() {
         var expectedBookList = List.of(
-                new Book(1L, "Murder on the Orient Express", 12, 2,
-                        new Author(1L, "Agatha Christie"), List.of(new Genre(1L, "Detective"))),
-                new Book(2L, "The Three Musketeers", 6, 2,
-                        new Author(2L, "Alexandre Dumas"), List.of(new Genre(2L, "History"))),
-                new Book(3L, "Twenty Thousand Leagues Under the Sea", 6, 2,
-                        new Author(3L, "Jules Gabriel Verne"), List.of(new Genre(3L, "Fantasy"))),
-                new Book(4L, "The Gold Bug", 6, 2,
-                        new Author(4L, "Edgar Allan Poe"), List.of(new Genre(3L, "Fantasy"))),
-                new Book(5L, "It", 16, 2,
-                        new Author(5L, "Stephen Edwin King"), List.of(new Genre(4L, "Horror"))));
+            new Book(1L, "Murder on the Orient Express", 12, 2,
+                new Author(1L, "Agatha Christie"), List.of(new Genre(1L, "Detective")), new ArrayList<>(), new ArrayList<>()),
+            new Book(2L, "The Three Musketeers", 6, 2,
+                new Author(2L, "Alexandre Dumas"), List.of(new Genre(2L, "History")), new ArrayList<>(), new ArrayList<>()),
+            new Book(3L, "Twenty Thousand Leagues Under the Sea", 6, 2,
+                new Author(3L, "Jules Gabriel Verne"), List.of(new Genre(3L, "Fantasy")), new ArrayList<>(), new ArrayList<>()),
+            new Book(4L, "The Gold Bug", 6, 2,
+                new Author(4L, "Edgar Allan Poe"), List.of(new Genre(3L, "Fantasy")), new ArrayList<>(), new ArrayList<>()),
+            new Book(5L, "It", 16, 2,
+                new Author(5L, "Stephen Edwin King"), List.of(new Genre(4L, "Horror")), new ArrayList<>(), new ArrayList<>()));
 
         var actualBookList = bookRepository.findAll();
         assertThat(actualBookList)
-                .usingRecursiveFieldByFieldElementComparator()
-                .containsExactlyInAnyOrderElementsOf(expectedBookList);
+            .usingRecursiveFieldByFieldElementComparator()
+            .containsExactlyInAnyOrderElementsOf(expectedBookList);
     }
 
     @DisplayName("удалять заданную книгу по ее id")

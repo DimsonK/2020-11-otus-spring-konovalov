@@ -20,7 +20,7 @@ class BookTest {
 
         var author = new Author(10L, "author");
         var genre = new Genre(10L, "genre");
-        var book = new Book(10L, "BookName", 12, 2, author, List.of(genre));
+        var book = new Book(10L, "BookName", 12, 2, author, List.of(genre), null, null);
 
         assertThat(book).isNotNull().isInstanceOf(Book.class);
         assertEquals(10L, book.getId());

@@ -55,4 +55,12 @@ public class Book extends AuditModel {
     @JoinTable(name = "BOOK_GENRES", joinColumns = @JoinColumn(name = "BOOK_ID"), inverseJoinColumns = @JoinColumn(name = "GENRE_ID"))
     private List<Genre> genres;
 
+    @Fetch(FetchMode.SUBSELECT)
+    @ManyToMany(targetEntity = Order.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinTable(name = "BOOK_ORDERS", joinColumns = @JoinColumn(name = "BOOK_ID"), inverseJoinColumns = @JoinColumn(name = "ORDER_ID"))
+    private List<Order> orders;
+
+    @OneToMany(targetEntity = Instance.class, mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Instance> instances;
+
 }
