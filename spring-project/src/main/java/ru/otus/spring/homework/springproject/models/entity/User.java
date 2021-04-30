@@ -42,7 +42,7 @@ public class User extends AuditModel implements Serializable {
     @Column(name = "ACCESS_LEVEL", nullable = false)
     private Integer accessLevel;
 
-    @Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.JOIN)
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "USER_ROLES", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     private List<Role> roles;
