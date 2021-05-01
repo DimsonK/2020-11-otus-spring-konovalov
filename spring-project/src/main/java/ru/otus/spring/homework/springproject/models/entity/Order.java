@@ -31,7 +31,7 @@ public class Order extends AuditModel {
     private LocalDateTime orderTime;
 
     @Column(name = "STATUS", nullable = false)
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @ManyToOne(targetEntity = User.class, cascade = CascadeType.MERGE)

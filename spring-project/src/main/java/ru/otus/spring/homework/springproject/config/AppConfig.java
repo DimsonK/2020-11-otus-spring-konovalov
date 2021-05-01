@@ -1,6 +1,7 @@
 package ru.otus.spring.homework.springproject.config;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -16,6 +17,7 @@ import ru.otus.spring.homework.springproject.models.entity.AuditorAwareImpl;
 @EnableTransactionManagement
 @EnableJpaRepositories("ru.otus.spring.homework.springproject.repositories")
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
+@EnableCaching
 public class AppConfig {
 
     @Bean

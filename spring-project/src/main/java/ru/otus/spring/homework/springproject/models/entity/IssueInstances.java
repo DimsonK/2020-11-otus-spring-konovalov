@@ -28,7 +28,7 @@ public class IssueInstances extends AuditModel {
     private Instance instance;
 
     @Column(name = "STATUS", nullable = false)
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private IssueStatus status;
 
     @Column(name = "RETURN_TIME", nullable = false)

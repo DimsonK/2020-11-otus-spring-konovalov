@@ -1,5 +1,6 @@
 package ru.otus.spring.homework.springproject.service;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,6 +39,7 @@ public class UserServiceImpl {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable("user")
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElse(null);
     }
