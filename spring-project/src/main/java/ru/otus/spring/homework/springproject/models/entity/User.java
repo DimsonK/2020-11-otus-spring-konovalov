@@ -34,6 +34,9 @@ public class User extends AuditModel implements Serializable {
     @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
 
+    @Column(name = "EMAIL", nullable = false)
+    private String email;
+
     @Column(name = "AGE")
     private Integer age;
 

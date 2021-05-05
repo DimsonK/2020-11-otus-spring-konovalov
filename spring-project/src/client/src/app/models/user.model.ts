@@ -1,9 +1,11 @@
-export class User {
-  id!: number;
+import { RoleModel } from './role.model';
+
+export class UserModel {
+  id!: string;
+  email!: string;
   username!: string;
-  password!: string;
+  isActive?: boolean;
   firstName: string | undefined;
   lastName: string | undefined;
-  authData?: string;
-  roles?: string[];
+  roles?: [RoleModel];
 }

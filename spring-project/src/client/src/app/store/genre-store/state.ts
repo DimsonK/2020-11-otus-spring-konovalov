@@ -5,7 +5,7 @@ export interface GenreState extends EntityState<GenreModel> {
   selectedGenreId: string | null;
   loading: boolean;
   loaded: boolean;
-  error: string;
+  error: string | null;
 }
 
 export const genreAdapter: EntityAdapter<GenreModel> = createEntityAdapter<GenreModel>();
@@ -17,6 +17,6 @@ export const initialGenreState: GenreState = genreAdapter.getInitialState(
     selectedGenreId: null,
     loading: false,
     loaded: false,
-    error: '',
+    error: null,
   }
 );

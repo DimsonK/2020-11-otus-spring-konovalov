@@ -5,7 +5,7 @@ export interface BookState extends EntityState<BookModel> {
   selectedBookId: string | null;
   loading: boolean;
   loaded: boolean;
-  error: string;
+  error: string | null;
 }
 
 export const bookAdapter: EntityAdapter<BookModel> = createEntityAdapter<BookModel>();
@@ -17,6 +17,6 @@ export const initialBookState: BookState = bookAdapter.getInitialState(
     selectedBookId: null,
     loading: false,
     loaded: false,
-    error: '',
+    error: null,
   }
 );

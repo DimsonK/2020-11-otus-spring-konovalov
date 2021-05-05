@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   target: string | null = null;
 
   credentials: AuthRequest = {
-    userName: '',
+    username: '',
     password: '',
   };
 
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   submit() {
     if (this.loginForm.valid) {
-      this.credentials.userName = this.loginForm.get('userName')?.value;
+      this.credentials.username = this.loginForm.get('userName')?.value;
       this.credentials.password = this.loginForm.get('userPassword')?.value;
       this.login();
     }

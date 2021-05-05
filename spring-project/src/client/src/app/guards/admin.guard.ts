@@ -15,8 +15,8 @@ export class AdminGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const user = this.authService.userValue;
-    if (user && user.authData && user.roles?.indexOf('ADMIN') !== -1) {
+    const user = this.authService.getUserDetails();
+    if (user && user.roles?.indexOf('ADMIN') !== -1) {
       this.logger.debug(`logged user: ${JSON.stringify(user)}`);
       return true;
     }

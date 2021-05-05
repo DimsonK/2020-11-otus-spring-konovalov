@@ -5,7 +5,7 @@ export interface CommentState extends EntityState<CommentModel> {
   selectedCommentId: string | null;
   loading: boolean;
   loaded: boolean;
-  error: string;
+  error: string | null;
 }
 
 export const commentAdapter: EntityAdapter<CommentModel> = createEntityAdapter<CommentModel>();
@@ -17,6 +17,6 @@ export const initialCommentState: CommentState = commentAdapter.getInitialState(
     selectedCommentId: null,
     loading: false,
     loaded: false,
-    error: '',
+    error: null,
   }
 );

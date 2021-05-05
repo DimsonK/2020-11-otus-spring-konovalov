@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { AuthorStoreModule } from './author-store';
 import { BookStoreModule } from './book-store';
 import { CommentStoreModule } from './comment-store';
+import { CurrentUserStoreModule } from './current-user-store';
 import { GenreStoreModule } from './genre-store';
 
 @NgModule({
@@ -14,6 +15,7 @@ import { GenreStoreModule } from './genre-store';
     BookStoreModule,
     CommentStoreModule,
     GenreStoreModule,
+    CurrentUserStoreModule,
     StoreModule.forRoot(
       {},
       {

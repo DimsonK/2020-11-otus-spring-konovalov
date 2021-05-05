@@ -119,6 +119,7 @@ CREATE TABLE USERS
     USER_PASSWORD VARCHAR(255),
     FIRST_NAME VARCHAR(255),
     LAST_NAME VARCHAR(255),
+    EMAIL VARCHAR(255),
     AGE INT,
     ACCESS_LEVEL INT,
     CREATED_AT TIMESTAMP,
@@ -394,17 +395,17 @@ VALUES(12, 6, '12.08.2019', 'Mr A P Beattie', 'Excellent, engrossing the origina
 
 -- USERS
 INSERT INTO USERS
-(id, user_name, user_password, first_name, last_name, age, access_level, created_at, created_by, modified_at, modified_by)
-VALUES(1, 'admin', '$2a$10$76Gp22UH/LqZUV2b.zKfYOe51GNEK6J2NmXL7m20faFFMOqW0ENZa', 'Иван', 'Иванов', 35, 0, '2021-04-29 16:35:12.036', 'system_init', '2021-04-29 16:35:12.000', 'system_init');
+(id, user_name, user_password, first_name, last_name, email, age, access_level, created_at, created_by, modified_at, modified_by)
+VALUES(1, 'admin', '$2a$10$76Gp22UH/LqZUV2b.zKfYOe51GNEK6J2NmXL7m20faFFMOqW0ENZa', 'Иван', 'Иванов', 'ii@mail.ru', 35, 0, '2021-04-29 16:35:12.036', 'system_init', '2021-04-29 16:35:12.000', 'system_init');
 INSERT INTO USERS
-(id, user_name, user_password, first_name, last_name, age, access_level, created_at, created_by, modified_at, modified_by)
-VALUES(2, 'user1', '$2a$10$76Gp22UH/LqZUV2b.zKfYOe51GNEK6J2NmXL7m20faFFMOqW0ENZa', 'Петр', 'Петров', 12, 2, '2021-04-29 16:35:12.000', 'system_init', '2021-04-29 16:35:12.000', 'system_init');
+(id, user_name, user_password, first_name, last_name, email, age, access_level, created_at, created_by, modified_at, modified_by)
+VALUES(2, 'user1', '$2a$10$76Gp22UH/LqZUV2b.zKfYOe51GNEK6J2NmXL7m20faFFMOqW0ENZa', 'Петр', 'Петров', 'pp@gmail.com', 12, 2, '2021-04-29 16:35:12.000', 'system_init', '2021-04-29 16:35:12.000', 'system_init');
 INSERT INTO USERS
-(id, user_name, user_password, first_name, last_name, age, access_level, created_at, created_by, modified_at, modified_by)
-VALUES(3, 'user2', '$2a$10$76Gp22UH/LqZUV2b.zKfYOe51GNEK6J2NmXL7m20faFFMOqW0ENZa', 'Николай', 'Сидоров', 45, 1, '2021-04-29 16:35:12.000', 'system_init', '2021-04-29 16:35:12.000', 'system_init');
+(id, user_name, user_password, first_name, last_name, email, age, access_level, created_at, created_by, modified_at, modified_by)
+VALUES(3, 'user2', '$2a$10$76Gp22UH/LqZUV2b.zKfYOe51GNEK6J2NmXL7m20faFFMOqW0ENZa', 'Николай', 'Сидоров', 'ns@yahoo.com', 45, 1, '2021-04-29 16:35:12.000', 'system_init', '2021-04-29 16:35:12.000', 'system_init');
 INSERT INTO USERS
-(id, user_name, user_password, first_name, last_name, age, access_level, created_at, created_by, modified_at, modified_by)
-VALUES(4, 'user3', '$2a$10$76Gp22UH/LqZUV2b.zKfYOe51GNEK6J2NmXL7m20faFFMOqW0ENZa', 'Ермолай', 'Сидоров', 10, 1, '2021-04-29 16:35:12.000', 'system_init', '2021-04-29 16:35:12.000', 'system_init');
+(id, user_name, user_password, first_name, last_name, email, age, access_level, created_at, created_by, modified_at, modified_by)
+VALUES(4, 'user3', '$2a$10$76Gp22UH/LqZUV2b.zKfYOe51GNEK6J2NmXL7m20faFFMOqW0ENZa', 'Ермолай', 'Сидоров', 'ermos@yandex.ru',  10, 1, '2021-04-29 16:35:12.000', 'system_init', '2021-04-29 16:35:12.000', 'system_init');
 
 -- ROLES
 INSERT INTO ROLES

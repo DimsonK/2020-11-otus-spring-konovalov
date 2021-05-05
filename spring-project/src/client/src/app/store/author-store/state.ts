@@ -5,7 +5,7 @@ export interface AuthorState extends EntityState<AuthorModel> {
   selectedAuthorId: string | null;
   loading: boolean;
   loaded: boolean;
-  error: string;
+  error: string | null;
 }
 
 export const authorAdapter: EntityAdapter<AuthorModel> = createEntityAdapter<AuthorModel>();
@@ -17,6 +17,6 @@ export const initialAuthorState: AuthorState = authorAdapter.getInitialState(
     selectedAuthorId: null,
     loading: false,
     loaded: false,
-    error: '',
+    error: null,
   }
 );

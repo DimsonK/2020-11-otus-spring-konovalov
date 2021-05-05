@@ -40,9 +40,9 @@ public class AuthController {
 
     @PostMapping("/auth")
     public ResponseEntity<AuthResponse> addAuthor(@RequestBody AuthRequest request) {
-        User user = userService.findByUsernameAndPassword(request.getUserName(), request.getPassword());
+        User user = userService.findByUsernameAndPassword(request.getUsername(), request.getPassword());
         if (Objects.nonNull(user)) {
-            String token = jwtProvider.generateToken(user.getUsername());
+            String token = jwtProvider.generateToken(user);
             return new ResponseEntity<>(new AuthResponse(token), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);

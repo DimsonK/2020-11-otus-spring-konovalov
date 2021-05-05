@@ -41,20 +41,20 @@ import { CommentEditComponent } from './components/comment-edit/comment-edit.com
 import { FooterComponent } from './components/footer/footer.component';
 import { GenreEditComponent } from './components/genre-edit/genre-edit.component';
 import { GenresTabComponent } from './components/genres-tab/genres-tab.component';
+import { HeaderComponent } from './components/header/header.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { ManagePageComponent } from './components/manage-page/manage-page.component';
 import { AdminGuard } from './guards/admin.guard';
 import { AuthGuard } from './guards/auth.guard';
-import { BasicAuthInterceptor } from './interceptors/basic-auth.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { ExtractGenreNamePropertyPipe } from './pipes/extract-genre-name-property.pipe';
 import { AuthorService } from './services/author.service';
 import { BookService } from './services/book.service';
 import { CommentService } from './services/comment.service';
+import { CurrentUserService } from './services/current-user.service';
 import { GenreService } from './services/genre.service';
 import { RootStoreModule } from './store/root-store.module';
-import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   imports: [
@@ -117,13 +117,13 @@ import { HeaderComponent } from './components/header/header.component';
     HeaderComponent,
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     AuthorService,
     BookService,
     CommentService,
     GenreService,
     MessageService,
+    CurrentUserService,
     AuthGuard,
     AdminGuard,
   ],
