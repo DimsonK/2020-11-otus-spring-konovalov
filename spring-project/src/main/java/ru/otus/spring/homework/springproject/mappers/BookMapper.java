@@ -1,68 +1,40 @@
 package ru.otus.spring.homework.springproject.mappers;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.*;
 import ru.otus.spring.homework.springproject.models.dto.BookDto;
 import ru.otus.spring.homework.springproject.models.entity.Book;
-import ru.otus.spring.homework.springproject.repositories.CommentRepository;
+import ru.otus.spring.homework.springproject.service.CommentService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
-public class BookMapper {
+@Mapper(uses = {AuthorMapper.class, GenreMapper.class, CommentService.class})
+public interface BookMapper {
 
-    private final AuthorMapper authorMapper;
-    private final GenreMapper genreMapper;
-    private final CommentMapper commentMapper;
-    private final CommentRepository commentRepository;
+    @Mapping(target = "comments", ignore = true)
+    BookDto toDto(Book book, @Context CommentService commentService);
 
-    public BookMapper(AuthorMapper authorMapper, GenreMapper genreMapper, CommentMapper commentMapper,
-            CommentRepository commentRepository) {
-        this.authorMapper = authorMapper;
-        this.genreMapper = genreMapper;
-        this.commentMapper = commentMapper;
-        this.commentRepository = commentRepository;
+    @AfterMapping
+    default void fillComments(Book source, @MappingTarget BookDto target, @Context CommentService commentService) {
+        target.setComments(commentService.getFavoriteCommentsByBookId(source.getId()));
     }
 
-    public BookDto toDto(Book book) {
-        if (book == null) {
-            return null;
-        }
-        var favoriteComments = commentRepository.findByBookAndFavorite(book, true);
-        var favoriteCommentsDto = favoriteComments.stream()
-                .map(commentMapper::toDto)
-                .collect(Collectors.toList());
-        return new BookDto(
-                Long.toString(book.getId()), book.getName(), book.getRars(), book.getAccessLevel(),
-                authorMapper.toDto(book.getAuthor()),
-                genreMapper.toDtoList(book.getGenres()),
-                favoriteCommentsDto
-        );
+    List<BookDto> toDtoList(List<Book> books, @Context CommentService commentService);
+
+    default List<BookDto> toBookDto(List<Book> books, @Context CommentService commentService) {
+        return books.stream()
+            .map(book -> toDto(book, commentService))
+            .collect(Collectors.toList());
     }
 
-    public Book toEntity(BookDto bookDto) {
-        if (bookDto == null) {
-            return null;
-        }
-        return new Book(
-                Long.parseLong(bookDto.getId()), bookDto.getName(), bookDto.getRars(), bookDto.getAccessLevel(),
-                authorMapper.toEntity(bookDto.getAuthor()),
-                genreMapper.toEntityList(bookDto.getGenres()),
-                null,
-            null
-            );
-    }
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "modifiedAt", ignore = true)
+    @Mapping(target = "modifiedBy", ignore = true)
+    @Mapping(target = "orders", ignore = true)
+    @Mapping(target = "instances", ignore = true)
+    Book toEntity(BookDto bookDto);
 
-    public List<BookDto> toDtoList(List<Book> bookList) {
-        return bookList.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<Book> toEntityList(List<BookDto> bookDtoList) {
-        return bookDtoList.stream()
-                .map(this::toEntity)
-                .collect(Collectors.toList());
-    }
+    List<Book> toEntityList(List<BookDto> bookDtoList);
 
 }

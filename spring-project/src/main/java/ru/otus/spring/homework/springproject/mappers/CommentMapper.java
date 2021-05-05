@@ -1,52 +1,43 @@
 package ru.otus.spring.homework.springproject.mappers;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
 import ru.otus.spring.homework.springproject.models.dto.CommentDto;
+import ru.otus.spring.homework.springproject.models.entity.Book;
 import ru.otus.spring.homework.springproject.models.entity.Comment;
 import ru.otus.spring.homework.springproject.repositories.BookRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Component
-public class CommentMapper {
+@Mapper
+public interface CommentMapper {
 
-    private final BookRepository bookRepository;
+    @Mapping(source = "book", target = "bookId")
+    CommentDto toDto(Comment comment);
 
-    public CommentMapper(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    default String mapBookToString(Book book) {
+        return book.getId().toString();
     }
 
-    public CommentDto toDto(Comment comment) {
-        if (comment == null) {
-            return null;
-        }
-        return new CommentDto(
-                Long.toString(comment.getId()), comment.getPostDate(), comment.getAuthorName(),
-                comment.getContent(), comment.isFavorite(), Long.toString(comment.getBook().getId()));
+    List<CommentDto> toDtoList(List<Comment> comments);
+
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "modifiedAt", ignore = true)
+    @Mapping(target = "modifiedBy", ignore = true)
+    @Mapping(target = "book", ignore = true)
+    Comment toEntity(CommentDto commentDto, @Context BookRepository bookRepository);
+
+    @AfterMapping
+    default void toEntity(@MappingTarget Comment target, CommentDto source, @Context BookRepository bookRepository) {
+        var book = bookRepository.findById(Long.parseLong(source.getBookId())).orElse(null);
+        target.setBook(book);
     }
 
-    public Comment toEntity(CommentDto commentDto) {
-        if (commentDto == null) {
-            return null;
-        }
-        var book = bookRepository.getOne(Long.parseLong(commentDto.getBookId()));
-        return new Comment(
-                Long.parseLong(commentDto.getId()), commentDto.getPostDate(), commentDto.getAuthorName(),
-                commentDto.getContent(), commentDto.isFavorite(), book
-        );
-    }
-
-    public List<CommentDto> toDtoList(List<Comment> commentList) {
-        return commentList.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<Comment> toEntityList(List<CommentDto> commentDtoList) {
-        return commentDtoList.stream()
-                .map(this::toEntity)
-                .collect(Collectors.toList());
-    }
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "modifiedAt", ignore = true)
+    @Mapping(target = "modifiedBy", ignore = true)
+    List<Comment> toEntityList(List<CommentDto> commentDtoList);
 
 }

@@ -1,20 +1,18 @@
 package ru.otus.spring.homework.springproject.models.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "book")
 @Entity
 @SequenceGenerator(name = "COMMENT_SEQUENCE", initialValue = 20, allocationSize = 1)
 @Table(name = "COMMENTS")
-public class Comment {
+public class Comment extends AuditModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COMMENT_SEQUENCE")

@@ -28,20 +28,20 @@ management:
 resilience4j.bulkhead:
   instances:
     authService:
-      maxWaitDuration: 100ms
-      maxConcurrentCalls: 5
+      maxWaitDuration: 1000ms
+      maxConcurrentCalls: 25
     authorService:
-      maxWaitDuration: 100ms
-      maxConcurrentCalls: 5
+      maxWaitDuration: 1000ms
+      maxConcurrentCalls: 25
     bookService:
-      maxWaitDuration: 100ms
-      maxConcurrentCalls: 5
+      maxWaitDuration: 1000ms
+      maxConcurrentCalls: 25
     commentService:
-      maxWaitDuration: 100ms
-      maxConcurrentCalls: 5
+      maxWaitDuration: 1000ms
+      maxConcurrentCalls: 25
     genreService:
-      maxWaitDuration: 100ms
-      maxConcurrentCalls: 5
+      maxWaitDuration: 1000ms
+      maxConcurrentCalls: 25
 resilience4j.circuitbreaker:
   instances:
     authService:

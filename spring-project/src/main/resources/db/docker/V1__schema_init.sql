@@ -434,4 +434,14 @@ VALUES(4, 2);
 -- ORDERS
 INSERT INTO ORDERS
 (id, order_number, created_at, created_by, modified_at, modified_by, order_time, status, user_id)
-VALUES(3, 'I100', '2021-04-29 16:34:01.000', 'system_init', '2021-04-29 16:34:01.000', 'system_init', '2021-05-01 12:00:00.000', 'OPEN', 1);
+VALUES(1, 'I100', '2021-04-29 16:34:01.000', 'system_init', '2021-04-29 16:34:01.000', 'system_init', '2021-05-01 12:00:00.000', 'OPEN', 1);
+
+INSERT INTO BOOK_ORDERS
+(order_id, book_id)
+VALUES(1, 1);
+INSERT INTO BOOK_ORDERS
+(order_id, book_id)
+VALUES(1, 2);
+INSERT INTO BOOK_ORDERS
+(order_id, book_id)
+VALUES(1, 3);

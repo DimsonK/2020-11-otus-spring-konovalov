@@ -1,7 +1,6 @@
 package ru.otus.spring.homework.springproject.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,9 +12,9 @@ import ru.otus.spring.homework.springproject.repositories.CommentRepository;
 import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 @Service
 public class CommentServiceImpl implements CommentService {
-    private static final Logger log = LoggerFactory.getLogger(CommentServiceImpl.class);
 
     private final CommentRepository commentRepository;
     private final BookRepository bookRepository;
@@ -23,7 +22,8 @@ public class CommentServiceImpl implements CommentService {
 
     public CommentServiceImpl(
         CommentRepository commentRepository,
-        BookRepository bookRepository, CommentMapper commentMapper) {
+        BookRepository bookRepository, CommentMapper commentMapper
+    ) {
         this.commentRepository = commentRepository;
         this.bookRepository = bookRepository;
         this.commentMapper = commentMapper;
@@ -58,7 +58,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public CommentDto addComment(CommentDto commentDto) {
         log.debug("addComment()");
-        return commentMapper.toDto(commentRepository.save(commentMapper.toEntity(commentDto)));
+        return commentMapper.toDto(commentRepository.save(commentMapper.toEntity(commentDto, bookRepository)));
     }
 
     @Override
@@ -66,7 +66,7 @@ public class CommentServiceImpl implements CommentService {
     @Secured("ROLE_ADMIN")
     public CommentDto updateComment(CommentDto commentDto) {
         log.debug("updateComment()");
-        return commentMapper.toDto(commentRepository.save(commentMapper.toEntity(commentDto)));
+        return commentMapper.toDto(commentRepository.save(commentMapper.toEntity(commentDto, bookRepository)));
     }
 
     @Override

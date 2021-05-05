@@ -1,49 +1,25 @@
 package ru.otus.spring.homework.springproject.mappers;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 import ru.otus.spring.homework.springproject.models.dto.GenreDto;
 import ru.otus.spring.homework.springproject.models.entity.Genre;
-import ru.otus.spring.homework.springproject.repositories.GenreRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Component
-public class GenreMapper {
+@Mapper
+public interface GenreMapper {
 
-    private final GenreRepository genreRepository;
+    GenreDto toDto(Genre genre);
 
-    public GenreMapper(GenreRepository genreRepository) {
-        this.genreRepository = genreRepository;
-    }
+    List<GenreDto> toDtoList(List<Genre> genres);
 
-    public GenreDto toDto(Genre genre) {
-        if (genre == null) {
-            return null;
-        }
-        return new GenreDto(Long.toString(genre.getId()), genre.getName());
-    }
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "modifiedAt", ignore = true)
+    @Mapping(target = "modifiedBy", ignore = true)
+    Genre toEntity(GenreDto genreDto);
 
-    public Genre toEntity(GenreDto genreDto) {
-        if (genreDto == null) {
-            return null;
-        }
-        if (!genreDto.getId().isEmpty() && genreDto.getName() == null) {
-            var genre = genreRepository.findById(Long.parseLong(genreDto.getId()));
-            genre.ifPresent(value -> genreDto.setName(value.getName()));
-        }
-        return new Genre(Long.parseLong(genreDto.getId()), genreDto.getName());
-    }
-
-    public List<GenreDto> toDtoList(List<Genre> genreList) {
-        return genreList.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<Genre> toEntityList(List<GenreDto> genreDtoList) {
-        return genreDtoList.stream()
-                .map(this::toEntity)
-                .collect(Collectors.toList());
-    }
+    List<Genre> toEntityList(List<GenreDto> genreDto);
 }

@@ -1,9 +1,6 @@
 package ru.otus.spring.homework.springproject.models.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -19,9 +16,10 @@ import java.util.List;
     })
 })
 @Data
+@EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"orders", "instances"})
 @Entity
 @SequenceGenerator(name = "BOOK_SEQUENCE", initialValue = 10, allocationSize = 1)
 @Table(name = "BOOKS")

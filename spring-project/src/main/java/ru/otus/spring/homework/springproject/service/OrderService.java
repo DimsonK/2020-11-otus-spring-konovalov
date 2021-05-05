@@ -8,15 +8,15 @@ public interface OrderService {
 
     List<OrderDto> getAll();
 
-    OrderDto getOrder(Long OrderId);
+    OrderDto getOrder(Long orderId);
 
-    List<OrderDto> getOrders(List<String> OrderIds);
+    List<OrderDto> getOrders(List<String> orderIds);
 
-    OrderDto addOrder(String OrderName);
+    OrderDto addOrder(OrderDto orderDto);
 
-    OrderDto updateOrder(OrderDto OrderDto);
+    OrderDto updateOrder(OrderDto orderDto);
 
-    void deleteOrder(Long OrderId);
+    void deleteOrder(Long orderId);
 
     long getCount();
 }

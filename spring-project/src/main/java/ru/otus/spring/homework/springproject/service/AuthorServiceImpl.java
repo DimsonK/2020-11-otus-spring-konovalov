@@ -18,14 +18,15 @@ public class AuthorServiceImpl implements AuthorService {
 
     private static final String AUTHOR_SERVICE = "authorService";
 
-    private final AuthorRepository authorRepository;
     private final AuthorMapper authorMapper;
+    private final AuthorRepository authorRepository;
 
     public AuthorServiceImpl(
-        AuthorRepository authorRepository,
-        AuthorMapper authorMapper) {
-        this.authorRepository = authorRepository;
+        AuthorMapper authorMapper,
+        AuthorRepository authorRepository
+    ) {
         this.authorMapper = authorMapper;
+        this.authorRepository = authorRepository;
     }
 
     @Override

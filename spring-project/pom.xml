@@ -32,7 +32,8 @@
         <springdoc.version>1.5.8</springdoc.version>
         <flyway.version>7.8.2</flyway.version>
         <lombok.version>1.18.20</lombok.version>
-        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <mapstruct-lombok.version>0.2.0</mapstruct-lombok.version>
     </properties>
 
     <profiles>
@@ -119,7 +120,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
-            <scope>provided</scope>
+            <!--            <scope>provided</scope>-->
         </dependency>
 
         <dependency>
@@ -147,7 +148,12 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>${org.mapstruct.version}</version>
+            <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${mapstruct.version}</version>
         </dependency>
 
         <dependency>
@@ -239,7 +245,7 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>run build-prod</arguments>
+                            <arguments>run build-fast</arguments>
                         </configuration>
                     </execution>
                 </executions>
@@ -277,15 +283,24 @@
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>${mapstruct-lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
                         </path>
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
-                            <version>${org.mapstruct.version}</version>
+                            <version>${mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                    <showWarnings>true</showWarnings>
+                    <compilerArgs>
+                        <arg>-Amapstruct.defaultComponentModel=spring</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
         </plugins>

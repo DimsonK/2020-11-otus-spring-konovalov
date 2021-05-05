@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import ru.otus.spring.homework.springproject.models.enums.OrderStatus;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,5 +16,6 @@ public class OrderDto {
     private String orderNumber;
     private LocalDateTime orderTime;
     private OrderStatus status;
+    private List<String> bookIds;
     private String userId;
 }

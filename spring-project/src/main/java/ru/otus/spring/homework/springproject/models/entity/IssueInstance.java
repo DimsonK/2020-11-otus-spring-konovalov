@@ -1,22 +1,20 @@
 package ru.otus.spring.homework.springproject.models.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import ru.otus.spring.homework.springproject.models.enums.IssueStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Entity
 @Table(name = "ISSUE_INSTANCES")
-@IdClass(IssueInstancesId.class)
-public class IssueInstances extends AuditModel {
+@IdClass(IssueInstanceId.class)
+public class IssueInstance extends AuditModel {
     @Id
     @ManyToOne
     @JoinColumn(name = "ISSUE_ID", referencedColumnName = "ID")

@@ -1,14 +1,12 @@
 package ru.otus.spring.homework.springproject.models.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -28,6 +26,6 @@ public class Instance extends AuditModel {
     private Book book;
 
     @OneToMany(mappedBy = "instance", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    private List<IssueInstances> issues;
+    private List<IssueInstance> issues;
 
 }

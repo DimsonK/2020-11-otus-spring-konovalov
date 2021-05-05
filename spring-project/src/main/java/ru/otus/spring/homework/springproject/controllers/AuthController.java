@@ -31,10 +31,10 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody @Valid RegistrationRequest registrationRequest) {
-        User u = new User();
-        u.setPassword(registrationRequest.getPassword());
-        u.setUsername(registrationRequest.getLogin());
-        userService.saveUser(u);
+        User user = new User();
+        user.setPassword(registrationRequest.getPassword());
+        user.setUsername(registrationRequest.getLogin());
+        userService.saveUser(user);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 

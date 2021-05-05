@@ -1,7 +1,6 @@
 package ru.otus.spring.homework.springproject.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,16 +12,17 @@ import ru.otus.spring.homework.springproject.repositories.GenreRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class GenreServiceImpl implements GenreService {
-    private static final Logger log = LoggerFactory.getLogger(GenreServiceImpl.class);
 
     private final GenreRepository genreRepository;
     private final GenreMapper genreMapper;
 
     public GenreServiceImpl(
         GenreRepository genreRepository,
-        GenreMapper genreMapper) {
+        GenreMapper genreMapper
+    ) {
         this.genreRepository = genreRepository;
         this.genreMapper = genreMapper;
     }

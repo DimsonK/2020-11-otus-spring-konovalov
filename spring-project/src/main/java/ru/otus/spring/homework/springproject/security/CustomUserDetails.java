@@ -13,12 +13,25 @@ import java.util.List;
 public class CustomUserDetails implements UserDetails {
     private String login;
     private String password;
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public Integer getAccessLevel() {
+        return accessLevel;
+    }
+
+    private Integer age;
+    private Integer accessLevel;
     private Collection<? extends GrantedAuthority> grantedAuthorities;
 
     public static CustomUserDetails fromUserEntityToCustomUserDetails(User user) {
-        CustomUserDetails c = new CustomUserDetails();
+        var c = new CustomUserDetails();
         c.login = user.getUsername();
         c.password = user.getPassword();
+        c.age = user.getAge();
+        c.accessLevel = user.getAccessLevel();
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (Role privilege : user.getRoles()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + privilege.getRoleName()));

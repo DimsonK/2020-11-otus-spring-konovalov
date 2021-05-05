@@ -1,49 +1,28 @@
 package ru.otus.spring.homework.springproject.mappers;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import ru.otus.spring.homework.springproject.models.dto.AuthorDto;
 import ru.otus.spring.homework.springproject.models.entity.Author;
-import ru.otus.spring.homework.springproject.repositories.AuthorRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Component
-public class AuthorMapper {
+@Mapper
+public interface AuthorMapper {
 
-    private final AuthorRepository authorRepository;
+    AuthorDto toDto(Author author);
 
-    public AuthorMapper(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
-    }
+    List<AuthorDto> toDtoList(List<Author> authors);
 
-    public AuthorDto toDto(Author author) {
-        if (author == null) {
-            return null;
-        }
-        return new AuthorDto(Long.toString(author.getId()), author.getName());
-    }
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "modifiedAt", ignore = true)
+    @Mapping(target = "modifiedBy", ignore = true)
+    Author toEntity(AuthorDto authorDto);
 
-    public Author toEntity(AuthorDto authorDto) {
-        if (authorDto == null) {
-            return null;
-        }
-        if (!authorDto.getId().isEmpty() && authorDto.getName() == null) {
-            var author = authorRepository.findById(Long.parseLong(authorDto.getId()));
-            author.ifPresent(value -> authorDto.setName(value.getName()));
-        }
-        return new Author(Long.parseLong(authorDto.getId()), authorDto.getName());
-    }
-
-    public List<AuthorDto> toDtoList(List<Author> authorList) {
-        return authorList.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<Author> toEntityList(List<AuthorDto> authorDtoList) {
-        return authorDtoList.stream()
-                .map(this::toEntity)
-                .collect(Collectors.toList());
-    }
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "modifiedAt", ignore = true)
+    @Mapping(target = "modifiedBy", ignore = true)
+    List<Author> toEntityList(List<AuthorDto> authorDto);
 }

@@ -37,13 +37,13 @@ public class OrderController {
     public ResponseEntity<List<OrderDto>> bulkHeadGetAllOrder(Exception t) {
         log.info("bulkHeadGetAllOrder");
         List<OrderDto> Order = new ArrayList<>();
-        Order.add(new OrderDto("1", "I100", LocalDateTime.now(), OrderStatus.OPEN, "1"));
+        Order.add(new OrderDto("1", "I100", LocalDateTime.now(), OrderStatus.OPEN, List.of(), "1"));
         return new ResponseEntity<>(Order, HttpStatus.OK);
     }
 
     public ResponseEntity<OrderDto> bulkHeadGetOrder(Exception t) {
         log.info("bulkHeadGetOrder");
-        var Order = new OrderDto("1", "I100", LocalDateTime.now(), OrderStatus.OPEN, "1");
+        var Order = new OrderDto("1", "I100", LocalDateTime.now(), OrderStatus.OPEN, List.of(),"1");
         return new ResponseEntity<>(Order, HttpStatus.OK);
     }
 
