@@ -3,7 +3,6 @@ package ru.otus.spring.homework.springproject.security;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
-import ru.otus.spring.homework.springproject.models.entity.User;
 import ru.otus.spring.homework.springproject.service.UserServiceImpl;
 
 @Component
@@ -17,7 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public CustomUserDetails loadUserByUsername(String username) {
-        User userEntity = userService.findByUsername(username);
+        var userEntity = userService.findByUsername(username);
         return CustomUserDetails.fromUserEntityToCustomUserDetails(userEntity);
     }
 }

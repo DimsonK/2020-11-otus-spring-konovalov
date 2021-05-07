@@ -26,14 +26,14 @@ public class JwtProvider {
     }
 
     public String generateToken(User user) {
-        Date iat = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Date exp = Date.from(LocalDate.now().plusDays(2).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        var iat = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        var exp = Date.from(LocalDate.now().plusDays(2).atStartOfDay(ZoneId.systemDefault()).toInstant());
         var jwtPayload = new JwtPayload(
             user.getId().toString(), user.getUsername(), user.getEmail(),
             user.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList()),
             UUID.randomUUID().toString(), iat, exp);
-        ObjectMapper mapper = new ObjectMapper();
-        String payload = "";
+        var mapper = new ObjectMapper();
+        var payload = "";
         try {
             payload = mapper.writeValueAsString(jwtPayload);
         } catch (JsonProcessingException e) {
@@ -64,7 +64,7 @@ public class JwtProvider {
     }
 
     public String getLoginFromToken(String token) {
-        Claims claims = Jwts.parser().setSigningKey(properties.getJwtSecret()).parseClaimsJws(token).getBody();
+        var claims = Jwts.parser().setSigningKey(properties.getJwtSecret()).parseClaimsJws(token).getBody();
         return (String) claims.get("username");
     }
 

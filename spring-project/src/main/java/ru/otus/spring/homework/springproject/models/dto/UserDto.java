@@ -13,7 +13,8 @@ public class UserDto {
     private String username;
     private String firstName;
     private String lastName;
+    private String email;
     private Integer age;
     private Integer accessLevel;
-    private List<String> roles;
+    private List<RoleDto> roles;
 }

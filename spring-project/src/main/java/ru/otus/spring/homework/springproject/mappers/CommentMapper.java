@@ -1,7 +1,6 @@
 package ru.otus.spring.homework.springproject.mappers;
 
 import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
 import ru.otus.spring.homework.springproject.models.dto.CommentDto;
 import ru.otus.spring.homework.springproject.models.entity.Book;
 import ru.otus.spring.homework.springproject.models.entity.Comment;

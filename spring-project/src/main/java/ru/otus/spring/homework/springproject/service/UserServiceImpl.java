@@ -3,14 +3,12 @@ package ru.otus.spring.homework.springproject.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework.springproject.mappers.UserMapper;
 import ru.otus.spring.homework.springproject.models.dto.UserDto;
-import ru.otus.spring.homework.springproject.models.entity.Role;
 import ru.otus.spring.homework.springproject.models.entity.User;
 import ru.otus.spring.homework.springproject.repositories.RoleRepository;
 import ru.otus.spring.homework.springproject.repositories.UserRepository;
@@ -66,14 +64,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto addUser(UserDto userDto) {
         log.debug("addUser");
-        var entity = userMapper.toEntity(userDto, roleRepository);
+        var entity = userMapper.toEntity(userDto);
         return userMapper.toDto(userRepository.save(entity));
     }
 
     @Override
     public UserDto updateUser(UserDto userDto) {
         log.debug("updateUser");
-        return userMapper.toDto(userRepository.save(userMapper.toEntity(userDto, roleRepository)));
+        return userMapper.toDto(userRepository.save(userMapper.toEntity(userDto)));
     }
 
     @Override
@@ -91,7 +89,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User saveUser(User user) {
-        Role userRole = roleRepository.findByRoleName("USER").orElse(null);
+        var userRole = roleRepository.findByRoleName("USER").orElse(null);
+        assert userRole != null;
         user.setRoles(List.of(userRole));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
@@ -107,27 +106,19 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User findByUsernameAndPassword(String username, String password) {
-        User user = findByUsername(username);
-        if (Objects.nonNull(user)) {
-            if (passwordEncoder.matches(password, user.getPassword())) {
-                return user;
-            }
-        }
-        return null;
+        var user = findByUsername(username);
+        return Objects.nonNull(user) && passwordEncoder.matches(password, user.getPassword()) ? user : null;
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<String> getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();
-            var user = userRepository.findByUsername(currentUserName).orElse(null);
-            if (Objects.nonNull(user)) {
-                return Optional.of(user.getUsername());
-            }
+            return Optional.of(currentUserName);
         }
-        return null;
+        return Optional.empty();
     }
 
 }

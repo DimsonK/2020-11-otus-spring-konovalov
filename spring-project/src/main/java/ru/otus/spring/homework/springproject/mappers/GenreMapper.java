@@ -2,7 +2,6 @@ package ru.otus.spring.homework.springproject.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import ru.otus.spring.homework.springproject.models.dto.GenreDto;
 import ru.otus.spring.homework.springproject.models.entity.Genre;
 
