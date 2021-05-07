@@ -35,6 +35,9 @@ public class Book extends AuditModel {
     @Column(name = "BOOK_NAME", nullable = false, unique = true)
     private String name;
 
+    // Аннотация, ISBN, Издательство, Серия, Объём, Масса, Размеры(высота, ширина, толщина), см
+    // Изображения[]
+
     // Возрастная классификация
     @Column(name = "RARS", nullable = false)
     private Integer rars;

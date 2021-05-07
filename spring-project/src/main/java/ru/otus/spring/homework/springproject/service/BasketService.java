@@ -6,11 +6,10 @@ public interface BasketService {
 
     BasketDto getBasket(Long basketId);
 
-    BasketDto addBook(Long bookId);
+    BasketDto addBook(Long basketId, Long bookId);
 
-    BasketDto removeBook(Long bookId);
+    BasketDto removeBook(Long basketId, Long bookId);
 
-    void clearBasket(Long basketId);
+    BasketDto clearBasket(Long basketId);
 
-    long getCount();
 }

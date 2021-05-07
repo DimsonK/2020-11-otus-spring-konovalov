@@ -20,7 +20,7 @@ public class Basket extends AuditModel implements Serializable {
     @Column(name = "USER_ID")
     private Long id;
 
-    @OneToOne
+    @OneToOne(targetEntity = User.class, cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "USER_ID")
     private User user;
