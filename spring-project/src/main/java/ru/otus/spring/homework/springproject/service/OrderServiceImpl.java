@@ -51,12 +51,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public OrderDto getOrder(Long orderId) {
         log.debug("getOrder");
         return orderMapper.toDto(orderRepository.getOne(orderId));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<OrderDto> getOrders(List<String> orderIds) {
         log.debug("getOrders");
         var ids = orderIds.stream()
@@ -66,13 +68,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderDto addOrder(OrderDto orderDto) {
         log.debug("addOrder");
-        var entity = orderMapper.toEntity(orderDto, bookRepository);
+        var entity = orderMapper.toEntity(orderDto, bookRepository, userRepository);
         return orderMapper.toDto(orderRepository.save(entity));
     }
 
     @Override
+    @Transactional
     public OrderDto createByBasketId(Long basketId) {
         log.debug("createByBasketId");
         var basket = basketService.getBasket(basketId);
@@ -89,12 +93,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderDto updateOrder(OrderDto orderDto) {
         log.debug("updateOrder");
-        return orderMapper.toDto(orderRepository.save(orderMapper.toEntity(orderDto, bookRepository)));
+        return orderMapper.toDto(orderRepository.save(orderMapper.toEntity(orderDto, bookRepository, userRepository)));
     }
 
     @Override
+    @Transactional
     public void deleteOrder(Long orderId) {
         log.debug("deleteOrder");
         orderRepository.deleteById(orderId);

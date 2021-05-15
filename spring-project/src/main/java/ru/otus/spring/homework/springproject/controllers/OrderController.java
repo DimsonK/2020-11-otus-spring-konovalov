@@ -50,7 +50,7 @@ public class OrderController {
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
-    // Создать новый заказ на базе карзиы
+    // Создать новый заказ на базе корзины
     @PostMapping("/api/order/{basketId}")
     @Bulkhead(name = ORDER_SERVICE, fallbackMethod = "bulkHeadGetOrder", type = Type.SEMAPHORE)
     public ResponseEntity<OrderDto> addOrderByBasketId(@PathVariable("basketId") Long basketId) {
