@@ -1,5 +1,6 @@
 package ru.otus.spring.homework.springproject.service;
 
+import ru.otus.spring.homework.springproject.models.dto.BasketDto;
 import ru.otus.spring.homework.springproject.models.dto.OrderDto;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public interface OrderService {
     List<OrderDto> getOrders(List<String> orderIds);
 
     OrderDto addOrder(OrderDto orderDto);
+
+    OrderDto createByBasketId(Long basketId);
 
     OrderDto updateOrder(OrderDto orderDto);
 

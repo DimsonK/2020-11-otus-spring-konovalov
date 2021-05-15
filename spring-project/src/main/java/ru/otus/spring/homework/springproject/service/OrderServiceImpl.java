@@ -1,13 +1,21 @@
 package ru.otus.spring.homework.springproject.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.spring.homework.springproject.mappers.BookMapper;
 import ru.otus.spring.homework.springproject.mappers.OrderMapper;
 import ru.otus.spring.homework.springproject.models.dto.OrderDto;
+import ru.otus.spring.homework.springproject.models.entity.Order;
+import ru.otus.spring.homework.springproject.models.enums.OrderStatus;
 import ru.otus.spring.homework.springproject.repositories.BookRepository;
 import ru.otus.spring.homework.springproject.repositories.OrderRepository;
+import ru.otus.spring.homework.springproject.repositories.UserRepository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,15 +26,21 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final BookRepository bookRepository;
     private final OrderMapper orderMapper;
+    private final BasketService basketService;
+    private final UserRepository userRepository;
+    private final BookMapper bookMapper;
 
     public OrderServiceImpl(
         OrderRepository orderRepository,
         BookRepository bookRepository,
-        OrderMapper orderMapper
-    ) {
+        OrderMapper orderMapper,
+        BasketService basketService, UserRepository userRepository, BookMapper bookMapper) {
         this.orderRepository = orderRepository;
         this.bookRepository = bookRepository;
         this.orderMapper = orderMapper;
+        this.basketService = basketService;
+        this.userRepository = userRepository;
+        this.bookMapper = bookMapper;
     }
 
     @Override
@@ -59,6 +73,22 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public OrderDto createByBasketId(Long basketId) {
+        log.debug("createByBasketId");
+        var basket = basketService.getBasket(basketId);
+        var user = userRepository.findById(basketId).orElse(null);
+        var order = new Order(
+            null,
+            getOrderNumber(),
+            LocalDateTime.now(),
+            OrderStatus.OPEN,
+            user,
+            bookMapper.toEntityList(basket.getBooks())
+        );
+        return orderMapper.toDto(orderRepository.save(order));
+    }
+
+    @Override
     public OrderDto updateOrder(OrderDto orderDto) {
         log.debug("updateOrder");
         return orderMapper.toDto(orderRepository.save(orderMapper.toEntity(orderDto, bookRepository)));
@@ -74,5 +104,11 @@ public class OrderServiceImpl implements OrderService {
     public long getCount() {
         log.debug("getCount");
         return orderRepository.count();
+    }
+
+    private String getOrderNumber() {
+        var date = DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now());
+        var rnd = RandomStringUtils.randomAlphabetic(10);
+        return String.format("O-%s-%s", date, rnd);
     }
 }
