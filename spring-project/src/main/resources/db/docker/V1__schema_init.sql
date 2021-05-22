@@ -217,6 +217,10 @@ CREATE TABLE ISSUE_INSTANCES
     INSTANCE_ID BIGINT references INSTANCES (ID),
     STATUS VARCHAR(255),
     RETURN_TIME TIMESTAMP,
+    CREATED_AT TIMESTAMP,
+    CREATED_BY VARCHAR(255),
+    MODIFIED_AT TIMESTAMP,
+    MODIFIED_BY VARCHAR(255),
     primary key (ISSUE_ID, INSTANCE_ID)
 );
 
@@ -467,3 +471,148 @@ VALUES(1, 2);
 INSERT INTO BOOK_ORDERS
 (order_id, book_id)
 VALUES(1, 3);
+
+-- INSTANCES
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(1, 'I001001', 1, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(2, 'I001002', 1, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(3, 'I001003', 1, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(4, 'I001004', 1, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(5, 'I001005', 1, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(6, 'I001006', 2, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(7, 'I001007', 2, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(8, 'I001008', 2, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(9, 'I001009', 2, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(10, 'I001010', 2, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(11, 'I001011', 3, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(12, 'I001012', 3, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(13, 'I001013', 3, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(14, 'I001014', 3, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(15, 'I001015', 3, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(16, 'I001016', 4, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(17, 'I001017', 4, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(18, 'I001018', 4, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(19, 'I001019', 4, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(20, 'I001020', 4, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(21, 'I001021', 5, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(22, 'I001022', 5, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(23, 'I001023', 5, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(24, 'I001024', 5, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(25, 'I001025', 5, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(26, 'I001026', 6, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(27, 'I001027', 6, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(28, 'I001028', 6, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(29, 'I001029', 6, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(30, 'I001030', 6, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(31, 'I001031', 7, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(32, 'I001032', 7, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(33, 'I001033', 7, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(34, 'I001034', 7, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(35, 'I001035', 7, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(36, 'I001036', 8, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(37, 'I001037', 8, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(38, 'I001038', 8, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(39, 'I001039', 8, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(40, 'I001040', 8, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(41, 'I001041', 9, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(42, 'I001042', 9, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(43, 'I001043', 9, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(44, 'I001044', 9, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO INSTANCES
+(id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
+VALUES(45, 'I001045', 9, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');

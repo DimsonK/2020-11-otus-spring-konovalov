@@ -21,11 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 class GenreRepositoryTest {
 
-    private static final long EXPECTED_GENRES_COUNT = 4L;
+    private static final long EXPECTED_GENRES_COUNT = 5L;
 
-    @Autowired TestEntityManager em;
+    @Autowired
+    TestEntityManager em;
 
-    @Autowired GenreRepository genreRepository;
+    @Autowired
+    GenreRepository genreRepository;
 
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     @DisplayName("возвращать ожидаемое количество жанров в БД")
@@ -62,21 +64,27 @@ class GenreRepositoryTest {
     void shouldReturnExpectedGenreById() {
         var expectedGenre = new Genre(1L, "Detective");
         var actualGenre = genreRepository.findById(expectedGenre.getId()).orElse(null);
-        assertThat(actualGenre).isNotNull().usingRecursiveComparison().isEqualTo(expectedGenre);
+        assertThat(actualGenre)
+            .isNotNull()
+            .usingRecursiveComparison()
+            .ignoringFields("createdAt", "createdBy", "modifiedAt", "modifiedBy")
+            .isEqualTo(expectedGenre);
     }
 
     @DisplayName("возвращать ожидаемый список жанров")
     @Test
     void shouldReturnExpectedGenresList() {
         var expectedGenreList = List.of(
-                new Genre(1L, "Detective"),
-                new Genre(2L, "History"),
-                new Genre(3L, "Fantasy"),
-                new Genre(4L, "Horror"));
+            new Genre(1L, "Detective"),
+            new Genre(2L, "History"),
+            new Genre(3L, "Fantasy"),
+            new Genre(4L, "Horror"),
+            new Genre(5L, "Technical"));
         var actualGenreList = genreRepository.findAll();
         assertThat(actualGenreList)
-                .usingFieldByFieldElementComparator()
-                .containsExactlyInAnyOrderElementsOf(expectedGenreList);
+            .usingFieldByFieldElementComparator()
+            .usingElementComparatorIgnoringFields("createdAt", "createdBy", "modifiedAt", "modifiedBy")
+            .containsExactlyInAnyOrderElementsOf(expectedGenreList);
     }
 
     @DisplayName("удалять заданный жанр по его id")

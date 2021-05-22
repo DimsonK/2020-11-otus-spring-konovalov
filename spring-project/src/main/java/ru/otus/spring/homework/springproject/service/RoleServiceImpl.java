@@ -2,6 +2,7 @@ package ru.otus.spring.homework.springproject.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework.springproject.mappers.RoleMapper;
 import ru.otus.spring.homework.springproject.models.dto.RoleDto;
 import ru.otus.spring.homework.springproject.repositories.RoleRepository;
@@ -25,18 +26,21 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<RoleDto> getAll() {
         log.debug("getAll()");
         return roleMapper.toDtoList(roleRepository.findAll());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RoleDto getRole(Long roleId) {
         log.debug("getRole");
         return roleMapper.toDto(roleRepository.getOne(roleId));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<RoleDto> getRoles(List<String> roleIds) {
         log.debug("getRoles");
         var ids = roleIds.stream()
@@ -46,6 +50,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public RoleDto addRole(RoleDto roleDto) {
         log.debug("addRole");
         var entity = roleMapper.toEntity(roleDto);
@@ -53,18 +58,21 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public RoleDto updateRole(RoleDto roleDto) {
         log.debug("updateRole");
         return roleMapper.toDto(roleRepository.save(roleMapper.toEntity(roleDto)));
     }
 
     @Override
+    @Transactional
     public void deleteRole(Long roleId) {
         log.debug("deleteRole");
         roleRepository.deleteById(roleId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public long getCount() {
         log.debug("getCount");
         return roleRepository.count();

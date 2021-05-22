@@ -7,7 +7,7 @@ import ru.otus.spring.homework.springproject.models.entity.IssueInstance;
 
 import java.util.List;
 
-@Mapper
+@Mapper(uses = {IssueMapper.class, InstanceMapper.class})
 public interface IssueInstanceMapper {
 
     IssueInstanceDto toDto(IssueInstance issueInstance);

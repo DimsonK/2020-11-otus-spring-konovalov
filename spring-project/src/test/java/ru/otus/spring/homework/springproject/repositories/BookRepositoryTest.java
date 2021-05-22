@@ -21,9 +21,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 class BookRepositoryTest {
 
-    private static final long EXPECTED_GENRES_COUNT = 5L;
+    private static final long EXPECTED_GENRES_COUNT = 9L;
 
-    @Autowired TestEntityManager em;
+    @Autowired
+    TestEntityManager em;
 
     @Autowired
     BookRepository bookRepository;
@@ -81,6 +82,11 @@ class BookRepositoryTest {
         assertThat(actualBook)
             .isNotNull()
             .usingRecursiveComparison()
+            .ignoringFields(
+                "createdAt", "createdBy", "modifiedAt", "modifiedBy",
+                "author.createdAt", "author.createdBy", "author.modifiedAt", "author.modifiedBy",
+                "genres", "orders", "instances"
+            )
             .isEqualTo(expectedBook);
     }
 
@@ -89,19 +95,40 @@ class BookRepositoryTest {
     void shouldReturnExpectedBooksList() {
         var expectedBookList = List.of(
             new Book(1L, "Murder on the Orient Express", 12, 2,
-                new Author(1L, "Agatha Christie"), List.of(new Genre(1L, "Detective")), new ArrayList<>(), new ArrayList<>()),
+                new Author(1L, "Agatha Christie"), List.of(new Genre(1L, "Detective")),
+                new ArrayList<>(), new ArrayList<>()),
             new Book(2L, "The Three Musketeers", 6, 2,
-                new Author(2L, "Alexandre Dumas"), List.of(new Genre(2L, "History")), new ArrayList<>(), new ArrayList<>()),
+                new Author(2L, "Alexandre Dumas"), List.of(new Genre(2L, "History")),
+                new ArrayList<>(), new ArrayList<>()),
             new Book(3L, "Twenty Thousand Leagues Under the Sea", 6, 2,
-                new Author(3L, "Jules Gabriel Verne"), List.of(new Genre(3L, "Fantasy")), new ArrayList<>(), new ArrayList<>()),
+                new Author(3L, "Jules Gabriel Verne"), List.of(new Genre(3L, "Fantasy")),
+                new ArrayList<>(), new ArrayList<>()),
             new Book(4L, "The Gold Bug", 6, 2,
-                new Author(4L, "Edgar Allan Poe"), List.of(new Genre(3L, "Fantasy")), new ArrayList<>(), new ArrayList<>()),
+                new Author(4L, "Edgar Allan Poe"), List.of(new Genre(3L, "Fantasy")),
+                new ArrayList<>(), new ArrayList<>()),
             new Book(5L, "It", 16, 2,
-                new Author(5L, "Stephen Edwin King"), List.of(new Genre(4L, "Horror")), new ArrayList<>(), new ArrayList<>()));
+                new Author(5L, "Stephen Edwin King"), List.of(new Genre(4L, "Horror")),
+                new ArrayList<>(), new ArrayList<>()),
+            new Book(6L, "Nine and a Half Weeks: A Memoir of a Love Affair", 18, 2,
+                new Author(6L, "Elizabeth McNeill"), List.of(new Genre(2L, "History")),
+                new ArrayList<>(), new ArrayList<>()),
+            new Book(7L, "Fifty Shades of Grey", 18, 2,
+                new Author(7L, "E L James, Zachary Webber, et al."), List.of(new Genre(2L, "History")),
+                new ArrayList<>(), new ArrayList<>()),
+            new Book(8L, "Радио не для всех. Закрытые частоты Минобороны.", 18, 1,
+                new Author(8L, "Попов, Шойгу и Ко"), List.of(new Genre(5L, "Technical")),
+                new ArrayList<>(), new ArrayList<>()),
+            new Book(9L, "Оценка проходимости танка Армата в плотных слоях атмосферы", 18, 1,
+                new Author(9L, "Уралвагонзавод и сотоварищи"), List.of(new Genre(5L, "Technical")),
+                new ArrayList<>(), new ArrayList<>())
+        );
 
         var actualBookList = bookRepository.findAll();
         assertThat(actualBookList)
             .usingRecursiveFieldByFieldElementComparator()
+            .usingElementComparatorIgnoringFields(
+                "createdAt", "createdBy", "modifiedAt", "modifiedBy", "author", "genres", "orders", "instances"
+            )
             .containsExactlyInAnyOrderElementsOf(expectedBookList);
     }
 

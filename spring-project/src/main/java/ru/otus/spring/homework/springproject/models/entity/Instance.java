@@ -1,12 +1,13 @@
 package ru.otus.spring.homework.springproject.models.entity;
 
 import lombok.*;
+import ru.otus.spring.homework.springproject.models.enums.IssueStatus;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -25,7 +26,13 @@ public class Instance extends AuditModel {
     @JoinColumn(name = "BOOK_ID")
     private Book book;
 
-    @OneToMany(mappedBy = "instance", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "instance", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IssueInstance> issues;
+
+    public void addIssue(Issue issue) {
+        IssueInstance issueInstance = new IssueInstance(issue, this, IssueStatus.ISSUED, null);
+        issues.add(issueInstance);
+        issue.getInstances().add(issueInstance);
+    }
 
 }

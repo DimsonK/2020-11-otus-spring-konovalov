@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 class CommentRepositoryTest {
 
-    private static final long EXPECTED_COMMENTS_COUNT = 10L;
+    private static final long EXPECTED_COMMENTS_COUNT = 12L;
 
     @Autowired TestEntityManager em;
 

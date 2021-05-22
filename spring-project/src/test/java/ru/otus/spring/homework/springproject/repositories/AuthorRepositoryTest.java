@@ -21,11 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 class AuthorRepositoryTest {
 
-    private static final long EXPECTED_AUTHORS_COUNT = 5L;
+    private static final long EXPECTED_AUTHORS_COUNT = 9L;
 
-    @Autowired TestEntityManager em;
+    @Autowired
+    TestEntityManager em;
 
-    @Autowired AuthorRepository authorRepository;
+    @Autowired
+    AuthorRepository authorRepository;
 
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     @DisplayName("возвращать ожидаемое количество авторов в БД")
@@ -63,23 +65,34 @@ class AuthorRepositoryTest {
         var expectedAuthor = new Author(1L, "Agatha Christie");
         var actualAuthor = authorRepository.findById(expectedAuthor.getId()).orElse(null);
         assertNotNull(actualAuthor);
-        assertThat(actualAuthor).isNotNull().usingRecursiveComparison().isEqualTo(expectedAuthor);
+        assertThat(actualAuthor)
+            .isNotNull()
+            .usingRecursiveComparison()
+            .ignoringFields("createdAt", "createdBy", "modifiedAt", "modifiedBy")
+            .isEqualTo(expectedAuthor);
     }
 
     @DisplayName("возвращать ожидаемый список авторов")
     @Test
     void shouldReturnExpectedAuthorsList() {
         var expectedAuthorList = List.of(
-                new Author(1L, "Agatha Christie"),
-                new Author(2L, "Alexandre Dumas"),
-                new Author(3L, "Jules Gabriel Verne"),
-                new Author(4L, "Edgar Allan Poe"),
-                new Author(5L, "Stephen Edwin King"));
+            new Author(1L, "Agatha Christie"),
+            new Author(2L, "Alexandre Dumas"),
+            new Author(3L, "Jules Gabriel Verne"),
+            new Author(4L, "Edgar Allan Poe"),
+            new Author(5L, "Stephen Edwin King"),
+            new Author(6L, "Elizabeth McNeill"),
+            new Author(7L, "E L James, Zachary Webber, et al."),
+            new Author(8L, "Попов, Шойгу и Ко"),
+            new Author(9L, "Уралвагонзавод и сотоварищи")
+        );
+
         var actualAuthorList = authorRepository.findAll();
 
         assertThat(actualAuthorList)
-                .usingFieldByFieldElementComparator()
-                .containsExactlyInAnyOrderElementsOf(expectedAuthorList);
+            .usingFieldByFieldElementComparator()
+            .usingElementComparatorIgnoringFields("createdAt", "createdBy", "modifiedAt", "modifiedBy")
+            .containsExactlyInAnyOrderElementsOf(expectedAuthorList);
     }
 
     @DisplayName("удалять заданного автора по его id")

@@ -47,12 +47,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDto getUser(Long userId) {
         log.debug("getUser");
         return userMapper.toDto(userRepository.getOne(userId));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<UserDto> getUsers(List<String> userIds) {
         log.debug("getUsers");
         var ids = userIds.stream()
@@ -62,6 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto addUser(UserDto userDto) {
         log.debug("addUser");
         var entity = userMapper.toEntity(userDto);
@@ -69,18 +72,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto updateUser(UserDto userDto) {
         log.debug("updateUser");
         return userMapper.toDto(userRepository.save(userMapper.toEntity(userDto)));
     }
 
     @Override
+    @Transactional
     public void deleteUser(Long userId) {
         log.debug("deleteUser");
         userRepository.deleteById(userId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public long getCount() {
         log.debug("getCount");
         return userRepository.count();

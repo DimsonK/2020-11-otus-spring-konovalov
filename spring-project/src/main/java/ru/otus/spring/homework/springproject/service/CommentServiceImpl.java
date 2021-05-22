@@ -30,6 +30,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CommentDto> getCommentsByBookId(Long bookId) {
         var book = bookRepository.findById(bookId).orElse(null);
         if (book == null) {
@@ -39,6 +40,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CommentDto> getFavoriteCommentsByBookId(Long bookId) {
         var book = bookRepository.findById(bookId).orElse(null);
         if (book == null) {
@@ -78,6 +80,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public long getCount() {
         log.debug("getCount()");
         return commentRepository.count();

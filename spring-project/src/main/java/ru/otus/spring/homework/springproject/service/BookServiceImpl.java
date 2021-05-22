@@ -94,6 +94,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public long getCount() {
         log.debug("getCount()");
         return bookRepository.count();

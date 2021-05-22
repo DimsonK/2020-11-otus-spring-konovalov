@@ -12,6 +12,8 @@ public interface InstanceService {
 
     List<InstanceDto> getInstances(List<String> instanceIds);
 
+    List<InstanceDto> getInstancesByBookId(Long bookId);
+
     InstanceDto addInstance(InstanceDto instanceDto);
 
     InstanceDto updateInstance(InstanceDto instanceDto);
@@ -19,4 +21,6 @@ public interface InstanceService {
     void deleteInstance(Long instanceId);
 
     long getCount();
+
+    boolean instanceExists(Long instanceId);
 }

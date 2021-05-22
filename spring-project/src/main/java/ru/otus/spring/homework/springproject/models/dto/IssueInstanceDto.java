@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class IssueInstanceDto {
-    private Issue issue;
-    private Instance instance;
+    private IssueDto issue;
+    private InstanceDto instance;
     private IssueStatus status;
     private LocalDateTime returnTime;
 }

@@ -25,4 +25,8 @@ public interface UserMapper {
 
     List<User> toEntityList(List<UserDto> userDto);
 
+    default String userToString(User user) {
+        return user.getId().toString();
+    }
+
 }

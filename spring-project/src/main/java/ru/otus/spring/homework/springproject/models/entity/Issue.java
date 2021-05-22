@@ -4,14 +4,15 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Entity
+@Entity(name = "Issue")
 @SequenceGenerator(name = "ISSUE_SEQUENCE", initialValue = 10, allocationSize = 1)
 @Table(name = "ISSUE")
 public class Issue extends AuditModel {
@@ -30,7 +31,7 @@ public class Issue extends AuditModel {
     @JoinColumn(name = "ORDER_ID")
     private Order order;
 
-    @OneToMany(mappedBy = "issue", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    private List<IssueInstance> instances;
+    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<IssueInstance> instances = new ArrayList<>();
 
 }

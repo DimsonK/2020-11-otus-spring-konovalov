@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.spring.homework.springproject.exceptions.BadRequestException;
 import ru.otus.spring.homework.springproject.mappers.BookMapper;
 import ru.otus.spring.homework.springproject.mappers.OrderMapper;
 import ru.otus.spring.homework.springproject.models.dto.OrderDto;
@@ -80,6 +81,9 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto createByBasketId(Long basketId) {
         log.debug("createByBasketId");
         var basket = basketService.getBasket(basketId);
+        if (basket.getBooks().size() == 0) {
+            throw new BadRequestException("Basket is empty, order not created");
+        }
         var user = userRepository.findById(basketId).orElse(null);
         var order = new Order(
             null,

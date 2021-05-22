@@ -2,30 +2,19 @@ package ru.otus.spring.homework.springproject.mappers;
 
 import org.mapstruct.*;
 import ru.otus.spring.homework.springproject.models.dto.OrderDto;
-import ru.otus.spring.homework.springproject.models.entity.Book;
 import ru.otus.spring.homework.springproject.models.entity.Order;
-import ru.otus.spring.homework.springproject.models.entity.User;
 import ru.otus.spring.homework.springproject.repositories.BookRepository;
 import ru.otus.spring.homework.springproject.repositories.UserRepository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-@Mapper
+@Mapper(uses = {UserMapper.class, BookMapper.class})
 public interface OrderMapper {
 
     @Mapping(source = "books", target = "bookIds")
     @Mapping(source = "user", target = "userId")
     OrderDto toDto(Order order);
-
-    default String mapBookToString(Book book) {
-        return Objects.isNull(book) ? null : book.getId().toString();
-    }
-
-    default String userToString(User user) {
-        return user.getId().toString();
-    }
 
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
@@ -45,8 +34,16 @@ public interface OrderMapper {
         target.setUser(user);
     }
 
+    default String orderToString(Order order) {
+        return order.getId().toString();
+    }
+
+    @Mapping(source = "user", target = "userId")
+    @Mapping(source = "books", target = "bookIds")
     List<OrderDto> toDtoList(List<Order> orders);
 
+    @Mapping(source = "userId", target = "user")
+    @Mapping(source = "bookIds", target = "books")
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "modifiedAt", ignore = true)

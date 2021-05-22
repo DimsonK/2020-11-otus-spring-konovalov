@@ -3,9 +3,11 @@ package ru.otus.spring.homework.springproject.mappers;
 import org.mapstruct.*;
 import ru.otus.spring.homework.springproject.models.dto.BookDto;
 import ru.otus.spring.homework.springproject.models.entity.Book;
+import ru.otus.spring.homework.springproject.repositories.BookRepository;
 import ru.otus.spring.homework.springproject.service.CommentService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Mapper(uses = {AuthorMapper.class, GenreMapper.class, CommentService.class})
@@ -27,6 +29,10 @@ public interface BookMapper {
             .collect(Collectors.toList());
     }
 
+    default String mapBookToString(Book book) {
+        return Objects.isNull(book) ? null : book.getId().toString();
+    }
+
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "modifiedAt", ignore = true)
@@ -36,5 +42,16 @@ public interface BookMapper {
     Book toEntity(BookDto bookDto);
 
     List<Book> toEntityList(List<BookDto> bookDtoList);
+
+    default Book bookIdToBook(String bookId, @Context BookRepository bookRepository) {
+        return bookRepository.getOne(Long.parseLong(bookId));
+    }
+
+    default List<Book> bookIdsToBook(List<String> bookIds, @Context BookRepository bookRepository) {
+        var ids = bookIds.stream()
+            .map(Long::parseLong)
+            .collect(Collectors.toList());
+        return bookRepository.findAllById(ids);
+    }
 
 }

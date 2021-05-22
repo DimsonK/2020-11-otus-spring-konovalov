@@ -2,11 +2,15 @@ package ru.otus.spring.homework.springproject.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.otus.spring.homework.springproject.exceptions.BadRequestException;
 import ru.otus.spring.homework.springproject.mappers.InstanceMapper;
 import ru.otus.spring.homework.springproject.models.dto.InstanceDto;
+import ru.otus.spring.homework.springproject.repositories.BookRepository;
 import ru.otus.spring.homework.springproject.repositories.InstanceRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -15,28 +19,34 @@ public class InstanceServiceImpl implements InstanceService {
 
     private final InstanceRepository instanceRepository;
     private final InstanceMapper instanceMapper;
+    private final BookRepository bookRepository;
 
     public InstanceServiceImpl(
         InstanceRepository instanceRepository,
-        InstanceMapper instanceMapper
+        InstanceMapper instanceMapper,
+        BookRepository bookRepository
     ) {
         this.instanceRepository = instanceRepository;
         this.instanceMapper = instanceMapper;
+        this.bookRepository = bookRepository;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<InstanceDto> getAll() {
         log.debug("getAllInstances");
         return instanceMapper.toDtoList(instanceRepository.findAll());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public InstanceDto getInstance(Long instanceId) {
         log.debug("getInstance");
-        return instanceMapper.toDto(instanceRepository.getOne(instanceId));
+        return instanceMapper.toDto(instanceRepository.findById(instanceId).orElse(null));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<InstanceDto> getInstances(List<String> instanceIds) {
         log.debug("getInstances");
         var ids = instanceIds.stream()
@@ -46,27 +56,52 @@ public class InstanceServiceImpl implements InstanceService {
     }
 
     @Override
+    public List<InstanceDto> getInstancesByBookId(Long bookId) {
+        log.debug("getInstancesByBookId");
+        var book = bookRepository.findById(bookId).orElse(null);
+        var instances = instanceRepository.getInstanceByBook(book);
+        return instanceMapper.toDtoList(instances);
+    }
+
+    @Override
+    @Transactional
     public InstanceDto addInstance(InstanceDto instanceDto) {
         log.debug("addInstance");
-        var entity = instanceMapper.toEntity(instanceDto);
+        var entity = instanceMapper.toEntity(instanceDto, bookRepository);
         return instanceMapper.toDto(instanceRepository.save(entity));
     }
 
     @Override
+    @Transactional
     public InstanceDto updateInstance(InstanceDto instanceDto) {
         log.debug("updateInstance");
-        return instanceMapper.toDto(instanceRepository.save(instanceMapper.toEntity(instanceDto)));
+        var instance = instanceRepository.findById(Long.parseLong(instanceDto.getId())).orElse(null);
+        if (Objects.isNull(instance)) {
+            throw new BadRequestException("Instance not found");
+        }
+        instance.setInventoryNumber(instanceDto.getInventoryNumber());
+        return instanceMapper.toDto(instanceRepository.save(instance));
     }
 
     @Override
+    @Transactional
     public void deleteInstance(Long instanceId) {
         log.debug("deleteInstance");
         instanceRepository.deleteById(instanceId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public long getCount() {
         log.debug("getCount");
         return instanceRepository.count();
     }
+
+    @Override
+    public boolean instanceExists(Long instanceId) {
+        log.debug("instanceExists");
+        return instanceRepository.existsById(instanceId);
+    }
+
+
 }

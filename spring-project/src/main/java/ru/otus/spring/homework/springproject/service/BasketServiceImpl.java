@@ -33,7 +33,7 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public BasketDto getBasket(Long basketId) {
         var basket = basketRepository.findById(basketId).orElse(null);
         if (Objects.isNull(basket)) {
