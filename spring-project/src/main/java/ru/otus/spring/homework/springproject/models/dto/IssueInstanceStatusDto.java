@@ -5,14 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.otus.spring.homework.springproject.models.enums.IssueStatus;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class IssueInstanceDto {
-    private IssueDto issue;
-    private InstanceDto instance;
+public class IssueInstanceStatusDto {
+    private String issueId;
+    private String instanceId;
     private IssueStatus status;
-    private LocalDateTime returnTime;
 }

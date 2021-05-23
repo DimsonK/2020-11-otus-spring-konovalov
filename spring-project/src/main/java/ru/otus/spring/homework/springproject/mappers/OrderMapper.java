@@ -4,6 +4,7 @@ import org.mapstruct.*;
 import ru.otus.spring.homework.springproject.models.dto.OrderDto;
 import ru.otus.spring.homework.springproject.models.entity.Order;
 import ru.otus.spring.homework.springproject.repositories.BookRepository;
+import ru.otus.spring.homework.springproject.repositories.OrderRepository;
 import ru.otus.spring.homework.springproject.repositories.UserRepository;
 
 import java.util.List;
@@ -36,6 +37,10 @@ public interface OrderMapper {
 
     default String orderToString(Order order) {
         return order.getId().toString();
+    }
+
+    default Order orderFromOrderId(String orderId, @Context OrderRepository orderRepository) {
+        return orderRepository.findById(Long.parseLong(orderId)).orElse(null);
     }
 
     @Mapping(source = "user", target = "userId")

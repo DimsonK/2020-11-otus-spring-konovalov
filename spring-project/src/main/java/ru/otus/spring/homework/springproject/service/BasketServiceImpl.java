@@ -1,6 +1,7 @@
 package ru.otus.spring.homework.springproject.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework.springproject.mappers.BasketMapper;
@@ -34,6 +35,7 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public BasketDto getBasket(Long basketId) {
         var basket = basketRepository.findById(basketId).orElse(null);
         if (Objects.isNull(basket)) {
@@ -44,6 +46,7 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     @Transactional
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public BasketDto addBook(Long basketId, Long bookId) {
         var basket = basketRepository.findById(basketId).orElse(null);
         if (Objects.isNull(basket)) {
@@ -63,6 +66,7 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     @Transactional
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public BasketDto removeBook(Long basketId, Long bookId) {
         var basket = basketRepository.findById(basketId).orElse(null);
         if (Objects.isNull(basket)) {
@@ -80,6 +84,7 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     @Transactional
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public BasketDto clearBasket(Long basketId) {
         var basket = basketRepository.findById(basketId).orElse(null);
         if (Objects.isNull(basket)) {
@@ -91,6 +96,7 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Transactional
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Basket createBasket() {
         Basket basket = null;
         var username = userService.getCurrentUser().orElse(null);

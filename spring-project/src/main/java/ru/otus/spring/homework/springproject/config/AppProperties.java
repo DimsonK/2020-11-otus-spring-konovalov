@@ -18,6 +18,7 @@ public class AppProperties implements Validator {
     private String appDescription;
     private String jwtSecret;
     private Integer jwtExpirationMin;
+    private String fileStorePath;
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -28,5 +29,6 @@ public class AppProperties implements Validator {
     public void validate(Object o, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "jwtSecret", FIELD_REQUIRED);
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "jwtExpirationMin", FIELD_REQUIRED);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fileStorePath", FIELD_REQUIRED);
     }
 }

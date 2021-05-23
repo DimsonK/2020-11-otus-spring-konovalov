@@ -2,6 +2,7 @@ package ru.otus.spring.homework.springproject.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework.springproject.exceptions.BadRequestException;
@@ -46,6 +47,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public List<OrderDto> getAll() {
         log.debug("getAll()");
         return orderMapper.toDtoList(orderRepository.findAll());
@@ -53,6 +55,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public OrderDto getOrder(Long orderId) {
         log.debug("getOrder");
         return orderMapper.toDto(orderRepository.getOne(orderId));
@@ -60,6 +63,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public List<OrderDto> getOrders(List<String> orderIds) {
         log.debug("getOrders");
         var ids = orderIds.stream()
@@ -70,6 +74,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public OrderDto addOrder(OrderDto orderDto) {
         log.debug("addOrder");
         var entity = orderMapper.toEntity(orderDto, bookRepository, userRepository);
@@ -78,10 +83,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public OrderDto createByBasketId(Long basketId) {
         log.debug("createByBasketId");
         var basket = basketService.getBasket(basketId);
-        if (basket.getBooks().size() == 0) {
+        if (basket.getBooks().isEmpty()) {
             throw new BadRequestException("Basket is empty, order not created");
         }
         var user = userRepository.findById(basketId).orElse(null);
@@ -98,6 +104,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public OrderDto updateOrder(OrderDto orderDto) {
         log.debug("updateOrder");
         return orderMapper.toDto(orderRepository.save(orderMapper.toEntity(orderDto, bookRepository, userRepository)));
@@ -105,12 +112,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public void deleteOrder(Long orderId) {
         log.debug("deleteOrder");
         orderRepository.deleteById(orderId);
     }
 
     @Override
+    @Transactional(readOnly = true)
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public long getCount() {
         log.debug("getCount");
         return orderRepository.count();

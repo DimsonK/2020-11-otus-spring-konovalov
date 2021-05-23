@@ -2,6 +2,7 @@ package ru.otus.spring.homework.springproject.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,6 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public List<UserDto> getAll() {
         log.debug("getAllUsers");
         return userMapper.toDtoList(userRepository.findAll());
@@ -55,6 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public List<UserDto> getUsers(List<String> userIds) {
         log.debug("getUsers");
         var ids = userIds.stream()
@@ -65,6 +68,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @Secured("ROLE_ADMIN")
     public UserDto addUser(UserDto userDto) {
         log.debug("addUser");
         var entity = userMapper.toEntity(userDto);
@@ -73,6 +77,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @Secured("ROLE_ADMIN")
     public UserDto updateUser(UserDto userDto) {
         log.debug("updateUser");
         return userMapper.toDto(userRepository.save(userMapper.toEntity(userDto)));
@@ -80,6 +85,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @Secured("ROLE_ADMIN")
     public void deleteUser(Long userId) {
         log.debug("deleteUser");
         userRepository.deleteById(userId);
@@ -87,6 +93,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public long getCount() {
         log.debug("getCount");
         return userRepository.count();

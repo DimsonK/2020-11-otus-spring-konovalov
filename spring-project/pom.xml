@@ -297,7 +297,7 @@
                             <version>${mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                    <showWarnings>true</showWarnings>
+                    <showWarnings>false</showWarnings>
                     <compilerArgs>
                         <arg>-Amapstruct.defaultComponentModel=spring</arg>
                     </compilerArgs>

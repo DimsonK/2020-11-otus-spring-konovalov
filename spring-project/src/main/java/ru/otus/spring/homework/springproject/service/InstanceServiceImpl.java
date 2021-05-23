@@ -1,6 +1,7 @@
 package ru.otus.spring.homework.springproject.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework.springproject.exceptions.BadRequestException;
@@ -33,6 +34,7 @@ public class InstanceServiceImpl implements InstanceService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public List<InstanceDto> getAll() {
         log.debug("getAllInstances");
         return instanceMapper.toDtoList(instanceRepository.findAll());
@@ -40,6 +42,7 @@ public class InstanceServiceImpl implements InstanceService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public InstanceDto getInstance(Long instanceId) {
         log.debug("getInstance");
         return instanceMapper.toDto(instanceRepository.findById(instanceId).orElse(null));
@@ -47,6 +50,7 @@ public class InstanceServiceImpl implements InstanceService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public List<InstanceDto> getInstances(List<String> instanceIds) {
         log.debug("getInstances");
         var ids = instanceIds.stream()
@@ -56,6 +60,8 @@ public class InstanceServiceImpl implements InstanceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public List<InstanceDto> getInstancesByBookId(Long bookId) {
         log.debug("getInstancesByBookId");
         var book = bookRepository.findById(bookId).orElse(null);
@@ -65,6 +71,7 @@ public class InstanceServiceImpl implements InstanceService {
 
     @Override
     @Transactional
+    @Secured("ROLE_ADMIN")
     public InstanceDto addInstance(InstanceDto instanceDto) {
         log.debug("addInstance");
         var entity = instanceMapper.toEntity(instanceDto, bookRepository);
@@ -73,6 +80,7 @@ public class InstanceServiceImpl implements InstanceService {
 
     @Override
     @Transactional
+    @Secured("ROLE_ADMIN")
     public InstanceDto updateInstance(InstanceDto instanceDto) {
         log.debug("updateInstance");
         var instance = instanceRepository.findById(Long.parseLong(instanceDto.getId())).orElse(null);
@@ -85,6 +93,7 @@ public class InstanceServiceImpl implements InstanceService {
 
     @Override
     @Transactional
+    @Secured("ROLE_ADMIN")
     public void deleteInstance(Long instanceId) {
         log.debug("deleteInstance");
         instanceRepository.deleteById(instanceId);
@@ -92,12 +101,15 @@ public class InstanceServiceImpl implements InstanceService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public long getCount() {
         log.debug("getCount");
         return instanceRepository.count();
     }
 
     @Override
+    @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public boolean instanceExists(Long instanceId) {
         log.debug("instanceExists");
         return instanceRepository.existsById(instanceId);

@@ -243,6 +243,7 @@ CREATE TABLE BOOK_FILES
     FILE_PATH   VARCHAR(255),
     ORIGINAL_NAME   VARCHAR(255),
     FILENAME   VARCHAR(255),
+    CONTENT_TYPE   VARCHAR(255),
     SIZE INT,
     BOOK_ID BIGINT references BOOKS (ID) on delete cascade,
     CREATED_AT TIMESTAMP,
@@ -460,7 +461,7 @@ VALUES(4, 2);
 -- ORDERS
 INSERT INTO ORDERS
 (id, order_number, created_at, created_by, modified_at, modified_by, order_time, status, user_id)
-VALUES(1, 'I100', '2021-04-29 16:34:01.000', 'system_init', '2021-04-29 16:34:01.000', 'system_init', '2021-05-01 12:00:00.000', 'OPEN', 1);
+VALUES(1, 'I100', '2021-04-29 16:34:01.000', 'system_init', '2021-04-29 16:34:01.000', 'system_init', '2021-05-01 12:00:00.000', 'OPEN', 2);
 
 INSERT INTO BOOK_ORDERS
 (order_id, book_id)
@@ -616,3 +617,19 @@ VALUES(44, 'I001044', 9, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 1
 INSERT INTO INSTANCES
 (id, inventory_number, book_id, created_at, created_by, modified_at, modified_by)
 VALUES(45, 'I001045', 9, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+
+-- ISSUE
+INSERT INTO ISSUE
+(id, issue_time, user_id, order_id, created_at, created_by, modified_at, modified_by)
+VALUES(1, '2021-04-29 16:32:53.051', 2, 1, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+
+-- ISSUE_INSTANCES
+INSERT INTO ISSUE_INSTANCES
+(issue_id, instance_id, status, return_time, created_at, created_by, modified_at, modified_by)
+VALUES(1, 3, 'ISSUED', null, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO ISSUE_INSTANCES
+(issue_id, instance_id, status, return_time, created_at, created_by, modified_at, modified_by)
+VALUES(1, 8, 'ISSUED', null, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');
+INSERT INTO ISSUE_INSTANCES
+(issue_id, instance_id, status, return_time, created_at, created_by, modified_at, modified_by)
+VALUES(1, 14, 'ISSUED', null, '2021-04-29 16:32:53.051', 'system_init', '2021-04-29 16:32:53.000', 'system_init');

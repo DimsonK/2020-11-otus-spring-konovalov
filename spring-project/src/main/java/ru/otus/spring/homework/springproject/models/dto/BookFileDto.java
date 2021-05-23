@@ -12,8 +12,9 @@ public class BookFileDto {
     private Boolean isActive;
     private String md5;
     private String filePath;
-    private String originalFilename;
+    private String originalName;
     private String filename;
-    private Integer size;
+    private String contentType;
+    private Long size;
     private String bookId;
 }

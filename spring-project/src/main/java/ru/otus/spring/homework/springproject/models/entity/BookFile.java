@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -33,8 +33,11 @@ public class BookFile extends AuditModel {
     @Column(name = "FILENAME", nullable = false)
     private String filename;
 
+    @Column(name = "CONTENT_TYPE", nullable = false)
+    private String contentType;
+
     @Column(name = "SIZE", nullable = false)
-    private Integer size;
+    private Long size;
 
     @ManyToOne(targetEntity = Book.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "BOOK_ID")

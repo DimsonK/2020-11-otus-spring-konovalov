@@ -1,6 +1,7 @@
 package ru.otus.spring.homework.springproject.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework.springproject.mappers.RoleMapper;
@@ -27,6 +28,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public List<RoleDto> getAll() {
         log.debug("getAll()");
         return roleMapper.toDtoList(roleRepository.findAll());
@@ -34,6 +36,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public RoleDto getRole(Long roleId) {
         log.debug("getRole");
         return roleMapper.toDto(roleRepository.getOne(roleId));
@@ -41,6 +44,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public List<RoleDto> getRoles(List<String> roleIds) {
         log.debug("getRoles");
         var ids = roleIds.stream()
@@ -51,6 +55,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
+    @Secured("ROLE_ADMIN")
     public RoleDto addRole(RoleDto roleDto) {
         log.debug("addRole");
         var entity = roleMapper.toEntity(roleDto);
@@ -59,6 +64,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
+    @Secured("ROLE_ADMIN")
     public RoleDto updateRole(RoleDto roleDto) {
         log.debug("updateRole");
         return roleMapper.toDto(roleRepository.save(roleMapper.toEntity(roleDto)));
@@ -66,6 +72,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
+    @Secured("ROLE_ADMIN")
     public void deleteRole(Long roleId) {
         log.debug("deleteRole");
         roleRepository.deleteById(roleId);
@@ -73,6 +80,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public long getCount() {
         log.debug("getCount");
         return roleRepository.count();

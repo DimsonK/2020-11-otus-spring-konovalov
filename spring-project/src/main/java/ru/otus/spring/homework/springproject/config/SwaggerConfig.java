@@ -82,14 +82,14 @@ public class SwaggerConfig {
             .pathsToExclude("/api/issue")
             .build();
     }
-//
-//    @Bean
-//    public GroupedOpenApi issueInstanceApi() {
-//        return GroupedOpenApi.builder()
-//            .group("Issue Instance API")
-//            .pathsToExclude("/api/issue_instance")
-//            .build();
-//    }
+
+    @Bean
+    public GroupedOpenApi issueInstanceApi() {
+        return GroupedOpenApi.builder()
+            .group("Issue Instance API")
+            .pathsToExclude("/api/issue_instance")
+            .build();
+    }
 
     @Bean
     public GroupedOpenApi orderApi() {

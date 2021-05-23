@@ -14,6 +14,7 @@ public interface IssueInstanceMapper {
 
     List<IssueInstanceDto> toDtoList(List<IssueInstance> issueInstances);
 
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "modifiedAt", ignore = true)
