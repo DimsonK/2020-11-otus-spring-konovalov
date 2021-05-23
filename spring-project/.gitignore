@@ -36,3 +36,5 @@ node_installation/
 src/main/resources/public/
 logs/
 !logs/.gitkeep
+store
+!store/.gitkeep
