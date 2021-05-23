@@ -23,7 +23,7 @@ public class SwaggerConfig {
     public GroupedOpenApi authApi() {
         return GroupedOpenApi.builder()
             .group("Authorisation API")
-            .pathsToExclude("/auth")
+            .pathsToMatch("/auth")
             .build();
     }
 
@@ -31,7 +31,7 @@ public class SwaggerConfig {
     public GroupedOpenApi authorApi() {
         return GroupedOpenApi.builder()
             .group("Authors API")
-            .pathsToExclude("/api/author")
+            .pathsToMatch("/api/author")
             .build();
     }
 
@@ -39,7 +39,7 @@ public class SwaggerConfig {
     public GroupedOpenApi basketApi() {
         return GroupedOpenApi.builder()
             .group("Basket API")
-            .pathsToExclude("/api/basket")
+            .pathsToMatch("/api/basket")
             .build();
     }
 
@@ -47,7 +47,7 @@ public class SwaggerConfig {
     public GroupedOpenApi bookApi() {
         return GroupedOpenApi.builder()
             .group("Books API")
-            .pathsToExclude("/api/book")
+            .pathsToMatch("/api/book")
             .build();
     }
 
@@ -55,7 +55,7 @@ public class SwaggerConfig {
     public GroupedOpenApi commentApi() {
         return GroupedOpenApi.builder()
             .group("Comments API")
-            .pathsToExclude("/api/comment")
+            .pathsToMatch("/api/comment")
             .build();
     }
 
@@ -63,7 +63,7 @@ public class SwaggerConfig {
     public GroupedOpenApi genreApi() {
         return GroupedOpenApi.builder()
             .group("Genre API")
-            .pathsToExclude("/api/genre")
+            .pathsToMatch("/api/genre")
             .build();
     }
 
@@ -71,7 +71,7 @@ public class SwaggerConfig {
     public GroupedOpenApi instanceApi() {
         return GroupedOpenApi.builder()
             .group("Instance API")
-            .pathsToExclude("/api/instance")
+            .pathsToMatch("/api/instance")
             .build();
     }
 
@@ -79,23 +79,23 @@ public class SwaggerConfig {
     public GroupedOpenApi issueApi() {
         return GroupedOpenApi.builder()
             .group("Issue API")
-            .pathsToExclude("/api/issue")
+            .pathsToMatch("/api/issue")
             .build();
     }
 
-    @Bean
-    public GroupedOpenApi issueInstanceApi() {
-        return GroupedOpenApi.builder()
-            .group("Issue Instance API")
-            .pathsToExclude("/api/issue_instance")
-            .build();
-    }
+//    @Bean
+//    public GroupedOpenApi issueInstanceApi() {
+//        return GroupedOpenApi.builder()
+//            .group("Issue Instance API")
+//            .pathsToMatch("/api/issue_instance")
+//            .build();
+//    }
 
     @Bean
     public GroupedOpenApi orderApi() {
         return GroupedOpenApi.builder()
             .group("Order API")
-            .pathsToExclude("/api/order")
+            .pathsToMatch("/api/order")
             .build();
     }
 
@@ -103,7 +103,7 @@ public class SwaggerConfig {
     public GroupedOpenApi roleApi() {
         return GroupedOpenApi.builder()
             .group("Role API")
-            .pathsToExclude("/api/role")
+            .pathsToMatch("/api/role")
             .build();
     }
 
@@ -111,7 +111,7 @@ public class SwaggerConfig {
     public GroupedOpenApi userApi() {
         return GroupedOpenApi.builder()
             .group("Issue Instance API")
-            .pathsToExclude("/api/user")
+            .pathsToMatch("/api/user")
             .build();
     }
 
