@@ -1,6 +1,7 @@
 package ru.otus.spring.homework.springproject.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework.springproject.exceptions.BadRequestException;
@@ -38,12 +39,14 @@ public class IssueInstanceServiceImpl implements IssueInstanceService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public List<IssueInstanceDto> getAll() {
         return issueInstanceMapper.toDtoList(issueInstanceRepository.findAll());
     }
 
     @Override
     @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public List<IssueInstanceDto> getInstancesByIssueId(Long issueId) {
         var issue = issueRepository.findById(issueId).orElse(null);
         if (Objects.isNull(issue)) {
@@ -54,6 +57,7 @@ public class IssueInstanceServiceImpl implements IssueInstanceService {
 
     @Override
     @Transactional(readOnly = true)
+    @Secured("ROLE_ADMIN")
     public List<IssueInstanceDto> getInstancesByUserId(Long userId) {
         var user = userRepository.findById(userId).orElse(null);
         if (Objects.isNull(user)) {
@@ -69,6 +73,7 @@ public class IssueInstanceServiceImpl implements IssueInstanceService {
 
     @Override
     @Transactional
+    @Secured("ROLE_ADMIN")
     public void setStatus(IssueInstanceStatusDto data) {
         var id = new IssueInstanceId(Long.parseLong(data.getIssueId()), Long.parseLong(data.getInstanceId()));
         var issueInstance = issueInstanceRepository.findById(id).orElse(null);
@@ -81,6 +86,7 @@ public class IssueInstanceServiceImpl implements IssueInstanceService {
 
     @Override
     @Transactional
+    @Secured("ROLE_ADMIN")
     public long getCount() {
         return issueInstanceRepository.count();
     }

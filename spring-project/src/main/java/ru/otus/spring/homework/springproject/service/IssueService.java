@@ -14,6 +14,8 @@ public interface IssueService {
 
     IssueDto addIssue(IssueDto issueDto);
 
+    IssueDto addIssueByOrderId(Long orderId);
+
     IssueDto updateIssue(IssueDto issueDto);
 
     void deleteIssue(Long issueId);

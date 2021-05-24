@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.homework.springproject.exceptions.BadRequestException;
 import ru.otus.spring.homework.springproject.mappers.InstanceMapper;
 import ru.otus.spring.homework.springproject.models.dto.InstanceDto;
+import ru.otus.spring.homework.springproject.models.entity.Instance;
 import ru.otus.spring.homework.springproject.repositories.BookRepository;
 import ru.otus.spring.homework.springproject.repositories.InstanceRepository;
 
@@ -67,6 +68,25 @@ public class InstanceServiceImpl implements InstanceService {
         var book = bookRepository.findById(bookId).orElse(null);
         var instances = instanceRepository.getInstanceByBook(book);
         return instanceMapper.toDtoList(instances);
+    }
+
+    @Override
+    @Transactional
+    @Secured("ROLE_ADMIN")
+    public List<InstanceDto> getAvailableInstanceDtoList(List<String> bookIds) {
+        var ids = bookIds.stream().map(Long::parseLong).collect(Collectors.toList());
+        var books = bookRepository.findAllById(ids);
+        var instances = instanceRepository.getInstancesForIssueByBookIds(books);
+        return instanceMapper.toDtoList(instances);
+    }
+
+    @Override
+    @Transactional
+    @Secured("ROLE_ADMIN")
+    public List<Instance> getAvailableInstanceList(List<String> bookIds) {
+        var ids = bookIds.stream().map(Long::parseLong).collect(Collectors.toList());
+        var books = bookRepository.findAllById(ids);
+        return instanceRepository.getInstancesForIssueByBookIds(books);
     }
 
     @Override

@@ -10,7 +10,7 @@ import ru.otus.spring.homework.springproject.repositories.UserRepository;
 
 import java.util.List;
 
-@Mapper(uses = {UserMapper.class, OrderMapper.class, InstanceMapper.class})
+@Mapper(uses = {UserMapper.class, OrderMapper.class, InstanceMapper.class, IssueInstanceMapper.class})
 public interface IssueMapper {
 
     @Mapping(source = "user", target = "userId")

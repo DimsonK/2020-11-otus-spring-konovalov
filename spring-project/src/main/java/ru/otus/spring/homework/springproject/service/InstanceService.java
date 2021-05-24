@@ -1,6 +1,7 @@
 package ru.otus.spring.homework.springproject.service;
 
 import ru.otus.spring.homework.springproject.models.dto.InstanceDto;
+import ru.otus.spring.homework.springproject.models.entity.Instance;
 
 import java.util.List;
 
@@ -13,6 +14,10 @@ public interface InstanceService {
     List<InstanceDto> getInstances(List<String> instanceIds);
 
     List<InstanceDto> getInstancesByBookId(Long bookId);
+
+    List<InstanceDto> getAvailableInstanceDtoList(List<String> bookIds);
+
+    List<Instance> getAvailableInstanceList(List<String> bookIds);
 
     InstanceDto addInstance(InstanceDto instanceDto);
 

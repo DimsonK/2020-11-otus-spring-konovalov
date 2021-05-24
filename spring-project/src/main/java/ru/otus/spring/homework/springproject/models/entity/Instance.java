@@ -1,7 +1,6 @@
 package ru.otus.spring.homework.springproject.models.entity;
 
 import lombok.*;
-import ru.otus.spring.homework.springproject.models.enums.IssueStatus;
 
 import javax.persistence.*;
 import java.util.List;
@@ -28,11 +27,5 @@ public class Instance extends AuditModel {
 
     @OneToMany(mappedBy = "instance", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IssueInstance> issues;
-
-    public void addIssue(Issue issue) {
-        IssueInstance issueInstance = new IssueInstance(issue, this, IssueStatus.ISSUED, null);
-        issues.add(issueInstance);
-        issue.getInstances().add(issueInstance);
-    }
 
 }

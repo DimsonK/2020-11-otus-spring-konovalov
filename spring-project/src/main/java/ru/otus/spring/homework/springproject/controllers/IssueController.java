@@ -20,7 +20,9 @@ public class IssueController {
 
     private final IssueService issueService;
 
-    public IssueController(IssueService issueService) {
+    public IssueController(
+        IssueService issueService
+    ) {
         this.issueService = issueService;
     }
 
@@ -48,7 +50,7 @@ public class IssueController {
         return new ResponseEntity<>(issue, HttpStatus.OK);
     }
 
-    // Создать новый выдача
+    // Создать новую выдачу
     @PostMapping("/api/issue")
     @Bulkhead(name = ISSUE_SERVICE, fallbackMethod = "bulkHeadGetIssue", type = Bulkhead.Type.SEMAPHORE)
     public ResponseEntity<IssueDto> addIssue(@RequestBody IssueDto issueDto) {
@@ -57,6 +59,20 @@ public class IssueController {
         }
         issueDto.setId("0");
         var issue = issueService.addIssue(issueDto);
+        if (issue == null) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(issue, HttpStatus.OK);
+    }
+
+    // Создать новую выдачу из заказа
+    @PostMapping("/api/issue/order/{orderId}")
+//    @Bulkhead(name = ISSUE_SERVICE, fallbackMethod = "bulkHeadGetIssue", type = Bulkhead.Type.SEMAPHORE)
+    public ResponseEntity<IssueDto> addIssueByOrderId(@PathVariable("orderId") Long orderId) {
+        if (orderId == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        var issue = issueService.addIssueByOrderId(orderId);
         if (issue == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

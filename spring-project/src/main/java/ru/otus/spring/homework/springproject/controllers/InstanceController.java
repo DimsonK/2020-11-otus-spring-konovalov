@@ -57,6 +57,17 @@ public class InstanceController {
         return new ResponseEntity<>(instance, HttpStatus.OK);
     }
 
+    // Получить доступные для выдачи экземпляры по списку книг
+    @GetMapping("/api/instance/available")
+//    @Bulkhead(name = INSTANCE_SERVICE, fallbackMethod = "bulkHeadGetAllInstance", type = Bulkhead.Type.SEMAPHORE)
+    public ResponseEntity<List<InstanceDto>> getAvailableInstancesByBooks() {
+//        if (bookId == null) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+        var instance = instanceService.getAvailableInstanceDtoList(List.of("1", "2", "3", "4"));
+        return new ResponseEntity<>(instance, HttpStatus.OK);
+    }
+
     // Создать новый экземпляр
     @PostMapping("/api/instance")
     @Bulkhead(name = INSTANCE_SERVICE, fallbackMethod = "bulkHeadGetInstance", type = Bulkhead.Type.SEMAPHORE)
