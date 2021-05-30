@@ -24,3 +24,4 @@
 16. [Использовать метрики, healthchecks и logfile](./spring-16) (Занятие 30. Монолиты vs. Microservices (Round 2), Spring Boot Actuator - must have в микросервисах)  
 17. [Обернуть приложение в docker-контейнер](./spring-17) (Занятие 32. Docker, оркестрация, облака, облачные хостинги)
 18. [Обернуть внешние вызовы в Hystrix](./spring-18) (Занятие 35. Zuul, Hystrix Circuit Breaker, Sleuth, Zipkin, Hystrix Dashboard, Secure Configuration Properties)
+19. [Проектная работа](./spring-project) Тема: Продукт "Bookworm" - управление библиотекой

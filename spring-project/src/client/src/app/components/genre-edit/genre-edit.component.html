@@ -1,0 +1,41 @@
+<p-dialog [(visible)]="display" header="{{dialogHeader}}" modal="true" (onShow)="onDisplayChange(true)"
+          (onHide)="onDisplayChange(false)">
+  <div class="dialog">
+    <form [formGroup]="genreEditForm" (submit)="onGenreChange()" class="form-inline">
+      <label class="label" for="fldGenreName">Название жанра *</label>
+      <div class="ui-inputgroup">
+        <input
+          class="input-text"
+          pInputText type="text"
+          id="fldGenreName"
+          formControlName="genreName"
+          placeholder="Название жанра"
+          pTooltip="Введите название жанра">
+      </div>
+      <div *ngIf="submitted && genreEditForm.controls['genreName'].invalid &&
+        (genreEditForm.controls['genreName'].dirty || genreEditForm.controls['genreName'].touched)"
+           class="alert alert-danger">
+        <div *ngIf="genreEditForm.controls['genreName'].errors.required"></div>
+      </div>
+
+      <div class="btn-blk">
+        <p-button
+          class="button"
+          type="submit"
+          label="Сохранить"
+          icon="pi pi-check"
+          iconPos="right"
+          [disabled]="!genreEditForm.valid">
+        </p-button>
+        <p-button
+          class="button"
+          type="button"
+          (onClick)="onDisplayChange(false)"
+          label="Отмена"
+          icon="pi pi-times"
+          iconPos="right">
+        </p-button>
+      </div>
+    </form>
+  </div>
+</p-dialog>

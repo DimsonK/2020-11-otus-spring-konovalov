@@ -29,5 +29,6 @@
         <module>spring-16</module>
         <module>spring-17</module>
         <module>spring-18</module>
+        <module>spring-project</module>
     </modules>
 </project>
